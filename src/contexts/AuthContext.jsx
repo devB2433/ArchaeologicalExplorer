@@ -1,13 +1,13 @@
 import React, { createContext, useContext, useReducer, useEffect } from 'react'
 import axios from 'axios'
 
-// API base URL - 自动适应环境
+// API base URL - auto adapt to environment
 const getApiBaseUrl = () => {
-  // 如果是开发环境
+  // Development environment
   if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
     return 'http://localhost:3001/api'
   }
-  // 生产环境：使用当前域名的/api路径
+  // Production environment: use current domain's /api path
   return `${window.location.protocol}//${window.location.host}/api`
 }
 

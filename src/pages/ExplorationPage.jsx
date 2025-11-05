@@ -12,7 +12,7 @@ function ExplorationPage() {
   const [gameEngine, setGameEngine] = useState(null)
   const [preview, setPreview] = useState(null)
   const [levelUpInfo, setLevelUpInfo] = useState(null)
-  const [expInfo, setExpInfo] = useState(null) // 保存经验值信息
+  const [expInfo, setExpInfo] = useState(null) // Save experience info for display
 
   // Initialize game engine when data is loaded
   useEffect(() => {
@@ -50,13 +50,26 @@ function ExplorationPage() {
   }
 
   const ownedItems = state.items.filter(item => actions.isItemOwned(item.itemId))
+  
+  // Get current user's max item slots from level system
+  const userLevel = actions.getUserLevel()
+  const levelSystem = actions.getLevelSystem()
+  const maxItemSlots = levelSystem?.getMaxItemSlots(userLevel) || 3
 
   const handleItemToggle = (itemId) => {
-    setSelectedItems(prev => 
-      prev.includes(itemId) 
-        ? prev.filter(id => id !== itemId)
-        : [...prev, itemId]
-    )
+    setSelectedItems(prev => {
+      if (prev.includes(itemId)) {
+        // Deselect item
+        return prev.filter(id => id !== itemId)
+      } else {
+        // Select new item, check slot limit
+        if (prev.length >= maxItemSlots) {
+          // Reached max slots, cannot select more
+          return prev
+        }
+        return [...prev, itemId]
+      }
+    })
   }
 
   const handleStartExploration = async () => {
@@ -86,7 +99,7 @@ function ExplorationPage() {
           console.log('📥 Backend response:', expResult)
           
           if (expResult.success) {
-            // 保存经验值信息用于显示
+            // Save experience info for display
             setExpInfo({
               gained: expResult.experienceGained,
               total: expResult.newExperience,
@@ -122,7 +135,7 @@ function ExplorationPage() {
   const resetExploration = () => {
     setExplorationResult(null)
     setLevelUpInfo(null)
-    setExpInfo(null) // 重置经验值信息
+    setExpInfo(null) // Reset experience info
     setSelectedItems([])
     setPreview(null)
   }
@@ -134,7 +147,16 @@ function ExplorationPage() {
       {!explorationResult && (
         <>
           <div className="card">
-            <h2>Select Items</h2>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
+              <h2>Select Items</h2>
+              <div style={{ 
+                fontSize: '1.1rem', 
+                fontWeight: 'bold',
+                color: selectedItems.length >= maxItemSlots ? '#ef4444' : '#10b981'
+              }}>
+                {selectedItems.length} / {maxItemSlots} Slots
+              </div>
+            </div>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px', marginTop: '20px' }}>
               {ownedItems.map(item => (
                 <ItemSelector
@@ -145,43 +167,43 @@ function ExplorationPage() {
                 />
               ))}
             </div>
-          </div>
-
-          {preview && (
-            <div className="card">
-              <h2>Exploration Preview</h2>
-              <ExplorationPreview preview={preview} />
-            </div>
-          )}
-
-          <div className="card">
-            <button
-              className="button"
-              onClick={handleStartExploration}
-              disabled={selectedItems.length === 0 || !preview?.canExplore || isExploring}
-              style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
-            >
-              {isExploring ? (
-                <>
-                  <span className="spinner" style={{ width: '20px', height: '20px', marginRight: '10px' }}></span>
-                  Exploring...
-                </>
-              ) : (
-                'Start Exploration'
+            
+            {/* Start Exploration Button - always visible */}
+            <div style={{ marginTop: '30px', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' }}>
+              <button
+                className="button"
+                onClick={handleStartExploration}
+                disabled={selectedItems.length === 0 || !preview?.canExplore || isExploring}
+                style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
+              >
+                {isExploring ? (
+                  <>
+                    <span className="spinner" style={{ width: '20px', height: '20px', marginRight: '10px' }}></span>
+                    Exploring...
+                  </>
+                ) : (
+                  'Start Exploration'
+                )}
+              </button>
+              
+              {selectedItems.length === 0 && (
+                <p style={{ textAlign: 'center', marginTop: '10px', color: '#f59e0b' }}>
+                  Please select at least one item to begin exploration
+                </p>
               )}
-            </button>
-            
-            {selectedItems.length === 0 && (
-              <p style={{ textAlign: 'center', marginTop: '10px', color: '#f59e0b' }}>
-                Please select at least one item to begin exploration
-              </p>
-            )}
-            
-            {selectedItems.length > 0 && !preview?.canExplore && (
-              <p style={{ textAlign: 'center', marginTop: '10px', color: '#ef4444' }}>
-                No suitable exploration route found with current equipment
-              </p>
-            )}
+              
+              {selectedItems.length >= maxItemSlots && (
+                <p style={{ textAlign: 'center', marginTop: '10px', color: '#ef4444' }}>
+                  ℹ️ You have reached the maximum item slots for Level {userLevel} ({maxItemSlots} items)
+                </p>
+              )}
+              
+              {selectedItems.length > 0 && !preview?.canExplore && (
+                <p style={{ textAlign: 'center', marginTop: '10px', color: '#ef4444' }}>
+                  No suitable exploration route found with current equipment
+                </p>
+              )}
+            </div>
           </div>
         </>
       )}
@@ -212,21 +234,68 @@ function ExplorationPage() {
 }
 
 function ItemSelector({ item, isSelected, onToggle }) {
+  // Rarity visual effects - Vintage/Retro theme
+  const rarityStyles = {
+    common: {
+      borderColor: '#a8a29e',  // Warm stone gray
+      glowColor: 'rgba(168, 162, 158, 0.4)',
+      backgroundColor: 'rgba(168, 162, 158, 0.12)',
+      cardBgColor: '#78716c'  // Vintage stone background
+    },
+    rare: {
+      borderColor: '#a78bfa',  // Soft vintage purple
+      glowColor: 'rgba(167, 139, 250, 0.45)',
+      backgroundColor: 'rgba(167, 139, 250, 0.12)',
+      cardBgColor: '#7c3aed'  // Deep vintage purple
+    },
+    legendary: {
+      borderColor: '#fbbf24',  // Antique gold
+      glowColor: 'rgba(251, 191, 36, 0.5)',
+      backgroundColor: 'rgba(251, 191, 36, 0.15)',
+      cardBgColor: '#b45309'  // Bronze/antique gold background
+    }
+  }
+
+  const rarity = item.rarity || 'common'
+  const style = rarityStyles[rarity]
+
   return (
     <div 
       className="card" 
       onClick={onToggle}
-      title={`${item.itemName}\nWeight: ${item.explorationWeight}`}
+      title={`${item.itemName}\nWeight: ${item.explorationWeight}\nRarity: ${rarity.toUpperCase()}`}
       style={{ 
         padding: '15px',
         cursor: 'pointer',
-        border: isSelected ? '2px solid #10b981' : '1px solid rgba(255, 255, 255, 0.2)',
-        backgroundColor: isSelected ? 'rgba(16, 185, 129, 0.1)' : undefined,
-        transition: 'all 0.2s',
+        border: isSelected 
+          ? `2px solid ${style.borderColor}` 
+          : `1px solid ${style.borderColor}`,
+        backgroundColor: isSelected ? style.backgroundColor : style.cardBgColor,
+        boxShadow: isSelected 
+          ? `0 0 20px ${style.glowColor}, inset 0 0 20px ${style.glowColor}` 
+          : `0 0 10px ${style.glowColor}`,
+        transition: 'all 0.3s ease',
         position: 'relative'
       }}
     >
-      {/* 左上角选择标记 */}
+      {/* Rarity badge */}
+      <div style={{ 
+        position: 'absolute',
+        top: '8px',
+        right: '8px',
+        padding: '3px 8px',
+        borderRadius: '10px',
+        fontSize: '0.7rem',
+        fontWeight: 'bold',
+        backgroundColor: style.borderColor,
+        color: 'white',
+        textTransform: 'uppercase',
+        zIndex: 10
+      }}>
+        {rarity === 'legendary' ? '⭐' : rarity === 'rare' ? '💎' : '🔹'}
+      </div>
+
+      {/* Selection checkmark */}
       <div style={{ 
         position: 'absolute',
         top: '10px',
@@ -234,8 +303,8 @@ function ItemSelector({ item, isSelected, onToggle }) {
         width: '28px', 
         height: '28px', 
         borderRadius: '50%',
-        border: '2px solid #10b981',
-        backgroundColor: isSelected ? '#10b981' : 'transparent',
+        border: `2px solid ${style.borderColor}`,
+        backgroundColor: isSelected ? style.borderColor : 'transparent',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -244,7 +313,7 @@ function ItemSelector({ item, isSelected, onToggle }) {
         {isSelected && <span style={{ color: 'white', fontSize: '16px' }}>✓</span>}
       </div>
 
-      {/* 超大圆形图标 - 白色背景 */}
+      {/* Large circular icon with rarity glow */}
       <div style={{ 
         width: '160px', 
         height: '160px',
@@ -254,7 +323,8 @@ function ItemSelector({ item, isSelected, onToggle }) {
         alignItems: 'center',
         justifyContent: 'center',
         margin: '0 auto',
-        backgroundColor: 'white'
+        background: 'transparent',  // Force transparent background
+        boxShadow: `0 0 15px ${style.glowColor}`
       }}>
         <img 
           src={item.itemIcon || '/assets/images/items/placeholder.svg'} 
@@ -263,71 +333,14 @@ function ItemSelector({ item, isSelected, onToggle }) {
             width: '100%', 
             height: '100%',
             objectFit: 'cover',
-            filter: isSelected ? 'drop-shadow(0 0 10px rgba(16, 185, 129, 0.5))' : 'none'
+            background: 'transparent',
+            filter: isSelected 
+              ? `drop-shadow(0 0 10px ${style.glowColor}) sepia(0.15)` 
+              : 'sepia(0.1)'
           }}
           onError={(e) => e.target.src = '/assets/images/items/placeholder.svg'}
         />
       </div>
-    </div>
-  )
-}
-
-function ExplorationPreview({ preview }) {
-  const route = preview.matchedRoute
-
-  return (
-    <div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '20px' }}>
-        <div>
-          <strong>Equipment Weight:</strong>
-          <div style={{ fontSize: '1.5rem', color: '#10b981', fontWeight: 'bold' }}>
-            {preview.totalWeight}
-          </div>
-        </div>
-        <div>
-          <strong>Exploration Level:</strong>
-          <div style={{ fontSize: '1.5rem', color: '#8b5cf6', fontWeight: 'bold' }}>
-            {preview.explorationLevel}
-          </div>
-        </div>
-      </div>
-
-      {route && (
-        <div>
-          <h3>Matched Route: {route.routeName}</h3>
-          <p>{route.routeDescription}</p>
-          
-          <div style={{ marginTop: '15px' }}>
-            <strong>Accessible Areas:</strong>
-            <div style={{ marginTop: '5px' }}>
-              {route.accessibleAreas?.map((area, index) => (
-                <span 
-                  key={index}
-                  style={{ 
-                    display: 'inline-block',
-                    backgroundColor: 'rgba(139, 92, 246, 0.2)',
-                    color: '#a855f7',
-                    padding: '4px 8px',
-                    borderRadius: '12px',
-                    fontSize: '0.8rem',
-                    marginRight: '8px',
-                    marginBottom: '4px'
-                  }}
-                >
-                  {area}
-                </span>
-              ))}
-            </div>
-          </div>
-
-          <div style={{ marginTop: '15px' }}>
-            <strong>Hidden Discovery Probability:</strong>
-            <span style={{ marginLeft: '8px', color: '#f59e0b' }}>
-              {Math.round((route.hiddenDiscoveryProbability || 0) * 100)}%
-            </span>
-          </div>
-        </div>
-      )}
     </div>
   )
 }
@@ -355,7 +368,7 @@ function ExplorationResult({ result, onReset, actions, expInfo }) {
         Exploration Complete!
       </h2>
       
-      {/* 显示经验值信息 */}
+      {/* Display experience info */}
       {expInfo && (
         <div style={{ 
           marginBottom: '20px', 
@@ -367,10 +380,10 @@ function ExplorationResult({ result, onReset, actions, expInfo }) {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
               <strong style={{ color: '#10b981', fontSize: '1.2rem' }}>
-                {expInfo.isNew ? '🎉 首次发现!' : '🔁 重复探索'}
+                {expInfo.isNew ? '🎉 First Discovery!' : '🔁 Repeat Exploration'}
               </strong>
               <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.8 }}>
-                {expInfo.isNew ? '获得完整经验值' : '获得 10% 经验值'}
+                {expInfo.isNew ? 'Full experience gained' : '10% experience gained'}
               </p>
             </div>
             <div style={{ textAlign: 'right' }}>
@@ -378,7 +391,7 @@ function ExplorationResult({ result, onReset, actions, expInfo }) {
                 +{expInfo.gained} EXP
               </div>
               <div style={{ fontSize: '0.9rem', opacity: 0.7 }}>
-                总经验: {expInfo.total}
+                Total EXP: {expInfo.total}
               </div>
             </div>
           </div>

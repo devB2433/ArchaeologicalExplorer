@@ -136,10 +136,10 @@ function HomePage() {
             }}>
               <h4 style={{ margin: '0 0 10px 0', color: '#10b981' }}>💡 Beginner Tips</h4>
               <ul style={{ margin: '0', paddingLeft: '20px', fontSize: '0.9rem', lineHeight: '1.5' }}>
-                <li>每次探索都会获得经验值！</li>
-                <li>隐藏发现能获得更多经验</li>
-                <li>升级会解锁新工具和地点</li>
-                {authState.user?.level === 1 && <li><strong>提示：进行2-3次探索即可升级到2级！</strong></li>}
+                <li>Earn experience points with every exploration!</li>
+                <li>Hidden discoveries grant bonus experience</li>
+                <li>Level up to unlock new tools and sites</li>
+                {authState.user?.level === 1 && <li><strong>Tip: Complete 2-3 explorations to reach Level 2!</strong></li>}
               </ul>
             </div>
           )}

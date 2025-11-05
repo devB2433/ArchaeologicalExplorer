@@ -200,14 +200,14 @@ function RegisterForm({ formData, onChange, isLoading, registrationStep }) {
           <p>We've sent a verification code to <strong>{formData.email}</strong></p>
           <p>Please enter the 6-digit code below:</p>
           <div className="dev-mode-notice">
-            <p><strong>开发模式提示：</strong></p>
-            <p>📧 如果没有配置邮箱服务，验证码会显示在服务器控制台中</p>
-            <p>🔍 请查看运行 <code>node server/index.js</code> 的终端窗口</p>
+            <p><strong>Development Mode Note:</strong></p>
+            <p>📧 If email service is not configured, the verification code will appear in the server console</p>
+            <p>🔍 Please check the terminal running <code>node server/index.js</code></p>
             <button 
               type="button" 
               className="debug-button"
               onClick={() => {
-                // 使用动态API地址
+                // Use dynamic API address
                 const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
                   ? 'http://localhost:3001/api'
                   : `${window.location.protocol}//${window.location.host}/api`
@@ -216,13 +216,13 @@ function RegisterForm({ formData, onChange, isLoading, registrationStep }) {
                 fetch(`${apiBaseUrl}/auth/debug-codes/${formData.email}`)
                   .then(res => res.json())
                   .then(data => {
-                    console.log('验证码调试信息:', data)
-                    alert('验证码信息已输出到浏览器控制台（F12查看）')
+                    console.log('Verification code debug info:', data)
+                    alert('Verification code info output to browser console (press F12 to view)')
                   })
-                  .catch(err => console.error('调试失败:', err))
+                  .catch(err => console.error('Debug failed:', err))
               }}
             >
-              🔍 调试验证码
+              🔍 Debug Verification Code
             </button>
           </div>
         </div>

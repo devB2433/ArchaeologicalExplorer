@@ -59,36 +59,78 @@ function InventoryPage() {
 }
 
 function ItemCard({ item, isOwned }) {
-  const categoryColors = {
-    cleaning_tools: '#10b981',
-    digging_tools: '#f59e0b',
-    detection_tools: '#8b5cf6',
-    recording_tools: '#3b82f6',
-    utility_tools: '#6b7280',
-    navigation_tools: '#ef4444'
+  // Rarity visual effects - Vintage/Retro theme
+  const rarityStyles = {
+    common: {
+      borderColor: '#a8a29e',  // Warm stone gray
+      glowColor: 'rgba(168, 162, 158, 0.4)',
+      backgroundColor: 'rgba(168, 162, 158, 0.12)',
+      badgeIcon: '🔹',
+      cardBgColor: '#78716c'  // Vintage stone background
+    },
+    rare: {
+      borderColor: '#a78bfa',  // Soft vintage purple
+      glowColor: 'rgba(167, 139, 250, 0.45)',
+      backgroundColor: 'rgba(167, 139, 250, 0.12)',
+      badgeIcon: '💎',
+      cardBgColor: '#7c3aed'  // Deep vintage purple
+    },
+    legendary: {
+      borderColor: '#fbbf24',  // Antique gold
+      glowColor: 'rgba(251, 191, 36, 0.5)',
+      backgroundColor: 'rgba(251, 191, 36, 0.15)',
+      badgeIcon: '⭐',
+      cardBgColor: '#b45309'  // Bronze/antique gold background
+    }
   }
 
-  const rarityColors = {
-    common: '#6b7280',
-    rare: '#8b5cf6',
-    legendary: '#f59e0b'
-  }
+  const rarity = item.rarity || 'common'
+  const style = rarityStyles[rarity]
 
   return (
     <div className="card" style={{ 
       padding: '20px',
       opacity: isOwned ? 1 : 0.6,
-      border: isOwned ? '2px solid #10b981' : '1px solid rgba(255, 255, 255, 0.2)'
+      border: isOwned 
+        ? `2px solid ${style.borderColor}` 
+        : `1px solid rgba(255, 255, 255, 0.2)`,
+      backgroundColor: isOwned ? style.cardBgColor : 'rgba(17, 24, 39, 0.5)',
+      boxShadow: isOwned ? `0 0 15px ${style.glowColor}` : 'none',
+      position: 'relative'
     }}>
+      {/* Rarity badge - show for owned items */}
+      {isOwned && (
+        <div style={{ 
+          position: 'absolute',
+          top: '12px',
+          right: '12px',
+          padding: '4px 10px',
+          borderRadius: '12px',
+          fontSize: '0.75rem',
+          fontWeight: 'bold',
+          backgroundColor: style.borderColor,
+          color: 'white',
+          textTransform: 'uppercase',
+          display: 'flex',
+          alignItems: 'center',
+          gap: '4px'
+        }}>
+          {style.badgeIcon} {rarity}
+        </div>
+      )}
+
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-        {/* 大图标 - 无黑框 */}
+        {/* Large icon with rarity glow */}
         <div style={{ 
           width: '140px', 
           height: '140px', 
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          flexShrink: 0
+          flexShrink: 0,
+          borderRadius: '8px',
+          background: 'transparent',  // Force transparent background
+          boxShadow: isOwned ? `0 0 20px ${style.glowColor}` : 'none'
         }}>
           <img 
             src={item.itemIcon || '/assets/images/items/placeholder.svg'} 
@@ -96,7 +138,9 @@ function ItemCard({ item, isOwned }) {
             style={{ 
               width: '100%', 
               height: '100%',
-              objectFit: 'contain'
+              objectFit: 'contain',
+              background: 'transparent',
+              filter: 'sepia(0.1)'
             }}
             onError={(e) => {
               e.target.src = '/assets/images/items/placeholder.svg'
@@ -104,53 +148,48 @@ function ItemCard({ item, isOwned }) {
           />
         </div>
         
-        {/* 文字信息 */}
+        {/* Text information */}
         <div style={{ width: '100%', textAlign: 'center' }}>
           <h3 style={{ margin: '0 0 10px 0', fontSize: '1.2rem' }}>{item.itemName}</h3>
           <p style={{ margin: '0 0 15px 0', fontSize: '0.95rem', opacity: 0.8, lineHeight: '1.4' }}>
             {item.itemDescription}
           </p>
           
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '10px', justifyContent: 'center' }}>
-            <span style={{ 
-              backgroundColor: categoryColors[item.itemCategory] || '#6b7280',
-              color: 'white',
-              padding: '4px 12px',
-              borderRadius: '12px',
-              fontSize: '0.8rem',
-              fontWeight: '500'
-            }}>
-              {item.itemCategory?.replace('_', ' ') || 'Unknown'}
-            </span>
-            
-            <span style={{ 
-              backgroundColor: rarityColors[item.rarity] || '#6b7280',
-              color: 'white',
-              padding: '4px 12px',
-              borderRadius: '12px',
-              fontSize: '0.8rem',
-              fontWeight: '500'
-            }}>
-              {item.rarity || 'Common'}
-            </span>
-            
-            <span style={{ 
-              backgroundColor: '#374151',
-              color: 'white',
-              padding: '4px 12px',
-              borderRadius: '12px',
-              fontSize: '0.8rem',
-              fontWeight: '500'
-            }}>
-              Weight: {item.explorationWeight}
-            </span>
-          </div>
+          {/* Citation link */}
+          {item.citation && (
+            <a 
+              href={item.citation} 
+              target="_blank" 
+              rel="noopener noreferrer"
+              style={{ 
+                display: 'inline-block',
+                marginTop: '10px',
+                padding: '8px 16px',
+                backgroundColor: 'rgba(217, 119, 6, 0.15)',  // Vintage amber tint
+                color: '#d97706',  // Vintage amber
+                borderRadius: '8px',
+                textDecoration: 'none',
+                fontSize: '0.85rem',
+                fontWeight: '500',
+                border: '1px solid rgba(217, 119, 6, 0.3)',
+                transition: 'all 0.2s'
+              }}
+              onMouseEnter={(e) => {
+                e.target.style.backgroundColor = 'rgba(217, 119, 6, 0.25)'
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = 'rgba(217, 119, 6, 0.15)'
+              }}
+            >
+              🔗 Learn More
+            </a>
+          )}
 
           {!isOwned && (
             <p style={{ 
-              margin: '8px 0 0 0', 
+              margin: '12px 0 0 0', 
               fontSize: '0.85rem', 
-              color: '#f59e0b'
+              color: '#fbbf24'  // Antique gold for locked items
             }}>
               🔒 Not yet discovered
             </p>

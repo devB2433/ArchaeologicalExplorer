@@ -225,6 +225,36 @@ function RuinCard({ ruin, isCollected, collectionData }) {
           Discovered: {new Date(collectionData.obtainedAt).toLocaleDateString()}
         </div>
       )}
+      
+      {/* Citation link - show only for discovered ruins */}
+      {isCollected && ruin.citation && (
+        <a 
+          href={ruin.citation} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          style={{ 
+            display: 'inline-block',
+            marginTop: '12px',
+            padding: '8px 16px',
+            backgroundColor: 'rgba(59, 130, 246, 0.1)',
+            color: '#3b82f6',
+            borderRadius: '8px',
+            textDecoration: 'none',
+            fontSize: '0.85rem',
+            fontWeight: '500',
+            border: '1px solid rgba(59, 130, 246, 0.3)',
+            transition: 'all 0.2s'
+          }}
+          onMouseEnter={(e) => {
+            e.target.style.backgroundColor = 'rgba(59, 130, 246, 0.2)'
+          }}
+          onMouseLeave={(e) => {
+            e.target.style.backgroundColor = 'rgba(59, 130, 246, 0.1)'
+          }}
+        >
+          🔗 Learn More
+        </a>
+      )}
     </div>
   )
 }

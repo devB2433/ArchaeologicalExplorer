@@ -78,6 +78,12 @@ class UserLevelSystem {
     )
   }
 
+  // Get maximum item slots for a level
+  getMaxItemSlots(userLevel) {
+    const levelInfo = this.getLevelInfo(userLevel)
+    return levelInfo?.maxItemSlots || 3 // 默认 3 个槽位
+  }
+
   // Calculate experience reward for discovery
   calculateExpReward(discovery, isFirstTime = false) {
     const baseExp = this.levelSystem.expRewards?.normalDiscovery || 25
