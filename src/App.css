@@ -1,0 +1,38 @@
+.main-content {
+  flex: 1;
+  padding: 20px 0;
+}
+
+.home-hero {
+  text-align: center;
+  padding: 60px 20px;
+  color: white;
+}
+
+.home-title {
+  font-size: 3rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.home-subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.home-cta {
+  display: inline-block;
+  background: #10b981;
+  color: white;
+  text-decoration: none;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.home-cta:hover {
+  background: #059669;
+  transform: translateY(-2px);
+}

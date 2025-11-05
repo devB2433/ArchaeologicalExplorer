@@ -1,0 +1,129 @@
+{
+  "// User Level System Configuration": "User progression and unlocks configuration",
+  "levelSystem": {
+    "maxLevel": 20,
+    "baseExpPerLevel": 50,
+    "expGrowthRate": 1.15,
+    "expRewards": {
+      "normalDiscovery": 25,
+      "hiddenDiscovery": 50,
+      "firstTimeDiscovery": 30,
+      "completeSiteBonus": 100,
+      "explorationBonus": 15
+    }
+  },
+  "levels": [
+    {
+      "level": 1,
+      "expRequired": 0,
+      "title": "Novice Explorer",
+      "description": "Beginning your archaeological journey",
+      "unlockedItems": [1005, 1008, 1009, 1010, 1011, 1012],
+      "unlockedSites": ["site_pyramid_giza"],
+      "perks": ["Basic exploration capabilities"]
+    },
+    {
+      "level": 2,
+      "expRequired": 50,
+      "title": "Field Archaeologist",
+      "description": "Gaining experience in field work",
+      "unlockedItems": [1007, 1013, 1006],
+      "unlockedSites": [],
+      "perks": ["Improved digging capability", "Drone exploration unlocked"]
+    },
+    {
+      "level": 3,
+      "expRequired": 110,
+      "title": "Site Surveyor",
+      "description": "Skilled in site documentation and measurement",
+      "unlockedItems": [1004, 1014, 1015],
+      "unlockedSites": [],
+      "perks": ["Aerial imaging available", "Precision measurement", "+5% hidden discovery rate"]
+    },
+    {
+      "level": 4,
+      "expRequired": 185,
+      "title": "Excavation Specialist",
+      "description": "Expert in advanced detection techniques",
+      "unlockedItems": [1003],
+      "unlockedSites": [],
+      "perks": ["Magnetometry detection", "+10% hidden discovery rate"]
+    },
+    {
+      "level": 5,
+      "expRequired": 275,
+      "title": "Research Scholar",
+      "description": "Master of cutting-edge archaeological technology",
+      "unlockedItems": [1001, 1002],
+      "unlockedSites": ["site_terracotta_army"],
+      "perks": ["LiDAR & GPR unlocked", "New exploration site", "+15% all discovery rates"]
+    },
+    {
+      "level": 6,
+      "expRequired": 385,
+      "title": "Technology Adopter",
+      "description": "Embracing modern archaeological tools",
+      "unlockedItems": [],
+      "unlockedSites": [],
+      "perks": ["Advanced metal detection", "+20% metallic artifact discovery"]
+    },
+    {
+      "level": 7,
+      "expRequired": 515,
+      "title": "Cultural Heritage Expert",
+      "description": "Deep understanding of ancient cultures",
+      "unlockedItems": [],
+      "unlockedSites": [],
+      "perks": ["+25% experience from discoveries", "Artifact context insights"]
+    },
+    {
+      "level": 8,
+      "expRequired": 670,
+      "title": "Site Director",
+      "description": "Leading archaeological expeditions",
+      "unlockedItems": [],
+      "unlockedSites": [],
+      "perks": ["Advanced team coordination", "+30% hidden discovery rate"]
+    },
+    {
+      "level": 9,
+      "expRequired": 850,
+      "title": "International Explorer",
+      "description": "Exploring sites worldwide",
+      "unlockedItems": [],
+      "unlockedSites": ["site_pompeii"],
+      "perks": ["New exploration site unlocked", "Cross-cultural insights"]
+    },
+    {
+      "level": 10,
+      "expRequired": 1060,
+      "title": "Master Archaeologist",
+      "description": "Recognized expert in the field",
+      "unlockedItems": [],
+      "unlockedSites": [],
+      "perks": ["Legendary artifact access", "+50% hidden discovery rate"]
+    }
+  ],
+  "itemUnlocks": {
+    "1001": { "requiredLevel": 5, "category": "legendary" },
+    "1002": { "requiredLevel": 5, "category": "legendary" },
+    "1003": { "requiredLevel": 4, "category": "rare" },
+    "1004": { "requiredLevel": 3, "category": "rare" },
+    "1005": { "requiredLevel": 1, "category": "basic" },
+    "1006": { "requiredLevel": 2, "category": "rare" },
+    "1007": { "requiredLevel": 2, "category": "basic" },
+    "1008": { "requiredLevel": 1, "category": "basic" },
+    "1009": { "requiredLevel": 1, "category": "basic" },
+    "1010": { "requiredLevel": 1, "category": "basic" },
+    "1011": { "requiredLevel": 1, "category": "basic" },
+    "1012": { "requiredLevel": 1, "category": "basic" },
+    "1013": { "requiredLevel": 2, "category": "basic" },
+    "1014": { "requiredLevel": 3, "category": "rare" },
+    "1015": { "requiredLevel": 3, "category": "rare" }
+  },
+  "siteUnlocks": {
+    "site_pyramid_giza": { "requiredLevel": 1, "difficulty": "beginner" },
+    "site_terracotta_army": { "requiredLevel": 5, "difficulty": "intermediate" },
+    "site_pompeii": { "requiredLevel": 9, "difficulty": "advanced" }
+  }
+}

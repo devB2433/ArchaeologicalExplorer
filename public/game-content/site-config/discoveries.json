@@ -1,0 +1,71 @@
+{
+  "// Configuration Guide": "Most frequently modified file by content team - configure archaeological discovery images and descriptions",
+  "discoveries": [
+    {
+      "discoveryId": "discovery_pyramid_001",
+      "siteId": "site_pyramid_giza",
+      "discoveryName": "Ancient Hieroglyphic Tablet",
+      "discoveryImage": "/assets/images/discoveries/hieroglyph_tablet.jpg",
+      "discoveryDescription": "This tablet bears ancient Egyptian hieroglyphs recording the achievements of Pharaoh Ramesses II. The tablet is well-preserved with clear, visible text, providing precious first-hand material for studying ancient Egyptian history. The intricate carvings show the sophisticated writing system of ancient Egypt.",
+      "isHidden": false,
+      "hiddenProbability": 0,
+      "availableRoutes": ["pyramid_surface_basic", "pyramid_interior_moderate"],
+      "contentTeamNotes": "Common discovery, relatively easy to obtain"
+    },
+    {
+      "discoveryId": "discovery_pyramid_002",
+      "siteId": "site_pyramid_giza",
+      "discoveryName": "Pharaoh's Golden Mask Fragment",
+      "discoveryImage": "/assets/images/discoveries/golden_mask_fragment.jpg",
+      "discoveryDescription": "A rare golden mask fragment with exquisite craftsmanship and detailed carving. The eye contours remain clear, and though the golden surface shows traces of time, it still gleams brilliantly. This may belong to a mysterious pharaoh not recorded in history books, making it an invaluable archaeological treasure.",
+      "isHidden": true,
+      "hiddenProbability": 0.08,
+      "availableRoutes": ["pyramid_deep_expert"],
+      "contentTeamNotes": "Hidden discovery, 8% probability, only deep exploration can find"
+    },
+    {
+      "discoveryId": "discovery_pyramid_003",
+      "siteId": "site_pyramid_giza",
+      "discoveryName": "Canopic Jar Lid",
+      "discoveryImage": "/assets/images/discoveries/canopic_jar_lid.jpg",
+      "discoveryDescription": "A beautifully carved limestone lid from a canopic jar, featuring the head of Imsety, one of the four Sons of Horus. The craftsmanship is exceptional, with fine details preserved despite thousands of years. These jars were used to store the internal organs of mummified pharaohs during the mummification process.",
+      "isHidden": false,
+      "hiddenProbability": 0,
+      "availableRoutes": ["pyramid_interior_moderate", "pyramid_deep_expert"],
+      "contentTeamNotes": "Common interior discovery"
+    },
+    {
+      "discoveryId": "discovery_terracotta_001",
+      "siteId": "site_terracotta_army",
+      "discoveryName": "Warrior Head Fragment",
+      "discoveryImage": "/assets/images/discoveries/warrior_head.jpg",
+      "discoveryDescription": "A remarkably detailed terracotta warrior head showing individual facial features. Each warrior was crafted with unique characteristics, representing real soldiers from Emperor Qin Shi Huang's army. The level of detail includes individual hair strands and facial expressions, showcasing the incredible skill of ancient Chinese artisans.",
+      "isHidden": false,
+      "hiddenProbability": 0,
+      "availableRoutes": ["terracotta_surface_basic"],
+      "contentTeamNotes": "Common discovery from Terracotta Army site"
+    },
+    {
+      "discoveryId": "discovery_terracotta_002",
+      "siteId": "site_terracotta_army",
+      "discoveryName": "Bronze Arrowhead",
+      "discoveryImage": "/assets/images/discoveries/bronze_arrowhead.jpg",
+      "discoveryDescription": "A perfectly preserved bronze arrowhead from the Qin Dynasty, still sharp after over 2000 years. The bronze alloy composition shows advanced metallurgy techniques of ancient China. This arrowhead would have been used by the crossbow units in Emperor Qin's army, representing the military technology of the time.",
+      "isHidden": true,
+      "hiddenProbability": 0.12,
+      "availableRoutes": ["terracotta_deep_expert"],
+      "contentTeamNotes": "Hidden discovery, requires metal detector"
+    },
+    {
+      "discoveryId": "discovery_pompeii_001",
+      "siteId": "site_pompeii",
+      "discoveryName": "Roman Fresco Fragment",
+      "discoveryImage": "/assets/images/discoveries/roman_fresco.jpg",
+      "discoveryDescription": "A vibrant fresco fragment from a Pompeii villa wall, depicting mythological scenes with rich red and blue pigments. The volcanic ash that destroyed Pompeii also preserved these artworks perfectly. The painting shows Neptune riding his chariot, demonstrating the high artistic standards of Roman domestic decoration.",
+      "isHidden": false,
+      "hiddenProbability": 0,
+      "availableRoutes": ["pompeii_surface_basic", "pompeii_interior_moderate"],
+      "contentTeamNotes": "Common discovery showing Roman art"
+    }
+  ]
+}

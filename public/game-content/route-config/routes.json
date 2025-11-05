@@ -1,0 +1,150 @@
+{
+  "// Configuration Guide": "Exploration route rules - defines which item combinations trigger which routes",
+  "routes": [
+    {
+      "routeId": "pyramid_surface_basic",
+      "routeName": "Pyramid Surface Basic Survey",
+      "targetSiteId": "site_pyramid_giza",
+      "routeDescription": "Quick survey around pyramid exterior using basic tools",
+      "triggerConditions": {
+        "requiredItems": [1001],
+        "optionalItems": [1002, 1007],
+        "minWeight": 1,
+        "maxWeight": 4,
+        "weightRangeNote": "Low weight tool combinations trigger this route"
+      },
+      "routePriority": 1,
+      "accessibleAreas": ["Pyramid Exterior", "Entrance Plaza", "Surface Decorations"],
+      "discoveryPool": ["discovery_pyramid_001"],
+      "hiddenDiscoveryProbability": 0.05,
+      "isEnabled": true
+    },
+    {
+      "routeId": "pyramid_beginner_friendly",
+      "routeName": "Pyramid Beginner Exploration",
+      "targetSiteId": "site_pyramid_giza",
+      "routeDescription": "Perfect for new archaeologists to learn the basics",
+      "triggerConditions": {
+        "requiredItems": [1001, 1002],
+        "optionalItems": [1005],
+        "minWeight": 2,
+        "maxWeight": 5
+      },
+      "routePriority": 2,
+      "accessibleAreas": ["Training Area", "Shallow Excavation", "Artifact Cleaning Station"],
+      "discoveryPool": ["discovery_pyramid_001", "discovery_pyramid_003"],
+      "hiddenDiscoveryProbability": 0.08,
+      "isEnabled": true
+    },
+    {
+      "routeId": "pyramid_interior_moderate",
+      "routeName": "Pyramid Interior Moderate Exploration",
+      "targetSiteId": "site_pyramid_giza",
+      "routeDescription": "Explore pyramid interior chambers with moderate equipment",
+      "triggerConditions": {
+        "requiredItems": [1001, 1004],
+        "optionalItems": [1008, 1002, 1007],
+        "minWeight": 4,
+        "maxWeight": 8,
+        "excludedItems": [1003]
+      },
+      "routePriority": 2,
+      "accessibleAreas": ["Main Corridor", "Antechamber", "Wall Paintings", "Storage Rooms"],
+      "discoveryPool": ["discovery_pyramid_001", "discovery_pyramid_003"],
+      "hiddenDiscoveryProbability": 0.08,
+      "isEnabled": true
+    },
+    {
+      "routeId": "pyramid_deep_expert",
+      "routeName": "Pyramid Deep Expert Exploration",
+      "targetSiteId": "site_pyramid_giza",
+      "routeDescription": "Deep exploration of pyramid's most secretive areas using professional equipment",
+      "triggerConditions": {
+        "requiredItems": [1004, 1003],
+        "optionalItems": [1006, 1008, 1007],
+        "minWeight": 8,
+        "maxWeight": 15,
+        "specialRequirements": {
+          "mustIncludeCategories": ["digging_tools", "detection_tools"]
+        }
+      },
+      "routePriority": 3,
+      "accessibleAreas": ["Main Burial Chamber", "Hidden Chambers", "Secret Passages", "Treasury"],
+      "discoveryPool": ["discovery_pyramid_001", "discovery_pyramid_002", "discovery_pyramid_003"],
+      "hiddenDiscoveryProbability": 0.25,
+      "isEnabled": true,
+      "specialRules": {
+        "ancientMapExtraEffect": "Hidden discovery probability +0.15",
+        "comboSetExtraEffect": "Unlocks secret areas"
+      }
+    },
+    {
+      "routeId": "terracotta_surface_basic",
+      "routeName": "Terracotta Army Surface Survey",
+      "targetSiteId": "site_terracotta_army",
+      "routeDescription": "Surface exploration of terracotta warrior excavation site",
+      "triggerConditions": {
+        "requiredItems": [1001],
+        "optionalItems": [1002, 1007],
+        "minWeight": 1,
+        "maxWeight": 4
+      },
+      "routePriority": 1,
+      "accessibleAreas": ["Pit 1 Surface", "Warrior Fragments", "Excavation Area"],
+      "discoveryPool": ["discovery_terracotta_001"],
+      "hiddenDiscoveryProbability": 0.03,
+      "isEnabled": true
+    },
+    {
+      "routeId": "terracotta_deep_expert",
+      "routeName": "Terracotta Army Deep Excavation",
+      "targetSiteId": "site_terracotta_army",
+      "routeDescription": "Professional excavation of deeper terracotta army layers",
+      "triggerConditions": {
+        "requiredItems": [1004, 1003],
+        "optionalItems": [1008, 1007],
+        "minWeight": 7,
+        "maxWeight": 12
+      },
+      "routePriority": 2,
+      "accessibleAreas": ["Deep Excavation Pits", "Weapon Cache", "Officer Quarters"],
+      "discoveryPool": ["discovery_terracotta_001", "discovery_terracotta_002"],
+      "hiddenDiscoveryProbability": 0.20,
+      "isEnabled": true
+    },
+    {
+      "routeId": "pompeii_surface_basic",
+      "routeName": "Pompeii Surface Exploration",
+      "targetSiteId": "site_pompeii",
+      "routeDescription": "Explore the preserved streets and buildings of Pompeii",
+      "triggerConditions": {
+        "requiredItems": [1001],
+        "optionalItems": [1002, 1007],
+        "minWeight": 1,
+        "maxWeight": 4
+      },
+      "routePriority": 1,
+      "accessibleAreas": ["Forum", "Streets", "House Exteriors", "Public Buildings"],
+      "discoveryPool": ["discovery_pompeii_001"],
+      "hiddenDiscoveryProbability": 0.05,
+      "isEnabled": true
+    },
+    {
+      "routeId": "pompeii_interior_moderate",
+      "routeName": "Pompeii Villa Interior Exploration",
+      "targetSiteId": "site_pompeii",
+      "routeDescription": "Detailed exploration of preserved villa interiors",
+      "triggerConditions": {
+        "requiredItems": [1001, 1004],
+        "optionalItems": [1008, 1007],
+        "minWeight": 4,
+        "maxWeight": 8
+      },
+      "routePriority": 2,
+      "accessibleAreas": ["Villa Interiors", "Frescoed Rooms", "Gardens", "Private Chambers"],
+      "discoveryPool": ["discovery_pompeii_001"],
+      "hiddenDiscoveryProbability": 0.10,
+      "isEnabled": true
+    }
+  ]
+}

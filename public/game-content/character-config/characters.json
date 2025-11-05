@@ -1,0 +1,13 @@
+{
+  "// Configuration Guide": "Character configuration file",
+  "characters": [
+    {
+      "characterId": "archaeologist_001",
+      "characterName": "Dr. Sarah Chen",
+      "characterDescription": "Experienced field archaeologist specializing in ancient civilizations",
+      "characterAvatar": "/assets/images/characters/sarah_chen.png",
+      "isDefault": true,
+      "notes": "Default character, recommended not to delete"
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "// Game Messages Configuration": "Dynamic messages shown during gameplay",
+  "exploration": {
+    "success": [
+      "Great discovery! You found something amazing!",
+      "Excellent work! Your careful exploration paid off!",
+      "Outstanding! This discovery will advance archaeological knowledge!",
+      "Remarkable find! The ancient world reveals its secrets!"
+    ],
+    "hiddenSuccess": [
+      "Incredible! You discovered something truly rare!",
+      "Amazing! You found a hidden treasure of archaeology!",
+      "Extraordinary! This rare find will make history!",
+      "Unbelievable! You uncovered a legendary artifact!"
+    ],
+    "routeDescriptions": {
+      "surface": "You carefully survey the surface, looking for visible artifacts and clues.",
+      "moderate": "You begin systematic excavation, uncovering layers of history.",
+      "deep": "You conduct professional deep excavation using advanced techniques.",
+      "expert": "You employ cutting-edge archaeological methods to reveal hidden secrets."
+    }
+  },
+  "errors": {
+    "configurationError": "Configuration error detected. Using default settings.",
+    "imageLoadError": "Unable to load image. Please check the file path.",
+    "dataLoadError": "Error loading game data. Please refresh the page.",
+    "invalidRoute": "Invalid exploration route. Please try different equipment."
+  },
+  "tips": [
+    "Different item combinations unlock different exploration routes.",
+    "Hidden discoveries are rare but contain the most valuable artifacts.",
+    "The metal detector is essential for finding buried metallic objects.",
+    "Combining tools from different categories often yields better results.",
+    "Ancient maps can unlock secret areas in archaeological sites."
+  ]
+}

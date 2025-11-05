@@ -1,0 +1,32 @@
+{
+  "// Configuration Guide": "Archaeological sites basic information",
+  "sites": [
+    {
+      "siteId": "site_pyramid_giza",
+      "siteName": "Giza Pyramid",
+      "siteDescription": "Royal tomb complex of the Fourth Dynasty of ancient Egypt",
+      "location": "Giza, Egypt",
+      "backgroundImage": "/assets/images/sites/pyramid_giza.jpg",
+      "isEnabled": true,
+      "notes": "One of the main sites in the game"
+    },
+    {
+      "siteId": "site_terracotta_army",
+      "siteName": "Terracotta Army",
+      "siteDescription": "Ancient Chinese burial site with thousands of life-sized warrior statues",
+      "location": "Xi'an, China",
+      "backgroundImage": "/assets/images/sites/terracotta_army.jpg",
+      "isEnabled": true,
+      "notes": "Famous archaeological site from Qin Dynasty"
+    },
+    {
+      "siteId": "site_pompeii",
+      "siteName": "Pompeii",
+      "siteDescription": "Ancient Roman city preserved by volcanic ash from Mount Vesuvius",
+      "location": "Naples, Italy",
+      "backgroundImage": "/assets/images/sites/pompeii.jpg",
+      "isEnabled": true,
+      "notes": "Perfectly preserved Roman city"
+    }
+  ]
+}

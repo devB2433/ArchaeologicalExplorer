@@ -1,0 +1,205 @@
+{
+  "// Configuration Guide": "Items configuration file - copy template and modify when adding new items",
+  "items": [
+    {
+      "itemId": 1001,
+      "itemName": "LiDAR",
+      "itemDescription": "Lidar uses light from a pulsed laser to measure things on the Earth. After that, the data is collected it can be turned into a very realistic 3-D map.",
+      "itemIcon": "/assets/images/items/Lidar.png",
+      "itemCategory": "detection_tools",
+      "explorationWeight": 10,
+      "rarity": "legendary",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://www.yellowscan.com/knowledge/lidar-vs-photogrammetry-key-differences-and-applications/"
+    },
+    {
+      "itemId": 1002,
+      "itemName": "Ground-penetrating Radar (GPR)",
+      "itemDescription": "In archeology, ground-penetrating radar is used to create images of what lies beneath the ground, allowing archaeologists to map and record things like foundations, burial sites, and artifacts without digging.",
+      "itemIcon": "/assets/images/items/Ground-penetrating radar (GPR).png",
+      "itemCategory": "detection_tools",
+      "explorationWeight": 10,
+      "rarity": "legendary",
+      "isDefaultOwned": false,
+      "requiredLevel": 5,
+      "citation": "https://www.sensoft.ca"
+    },
+    {
+      "itemId": 1003,
+      "itemName": "Magnetometry",
+      "itemDescription": "Magnetometry measures variations in the Earth's magnetic field to locate buried features like walls or hearths.",
+      "itemIcon": "/assets/images/items/Mag.png",
+      "itemCategory": "detection_tools",
+      "explorationWeight": 6,
+      "rarity": "rare",
+      "isDefaultOwned": false,
+      "requiredLevel": 4,
+      "citation": "https://www.sphengineering.com/news/the-role-of-magnetometry-in-advancing-mineral-exploration"
+    },
+    {
+      "itemId": 1004,
+      "itemName": "Aerial and Satellite Imagery",
+      "itemDescription": "Aerial and satellite imagery is used to spot potential sites from above, with technologies like thermal infrared cameras on drones/satellites.",
+      "itemIcon": "/assets/images/items/Aerial and satellite.png",
+      "itemCategory": "detection_tools",
+      "explorationWeight": 5,
+      "rarity": "rare",
+      "isDefaultOwned": false,
+      "requiredLevel": 3,
+      "citation": "https://archaeologymag.com/encyclopedia/aerial-archaeology/"
+    },
+    {
+      "itemId": 1005,
+      "itemName": "Camera",
+      "itemDescription": "In archeology camera can be used to take pictures of artifacts or other important things and use them as records.",
+      "itemIcon": "/assets/images/items/Camera.png",
+      "itemCategory": "recording_tools",
+      "explorationWeight": 1,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://en.wikipedia.org/wiki/Camera"
+    },
+    {
+      "itemId": 1006,
+      "itemName": "Drone",
+      "itemDescription": "In archeology, drones can be used to find areas, go into places humans can't fit in, call for help and scan underground areas.",
+      "itemIcon": "/assets/images/items/Drones.png",
+      "itemCategory": "detection_tools",
+      "explorationWeight": 4,
+      "rarity": "rare",
+      "isDefaultOwned": false,
+      "requiredLevel": 2,
+      "citation": "http://www.luciongroup.com/news/drones-heritage-the-rise-of-drone-technology-in-archaeology/"
+    },
+    {
+      "itemId": 1007,
+      "itemName": "Trowel",
+      "itemDescription": "Archaeologists use a trowel as their primary tool for careful excavation because its flat blade allows them to slowly and precisely scrape away soil, revealing fragile artifacts without damaging them.",
+      "itemIcon": "/assets/images/items/Trowel.png",
+      "itemCategory": "digging_tools",
+      "explorationWeight": 3,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 2,
+      "citation": "https://www.saa.org/about-archaeology/what-do-archaeologists-do#:~:text=You%20may%20think%20of%20shovels,and%20dustpans%2C%20are%20everyday%20objects"
+    },
+    {
+      "itemId": 1008,
+      "itemName": "Shovel",
+      "itemDescription": "In archaeology, shovels are used for the primary tasks of shovel testing to survey for sites, excavating larger areas of soil, and backfilling to return soil to the site after excavation.",
+      "itemIcon": "/assets/images/items/Shovel.png",
+      "itemCategory": "digging_tools",
+      "explorationWeight": 2,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://www.youtube.com/watch?v=U_ZyOFpGpYs&t=4s"
+    },
+    {
+      "itemId": 1009,
+      "itemName": "Hand Pick (Mattock)",
+      "itemDescription": "The pick mattock is a very handy tool that combines the pointed head of a pick, used for digging up hard soil and rock, and an adze, which can be used for cutting through roots.",
+      "itemIcon": "/assets/images/items/Hand pick (Mattock).png",
+      "itemCategory": "digging_tools",
+      "explorationWeight": 1,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://www.texasbeyondhistory.net/ransom/ransomkids/images/kids-evidence-gardens.html#:~:text=The%20pick%20mattock%20is%20a,used%20for%20cutting%20through%20roots"
+    },
+    {
+      "itemId": 1010,
+      "itemName": "Brush",
+      "itemDescription": "Paintbrushes or soft brushes for delicate cleaning.",
+      "itemIcon": "/assets/images/items/Brushes.png",
+      "itemCategory": "cleaning_tools",
+      "explorationWeight": 1,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://www.youtube.com/watch?v=NfP6yWhdAvw"
+    },
+    {
+      "itemId": 1011,
+      "itemName": "Dental Pick",
+      "itemDescription": "For precision work on small or fragile items.",
+      "itemIcon": "/assets/images/items/Dental picks.png",
+      "itemCategory": "cleaning_tools",
+      "explorationWeight": 1,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://manitobaarchaeologicalsociety.ca/content/daily-life-activities"
+    },
+    {
+      "itemId": 1012,
+      "itemName": "Bucket",
+      "itemDescription": "To carry soil away to the excavation ground before and after the dig.",
+      "itemIcon": "/assets/images/items/Buckets.png",
+      "itemCategory": "utility_tools",
+      "explorationWeight": 2,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 1,
+      "citation": "https://medium.com/@sandeeoster17/from-buckets-to-artifacts-archaeological-sorting-ece0ca64d185"
+    },
+    {
+      "itemId": 1013,
+      "itemName": "Wheelbarrow",
+      "itemDescription": "Archaeologists use wheelbarrows primarily to move large quantities of excavated soil, rocks, and debris, known as 'spoil', away from the excavation site. They are an essential tool for maintaining a clean and orderly site, allowing for efficient work and the careful sifting of material for artifacts.",
+      "itemIcon": "/assets/images/items/Wheelbarrow.png",
+      "itemCategory": "utility_tools",
+      "explorationWeight": 3,
+      "rarity": "common",
+      "isDefaultOwned": false,
+      "requiredLevel": 2,
+      "citation": "https://sandiegoarchaeology.org/dig-deeper-what-tools-do-archaeologists-use/#:~:text=A%20tool%20that%20is%20universal,be%20hiding%20within%20the%20dirt"
+    },
+    {
+      "itemId": 1014,
+      "itemName": "Tape Measure",
+      "itemDescription": "Archaeologists use tape measures for precise measurements of excavation units, the location of artifacts, and site features.",
+      "itemIcon": "/assets/images/items/Tape measures.png",
+      "itemCategory": "measurement_tools",
+      "explorationWeight": 5,
+      "rarity": "rare",
+      "isDefaultOwned": false,
+      "requiredLevel": 3,
+      "citation": "https://www.saa.org/about-archaeology/what-do-archaeologists-do#:~:text=A%20surface%20survey%20is%20a,remove%2C%20are%20photographed%20and%20drawn"
+    },
+    {
+      "itemId": 1015,
+      "itemName": "Line Level",
+      "itemDescription": "Archaeologists use line levels for precise measurements of excavation units, the location of artifacts, and site features.",
+      "itemIcon": "/assets/images/items/Line levels.png",
+      "itemCategory": "measurement_tools",
+      "explorationWeight": 4,
+      "rarity": "rare",
+      "isDefaultOwned": false,
+      "requiredLevel": 3,
+      "citation": "https://www.saa.org/about-archaeology/what-do-archaeologists-do#:~:text=A%20surface%20survey%20is%20a,remove%2C%20are%20photographed%20and%20drawn"
+    }
+  ],
+  "itemCombinations": [
+    {
+      "comboName": "Classic Archaeological Set",
+      "requiredItems": [1001, 1004, 1002],
+      "comboEffect": {
+        "weightBonus": 2,
+        "specialEffect": "Increases discovery probability for all artifact types"
+      },
+      "comboDescription": "Classic equipment combination for archaeologists"
+    },
+    {
+      "comboName": "Modern Explorer Set",
+      "requiredItems": [1003, 1007, 1008],
+      "comboEffect": {
+        "weightBonus": 3,
+        "specialEffect": "Greatly improves hidden discovery probability"
+      },
+      "comboDescription": "High-tech equipment for modern archaeological exploration"
+    }
+  ]
+}
