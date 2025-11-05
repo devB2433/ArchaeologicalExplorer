@@ -12,18 +12,15 @@ const initialState = {
   // Static data loaded from JSON files
   items: [],
   sites: [],
-  discoveries: [],
+  ruins: [],
   routes: [],
-  characters: [],
   levelSystem: null,
-  uiTexts: {},
-  messages: {},
   
   // Dynamic game state
   playerData: {
     currentCharacter: 'archaeologist_001',
-    ownedItems: [], // Now determined by user level
-    unlockedSites: [], // Now determined by user level
+    ownedItems: [], // Determined by user level
+    unlockedSites: [], // Determined by user level
   },
   
   explorationHistory: [],
@@ -59,6 +56,11 @@ function gameReducer(state, action) {
       return { ...state, error: action.payload, isLoading: false }
     
     case ACTIONS.LOAD_STATIC_DATA:
+      console.log('📦 GameReducer: LOAD_STATIC_DATA called with:', {
+        items: action.payload.items?.length,
+        sites: action.payload.sites?.length,
+        levelSystem: !!action.payload.levelSystem
+      })
       return { 
         ...state, 
         ...action.payload,
@@ -142,16 +144,21 @@ function gameReducer(state, action) {
 // Game Provider Component
 export function GameProvider({ children }) {
   const [state, dispatch] = useReducer(gameReducer, initialState)
-  const { state: authState } = useAuth()
+  const { state: authState, actions: authActions } = useAuth()
 
   // Load static data on mount
   useEffect(() => {
     async function loadGameData() {
       try {
+        console.log('🎮 GameContext: Starting to load game data...')
         dispatch({ type: ACTIONS.SET_LOADING, payload: true })
         
         // Load static data from JSON files
         const staticData = await gameDataLoader.loadAllData()
+        console.log('📥 GameContext: Received static data:', { 
+          items: staticData.items?.length, 
+          sites: staticData.sites?.length 
+        })
         
         // Load level system data
         const levelSystemData = await gameDataLoader.loadJson('/game-content/user-config/level-system.json')
@@ -182,30 +189,67 @@ export function GameProvider({ children }) {
 
   // Update player progress when user level changes
   useEffect(() => {
-    if (authState.isAuthenticated && authState.user && state.levelSystem) {
-      // Set user ID for data isolation
-      gameStateManager.setUserId(authState.user.id)
-      
-      // Reload user-specific game state
-      const userGameState = gameStateManager.loadGameState()
-      if (userGameState) {
-        dispatch({ type: ACTIONS.LOAD_GAME_STATE, payload: userGameState })
-      }
-      
-      dispatch({ 
-        type: ACTIONS.UPDATE_USER_PROGRESS, 
-        payload: { userLevel: authState.user.level } 
+    async function syncUserData() {
+      console.log('🔄 syncUserData called, authState:', {
+        isAuthenticated: authState.isAuthenticated,
+        hasUser: !!authState.user,
+        hasLevelSystem: !!state.levelSystem,
+        userId: authState.user?.id
       })
-    } else if (!authState.isAuthenticated) {
-      // Set guest mode when not authenticated
-      gameStateManager.setUserId(null)
       
-      // Load guest game state
-      const guestGameState = gameStateManager.loadGameState()
-      if (guestGameState) {
-        dispatch({ type: ACTIONS.LOAD_GAME_STATE, payload: guestGameState })
+      if (authState.isAuthenticated && authState.user && state.levelSystem) {
+        // Set user ID for data isolation
+        gameStateManager.setUserId(authState.user.id)
+        
+        // Sync discoveries from backend (this is the source of truth)
+        console.log('📡 Fetching discoveries from backend...')
+        const discoveriesResult = await authActions.getUserDiscoveries()
+        console.log('📥 Backend discoveries result:', discoveriesResult)
+        
+        if (discoveriesResult?.success && discoveriesResult.discoveries) {
+          // Convert backend format to frontend format
+          const discoveryCollection = discoveriesResult.discoveries.map(d => ({
+            discoveryId: d.discovery_id,
+            obtainedAt: new Date(d.obtained_at).getTime(),
+            isNew: false // From backend, so not new
+          }))
+          
+          console.log('✅ Synced discovery collection:', discoveryCollection)
+          
+          // Update state with backend data
+          dispatch({ 
+            type: ACTIONS.LOAD_GAME_STATE, 
+            payload: { 
+              playerData: state.playerData,
+              explorationHistory: [],
+              discoveryCollection 
+            } 
+          })
+          
+          // Also save to localStorage for offline backup
+          gameStateManager.saveDiscoveryCollection(discoveryCollection)
+        } else {
+          console.warn('⚠️ Failed to get discoveries or empty:', discoveriesResult)
+        }
+        
+        dispatch({ 
+          type: ACTIONS.UPDATE_USER_PROGRESS, 
+          payload: { userLevel: authState.user.level } 
+        })
+      } else if (!authState.isAuthenticated) {
+        console.log('👤 Guest mode: loading from localStorage')
+        // Set guest mode when not authenticated
+        gameStateManager.setUserId(null)
+        
+        // Load guest game state from localStorage
+        const guestGameState = gameStateManager.loadGameState()
+        if (guestGameState) {
+          dispatch({ type: ACTIONS.LOAD_GAME_STATE, payload: guestGameState })
+        }
       }
     }
+    
+    syncUserData()
   }, [authState.user?.level, authState.user?.id, state.levelSystem])
 
   // Game actions
@@ -219,17 +263,33 @@ export function GameProvider({ children }) {
     },
     
     addDiscovery: (discoveryId) => {
+      console.log('🔍 GameContext.addDiscovery called with:', discoveryId)
+      console.log('🔍 Current state:', {
+        isAuthenticated: authState.isAuthenticated,
+        hasLevelSystem: !!state.levelSystem,
+        ruinsCount: state.ruins?.length,
+        discoveryCollectionCount: state.discoveryCollection?.length
+      })
+      
       // Add to local collection for immediate UI update
       dispatch({ type: ACTIONS.ADD_DISCOVERY, payload: { discoveryId } })
       
       // If user is authenticated, also add to backend
       if (authState.isAuthenticated && state.levelSystem) {
-        const discovery = state.discoveries.find(d => d.discoveryId === discoveryId)
+        const ruin = state.ruins.find(r => r.ruinId === discoveryId)
+        console.log('🏛️ Found ruin:', ruin)
+        
         const isFirstTime = !state.discoveryCollection.some(d => d.discoveryId === discoveryId)
-        const expReward = state.levelSystem.calculateExpReward(discovery, isFirstTime)
+        console.log('❓ Is first time?', isFirstTime)
+        
+        const expReward = state.levelSystem.calculateExpReward(ruin, isFirstTime)
+        console.log('🎁 Experience reward:', expReward)
         
         // This will be handled by AuthContext
         return { discoveryId, experienceGained: expReward }
+      } else {
+        console.warn('⚠️ Not authenticated or no level system')
+        return null
       }
     },
     
@@ -243,7 +303,8 @@ export function GameProvider({ children }) {
     // Helper functions
     getItem: (itemId) => state.items.find(item => item.itemId === itemId),
     getSite: (siteId) => state.sites.find(site => site.siteId === siteId),
-    getDiscovery: (discoveryId) => state.discoveries.find(d => d.discoveryId === discoveryId),
+    getRuin: (ruinId) => state.ruins.find(r => r.ruinId === ruinId),
+    getRoute: (routeId) => state.routes.find(r => r.routeId === routeId),
     isItemOwned: (itemId) => {
       // For authenticated users, check level-based ownership
       if (authState.isAuthenticated && authState.user && state.levelSystem) {

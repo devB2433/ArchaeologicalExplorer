@@ -127,54 +127,90 @@ export class RouteMatchingEngine {
   }
 }
 
-// Discovery Generation Engine - handles discovery selection
+// Discovery Generation Engine - handles ruins discovery based on difficulty
 export class DiscoveryEngine {
-  constructor(discoveries) {
-    this.discoveries = discoveries
+  constructor(ruins) {
+    this.ruins = ruins
   }
 
-  // Generate exploration result
+  // Generate exploration result based on route difficulty
   generateDiscovery(route, selectedItems) {
-    if (!route || !route.discoveryPool) {
+    if (!route || !route.routeDifficulty) {
       return null
     }
 
-    // Get possible discoveries for this route
-    const possibleDiscoveries = this.discoveries.filter(discovery => 
-      route.discoveryPool.includes(discovery.discoveryId) ||
-      (discovery.availableRoutes && discovery.availableRoutes.includes(route.routeId))
+    // Get possible ruins for this route's difficulty
+    const possibleRuins = this.ruins.filter(ruin => 
+      this.isRuinAccessible(ruin, route.routeDifficulty)
     )
 
-    if (possibleDiscoveries.length === 0) {
+    if (possibleRuins.length === 0) {
+      console.warn(`No ruins available for difficulty: ${route.routeDifficulty}`)
       return null
     }
 
-    // Calculate hidden discovery probability
-    let hiddenProbability = route.hiddenDiscoveryProbability || 0
-    
-    // Apply special item bonuses
-    if (selectedItems.includes('ancient_map')) {
-      hiddenProbability += 0.15 // Ancient map bonus
+    // Separate normal and hidden ruins
+    const normalRuins = possibleRuins.filter(r => !r.isHidden)
+    const hiddenRuins = possibleRuins.filter(r => r.isHidden)
+
+    // Calculate hidden discovery probability based on route difficulty
+    let hiddenProbability = 0
+    if (route.routeDifficulty === 'master') {
+      hiddenProbability = 0.35 // 35% chance for master routes
+    } else if (route.routeDifficulty === 'advanced') {
+      hiddenProbability = 0.15 // 15% chance for advanced routes
+    } else {
+      hiddenProbability = 0.05 // 5% chance for beginner routes
     }
 
-    // Separate normal and hidden discoveries
-    const normalDiscoveries = possibleDiscoveries.filter(d => !d.isHidden)
-    const hiddenDiscoveries = possibleDiscoveries.filter(d => d.isHidden)
+    // Decide if we get a hidden ruin
+    const shouldGetHidden = Math.random() < hiddenProbability && hiddenRuins.length > 0
 
-    // Decide if we get a hidden discovery
-    const shouldGetHidden = Math.random() < hiddenProbability && hiddenDiscoveries.length > 0
-
-    const availableDiscoveries = shouldGetHidden ? hiddenDiscoveries : normalDiscoveries
+    const availableRuins = shouldGetHidden ? hiddenRuins : normalRuins
     
-    if (availableDiscoveries.length === 0) {
-      // Fallback to normal discoveries if no hidden available
-      return this.randomSelect(normalDiscoveries)
+    if (availableRuins.length === 0) {
+      // Fallback to normal ruins if no hidden available
+      return this.weightedRandomSelect(normalRuins)
     }
 
-    return this.randomSelect(availableDiscoveries)
+    return this.weightedRandomSelect(availableRuins)
   }
 
-  // Randomly select from array
+  // Check if ruin is accessible with current route difficulty
+  isRuinAccessible(ruin, routeDifficulty) {
+    const difficultyLevel = {
+      'beginner': 1,
+      'advanced': 2,
+      'master': 3
+    }
+
+    const routeLevel = difficultyLevel[routeDifficulty] || 1
+    const requiredLevel = difficultyLevel[ruin.requiredDifficulty] || 1
+
+    // Route difficulty must be >= required difficulty
+    return routeLevel >= requiredLevel
+  }
+
+  // Randomly select from array with weighted probability
+  weightedRandomSelect(ruins) {
+    if (!ruins || ruins.length === 0) return null
+    
+    // Use discoverProbability if available, otherwise equal chance
+    const totalProbability = ruins.reduce((sum, ruin) => sum + (ruin.discoverProbability || 1), 0)
+    let random = Math.random() * totalProbability
+    
+    for (const ruin of ruins) {
+      random -= (ruin.discoverProbability || 1)
+      if (random <= 0) {
+        return ruin
+      }
+    }
+    
+    // Fallback to last item
+    return ruins[ruins.length - 1]
+  }
+
+  // Randomly select from array (simple version)
   randomSelect(array) {
     if (!array || array.length === 0) return null
     return array[Math.floor(Math.random() * array.length)]
@@ -189,7 +225,7 @@ export class GameEngine {
       gameData.routes, 
       gameData.items?.[0]?.itemCombinations || []
     )
-    this.discoveryEngine = new DiscoveryEngine(gameData.discoveries)
+    this.discoveryEngine = new DiscoveryEngine(gameData.ruins || [])
     this.gameData = gameData
   }
 
@@ -204,26 +240,26 @@ export class GameEngine {
           success: false,
           error: 'No suitable exploration route found with current equipment',
           route: null,
-          discovery: null
+          ruin: null
         }
       }
 
-      // Generate discovery
-      const discovery = this.discoveryEngine.generateDiscovery(route, selectedItems)
+      // Generate ruin discovery
+      const ruin = this.discoveryEngine.generateDiscovery(route, selectedItems)
       
-      if (!discovery) {
+      if (!ruin) {
         return {
           success: false,
-          error: 'No discoveries available for this route',
+          error: 'No ruins available for this route',
           route,
-          discovery: null
+          ruin: null
         }
       }
 
       return {
         success: true,
         route,
-        discovery,
+        ruin,
         explorationData: {
           selectedItems,
           totalWeight: this.routeEngine.calculateTotalWeight(selectedItems),
@@ -237,7 +273,7 @@ export class GameEngine {
         success: false,
         error: 'An error occurred during exploration',
         route: null,
-        discovery: null
+        ruin: null
       }
     }
   }
@@ -259,8 +295,8 @@ export class GameEngine {
       errors.push('No routes data loaded')
     }
     
-    if (!this.gameData.discoveries || this.gameData.discoveries.length === 0) {
-      errors.push('No discoveries data loaded')
+    if (!this.gameData.ruins || this.gameData.ruins.length === 0) {
+      errors.push('No ruins data loaded')
     }
 
     return {

@@ -1,32 +1,33 @@
 {
-  "// Configuration Guide": "Archaeological sites basic information",
+  "// Configuration Guide": "Archaeological sites - organized by country/region",
+  "// Concept": "Site = Country/Region (e.g., China, Egypt), Ruins = Specific archaeological sites within that country",
   "sites": [
     {
-      "siteId": "site_pyramid_giza",
-      "siteName": "Giza Pyramid",
-      "siteDescription": "Royal tomb complex of the Fourth Dynasty of ancient Egypt",
-      "location": "Giza, Egypt",
-      "backgroundImage": "/assets/images/sites/pyramid_giza.jpg",
+      "siteId": "site_china",
+      "siteName": "China",
+      "siteDescription": "One of the world's oldest civilizations with rich archaeological heritage spanning thousands of years",
+      "region": "East Asia",
+      "backgroundImage": "/assets/images/sites/china.jpg",
       "isEnabled": true,
-      "notes": "One of the main sites in the game"
+      "notes": "Contains Terracotta Army, Sanxingdui, and other major sites"
     },
     {
-      "siteId": "site_terracotta_army",
-      "siteName": "Terracotta Army",
-      "siteDescription": "Ancient Chinese burial site with thousands of life-sized warrior statues",
-      "location": "Xi'an, China",
-      "backgroundImage": "/assets/images/sites/terracotta_army.jpg",
+      "siteId": "site_egypt",
+      "siteName": "Egypt",
+      "siteDescription": "Ancient Egyptian civilization known for pyramids, temples, and pharaonic tombs",
+      "region": "North Africa",
+      "backgroundImage": "/assets/images/sites/egypt.jpg",
       "isEnabled": true,
-      "notes": "Famous archaeological site from Qin Dynasty"
+      "notes": "Contains Giza Pyramids, Luxor, Valley of the Kings, etc."
     },
     {
-      "siteId": "site_pompeii",
-      "siteName": "Pompeii",
-      "siteDescription": "Ancient Roman city preserved by volcanic ash from Mount Vesuvius",
-      "location": "Naples, Italy",
-      "backgroundImage": "/assets/images/sites/pompeii.jpg",
+      "siteId": "site_greece",
+      "siteName": "Greece",
+      "siteDescription": "Birthplace of Western civilization, democracy, and classical philosophy, with rich archaeological heritage from the Bronze Age through the Classical period",
+      "region": "Southern Europe",
+      "backgroundImage": "/assets/images/sites/greece.jpg",
       "isEnabled": true,
-      "notes": "Perfectly preserved Roman city"
+      "notes": "Contains Theatre of Dionysus, Mycenae, Parthenon, etc."
     }
   ]
 }

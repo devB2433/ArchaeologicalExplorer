@@ -3,7 +3,6 @@ import { useGame } from '../contexts/GameContext'
 
 function InventoryPage() {
   const { state, actions } = useGame()
-  const uiTexts = state.uiTexts.inventory || {}
   
   if (state.isLoading) {
     return (
@@ -14,15 +13,28 @@ function InventoryPage() {
     )
   }
 
+  // Debug logging
+  console.log('🔍 Inventory Debug:', {
+    totalItems: state.items.length,
+    levelSystem: !!state.levelSystem,
+    userLevel: actions.getUserLevel(),
+    sampleItemCheck: state.items.length > 0 ? {
+      itemId: state.items[0].itemId,
+      isOwned: actions.isItemOwned(state.items[0].itemId)
+    } : 'No items'
+  })
+
   const ownedItems = state.items.filter(item => actions.isItemOwned(item.itemId))
   const unownedItems = state.items.filter(item => !actions.isItemOwned(item.itemId))
+  
+  console.log('📦 Items filtered:', { ownedCount: ownedItems.length, unownedCount: unownedItems.length })
 
   return (
     <div className="container">
-      <h1>{uiTexts.availableItems || 'Available Items'}</h1>
+      <h1>Available Items</h1>
       
       <div className="card">
-        <h2>{uiTexts.ownedItems || 'Owned Items'} ({ownedItems.length})</h2>
+        <h2>Owned Items ({ownedItems.length})</h2>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: '15px', marginTop: '20px' }}>
           {ownedItems.length > 0 ? ownedItems.map(item => (
             <ItemCard key={item.itemId} item={item} isOwned={true} />

@@ -331,17 +331,19 @@ calculateCombinationBonus(selectedItems) {
 
 ### Level Unlock Distribution | 等级解锁分布
 
-**Level 1 (6 items)** - Basic Tools | 基础工具
+**Level 1 (6 items) - Default Owned** | 默认拥有的基础工具
 - Camera (1), Shovel (2), Hand Pick (1), Brush (1), Dental Pick (1), Bucket (2)
 - 相机(1)、铁锹(2)、手镐(1)、刷子(1)、牙科钩(1)、桶(2)
-- **Total starting weight: 9** (with all items)
-- **起始总权重：9**（携带所有物品）
+- **Total starting weight: 8** (all items owned by default)
+- **起始总权重：8**（所有物品默认拥有）
+- ✅ **New players can explore immediately!**
+- ✅ **新玩家可以立即开始探索！**
 
 **Level 2 (3 items)** - Excavation & Mobility | 挖掘与移动
-- Drone (4), Trowel (3), Wheelbarrow (3)
-- 无人机(4)、铲子(3)、手推车(3)
-- **Cumulative weight: 19**
-- **累计权重：19**
+- Trowel (3), Wheelbarrow (3), Drone (4)
+- 铲子(3)、手推车(3)、无人机(4)
+- **Cumulative weight: 18** (with all items owned)
+- **累计权重：18**（拥有所有物品）
 
 **Level 3 (3 items)** - Precision Measurement | 精确测量
 - Aerial and Satellite Imagery (5), Tape Measure (5), Line Level (4)
@@ -365,16 +367,15 @@ calculateCombinationBonus(selectedItems) {
 
 ```json
 {
-  "itemId": 1001,
-  "itemName": "Archaeological Brush",
-  "itemDescription": "Soft-bristled brush for cleaning artifact surfaces",
-  "itemIcon": "/assets/images/items/brush.png",
-  "itemCategory": "cleaning_tools",
+  "itemId": 1005,
+  "itemName": "Camera",
+  "itemDescription": "In archeology camera can be used to take pictures of artifacts or other important things and use them as records.",
+  "itemIcon": "/assets/images/items/Camera.png",
+  "itemCategory": "recording_tools",
   "explorationWeight": 1,
   "rarity": "common",
-  "isDefaultOwned": false,
-  "requiredLevel": 1,
-  "citation": "https://en.wikipedia.org/wiki/Archaeological_field_survey"
+  "isDefaultOwned": true,
+  "citation": "https://en.wikipedia.org/wiki/Camera"
 }
 ```
 
@@ -387,13 +388,12 @@ calculateCombinationBonus(selectedItems) {
 - `itemCategory` (string): Item category | 物品分类
 - `explorationWeight` (number): Exploration power (1-10) | 探索权重(1-10)
 - `rarity` (string): Rarity level (common/rare/legendary) | 稀有度(common/rare/legendary)
-- `isDefaultOwned` (boolean): Initially owned | 初始是否拥有
-- `requiredLevel` (number): Required player level | 需要的玩家等级
-- `citation` (string): **[NEW]** Reference URL for related knowledge | **[新增]** 相关知识参考链接
+- `isDefaultOwned` (boolean): Initially owned (true for Lv1 items) | 初始是否拥有（Lv1物品为true）
+- `citation` (string): Reference URL for related knowledge | 相关知识参考链接
 
-**Note**: `effectDescription` field has been removed. All effects are now described in `itemDescription`.
+**Note**: `requiredLevel` field has been **REMOVED**. Item unlocking is now managed exclusively in `level-system.json`.
 
-**注意**：已移除 `effectDescription` 字段。所有效果现在都在 `itemDescription` 中描述。
+**注意**：`requiredLevel` 字段已**移除**。物品解锁现在仅在 `level-system.json` 中管理。
 
 ---
 
@@ -408,8 +408,14 @@ calculateCombinationBonus(selectedItems) {
 ## 8. Recent Changes | 最近更改
 
 ### 2025-11-01
-- ✅ Changed `itemId` from string to number (1001-1008)
-- ✅ 将 `itemId` 从字符串改为数字 (1001-1008)
+- ✅ Changed `itemId` from string to number (1001-1015)
+- ✅ 将 `itemId` 从字符串改为数字 (1001-1015)
+
+- ✅ **Removed `requiredLevel` field** - Item unlocking managed in `level-system.json` only
+- ✅ **移除 `requiredLevel` 字段** - 物品解锁仅在 `level-system.json` 中管理
+
+- ✅ **Set Level 1 items as default owned** - `isDefaultOwned: true` for 6 basic items
+- ✅ **设置1级物品为默认拥有** - 6个基础物品的 `isDefaultOwned: true`
 
 - ✅ Removed `effectDescription` field from item configuration
 - ✅ 从物品配置中移除了 `effectDescription` 字段
@@ -420,11 +426,11 @@ calculateCombinationBonus(selectedItems) {
 - ✅ Simplified rarity classification: Common(1-3), Rare(4-6), Legendary(7-10)
 - ✅ 简化稀有度分级：Common(1-3), Rare(4-6), Legendary(7-10)
 
-- ✅ **Added `citation` field for educational reference links**
-- ✅ **新增 `citation` 字段用于教育参考链接**
+- ✅ Added `citation` field for educational reference links
+- ✅ 新增 `citation` 字段用于教育参考链接
 
-- ✅ Improved early game experience with higher weight items available from start
-- ✅ 通过从一开始就提供高权重物品来改善早期游戏体验
+- ✅ **Avoided data duplication** - Single source of truth for item unlocking
+- ✅ **避免数据重复** - 物品解锁的单一数据源
 
 ---
 

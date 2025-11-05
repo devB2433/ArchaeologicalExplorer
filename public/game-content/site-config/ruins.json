@@ -1,0 +1,138 @@
+{
+  "// Configuration Guide": "Archaeological ruins configuration - specific sites within each country/region",
+  "// Concept Explanation": "Site = Country/Region (e.g., China, Egypt), Ruins = Specific archaeological sites (e.g., Terracotta Army, Giza Pyramids)",
+  "// Discovery System": "Ruins are discovered based on route difficulty matching. requiredDifficulty: beginner/advanced/master",
+  "ruins": [
+    {
+      "ruinId": "ruins_egypt_valley_of_kings",
+      "siteId": "site_egypt",
+      "ruinName": "Valley of the Kings",
+      "ruinImage": "/assets/images/ruins/valley_of_kings.jpg",
+      "ruinDescription": "The Valley of the Kings is a royal burial ground on the west bank of the Nile River in Upper Egypt. This ancient necropolis is most famous for the discovery of Tutankhamun's tomb in 1922, which contained the iconic golden death mask made of 22 pounds of solid gold, gold-covered chariots, jewelry, and elaborate coffins. The treasure's value is estimated between 750 million to 1 billion dollars. The valley also houses tombs of Seti I and Ramses II.",
+      "location": "West Bank of the Nile River, Upper Egypt",
+      "isHidden": false,
+      "citation": "https://www.britannica.com/place/Valley-of-the-Kings",
+      "requiredDifficulty": "beginner",
+      "discoverProbability": 0.85,
+      "contentTeamNotes": "Royal tombs including Tutankhamun, discovered 1922"
+    },
+    {
+      "ruinId": "ruins_egypt_giza_pyramid",
+      "siteId": "site_egypt",
+      "ruinName": "Pyramids of Giza",
+      "ruinImage": "/assets/images/ruins/great_pyramid.jpg",
+      "ruinDescription": "The Pyramids of Giza are large triangular structures built between 2566-2589 BCE. Constructed by thousands of workers including peasant farmers using copper tools, levers, and massive limestone blocks, these monuments took 20 to 30 years to complete. The Great Pyramid of Khufu is the oldest and largest, standing as one of the Seven Wonders of the Ancient World and remaining as humanity's tallest structure for over 3,800 years.",
+      "location": "Giza Plateau, Egypt",
+      "isHidden": false,
+      "citation": "https://www.si.edu/spotlight/ancient-egypt/pyramid",
+      "requiredDifficulty": "beginner",
+      "discoverProbability": 0.90,
+      "contentTeamNotes": "Iconic pyramids built 2566-2589 BCE"
+    },
+    {
+      "ruinId": "ruins_egypt_sphinx",
+      "siteId": "site_egypt",
+      "ruinName": "Great Sphinx of Giza",
+      "ruinImage": "/assets/images/ruins/sphinx.jpg",
+      "ruinDescription": "The Great Sphinx is located in Giza and is one of Egypt's most famous landmarks. This limestone statue features a lion's body with a human head, carved from the bedrock of the Giza plateau. Dating to the reign of Pharaoh Khafre (c. 2558-2532 BC), it stands as one of the largest and oldest monolithic statues in the world. The name 'sphinx' means 'to squeeze' in ancient Greek.",
+      "location": "Giza Plateau, Egypt",
+      "isHidden": true,
+      "citation": "https://www.britannica.com/topic/Great-Sphinx",
+      "requiredDifficulty": "master",
+      "discoverProbability": 0.25,
+      "contentTeamNotes": "Mysterious guardian statue, c. 2558-2532 BC"
+    },
+    {
+      "ruinId": "ruins_egypt_karnak_temple",
+      "siteId": "site_egypt",
+      "ruinName": "Temples of Karnak",
+      "ruinImage": "/assets/images/ruins/karnak_temple.jpg",
+      "ruinDescription": "The Temples of Karnak is a vast temple complex built over centuries, covering 200 acres (equivalent to 16-17 FIFA soccer fields). Located in Luxor on the east bank of the Nile River, it contains twenty temples dedicated to the Theban triad of gods: Amun (supreme creator), Mut (mother goddess), and Khonsu (moon god and personification of time). It was believed to be the place where creation began, making it one of ancient Egypt's most sacred sites.",
+      "location": "Luxor, East Bank of the Nile River, Egypt",
+      "isHidden": false,
+      "citation": "https://smarthistory.org/temple-of-amun-re-and-the-hypostyle-hall-karnak/",
+      "requiredDifficulty": "advanced",
+      "discoverProbability": 0.80,
+      "contentTeamNotes": "Massive 200-acre temple complex, 20 temples"
+    },
+    {
+      "ruinId": "ruins_china_terracotta",
+      "siteId": "site_china",
+      "ruinName": "Terracotta Warriors",
+      "ruinImage": "/assets/images/ruins/terracotta_warriors.jpg",
+      "ruinDescription": "The Terracotta Warriors were discovered in March 1974 by farmers digging a well in Shaanxi Xi'an Province. The site contains an estimated 8,000 soldiers across 3 pits, including infantry, archers, and chariots. Built over 2,200 years ago by around 700,000 workers over 30-40 years to protect Emperor Qin Shi Huang's tomb, the warriors were originally painted in vibrant colors and equipped with bronze weapons.",
+      "location": "Shaanxi Xi'an Province, China",
+      "isHidden": false,
+      "citation": "https://www.bbc.com/future/article/20240327-terracotta-warriors-fifty-years-after",
+      "requiredDifficulty": "beginner",
+      "discoverProbability": 0.90,
+      "contentTeamNotes": "World-famous Terracotta Warriors, discovered 1974"
+    },
+    {
+      "ruinId": "ruins_china_sanxingdui",
+      "siteId": "site_china",
+      "ruinName": "Sanxingdui Ruins",
+      "ruinImage": "/assets/images/ruins/sanxingdui.jpg",
+      "ruinDescription": "Sanxingdui, meaning 'Three Mounds', was discovered by a farmer in 1929 in Sichuan Province, China. This Bronze Age archaeological site has provided crucial insights into ancient Chinese civilization, revealing thousands of unique bronze, gold, and jade artifacts including mysterious masks and a sacred bronze tree that challenged previous understanding of China's early history.",
+      "location": "Sichuan Province, China",
+      "isHidden": true,
+      "citation": "https://www.google.com/search?q=sanxingdui",
+      "requiredDifficulty": "master",
+      "discoverProbability": 0.20,
+      "contentTeamNotes": "Mysterious Bronze Age site, discovered 1929"
+    },
+    {
+      "ruinId": "ruins_china_great_wall",
+      "siteId": "site_china",
+      "ruinName": "Great Wall of China",
+      "ruinImage": "/assets/images/ruins/great_wall.jpg",
+      "ruinDescription": "The Great Wall of China stretches approximately 21,000 kilometers from the Bohai Sea to the western frontiers. Completed in 221 BCE by China's first emperor, this monumental defensive structure represents one of humanity's greatest engineering achievements, built over centuries to protect Chinese states from invasions.",
+      "location": "From Bohai to Bohai Sea, China",
+      "isHidden": false,
+      "citation": "https://www.google.com/search?q=great+wall+of+china",
+      "requiredDifficulty": "beginner",
+      "discoverProbability": 0.85,
+      "contentTeamNotes": "Iconic 21,000km defensive wall, completed 221 BCE"
+    },
+    {
+      "ruinId": "ruins_china_forbidden_city",
+      "siteId": "site_china",
+      "ruinName": "Forbidden City",
+      "ruinImage": "/assets/images/ruins/forbidden_city.jpg",
+      "ruinDescription": "Located in Beijing, the Forbidden City served as the imperial palace for over 500 years. This exclusive complex was accessible only to emperors and royal families, with common people strictly forbidden from entering. It represents the pinnacle of traditional Chinese palatial architecture and imperial power.",
+      "location": "Beijing, China",
+      "isHidden": false,
+      "citation": "https://en.wikipedia.org/wiki/Forbidden_City",
+      "requiredDifficulty": "advanced",
+      "discoverProbability": 0.75,
+      "contentTeamNotes": "Imperial palace, 500+ years of royal residence"
+    },
+    {
+      "ruinId": "ruins_greece_theatre_dionysus",
+      "siteId": "site_greece",
+      "ruinName": "Theatre of Dionysus",
+      "ruinImage": "/assets/images/ruins/theatre_dionysus.jpg",
+      "ruinDescription": "The Theatre of Dionysus in Athens is one of the oldest Greek theatres and served as a prototype for ancient Greek theatre design. Originally built from timber and later expanded with tiered stone seating, this massive structure could accommodate over 15,000 viewers. It played a crucial role in elevating Greek drama and hosted major theatrical performances and celebrations, complete with a stage building for backdrops.",
+      "location": "Athens, Greece",
+      "isHidden": false,
+      "citation": "https://www.bing.com/search?q=what%20is%20the%20theatre%20of%20dionysus%20famous%20for",
+      "requiredDifficulty": "beginner",
+      "discoverProbability": 0.88,
+      "contentTeamNotes": "Oldest Greek theatre, 15,000+ capacity, birthplace of drama"
+    },
+    {
+      "ruinId": "ruins_greece_mycenae",
+      "siteId": "site_greece",
+      "ruinName": "Mycenae",
+      "ruinImage": "/assets/images/ruins/mycenae.jpg",
+      "ruinDescription": "Mycenae was a dominant Bronze Age city in the Peloponnese, commonly associated with King Agamemnon who played a crucial role in the Trojan War. Built on a hill for natural defenses and commanding views, the city is famous for its monumental Lion Gate entrance. Mycenae also developed Linear B, one of the earliest forms of Greek writing, marking a significant achievement in ancient literacy.",
+      "location": "Peloponnese, Greece",
+      "isHidden": false,
+      "citation": "https://www.bing.com/images/search?q=Pictures+of+Lion+Gate",
+      "requiredDifficulty": "advanced",
+      "discoverProbability": 0.70,
+      "contentTeamNotes": "Bronze Age fortress, Lion Gate, King Agamemnon's city"
+    }
+  ]
+}
+

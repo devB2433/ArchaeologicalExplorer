@@ -53,7 +53,9 @@ class UserLevelSystem {
   // Check if item is unlocked at current level
   isItemUnlocked(itemId, userLevel) {
     const unlock = this.itemUnlocks[itemId]
-    return unlock ? userLevel >= unlock.requiredLevel : false
+    const isUnlocked = unlock ? userLevel >= unlock.requiredLevel : false
+    console.log(`🔑 isItemUnlocked(${itemId}, level ${userLevel}):`, { unlock, isUnlocked })
+    return isUnlocked
   }
 
   // Check if site is unlocked at current level  
@@ -64,9 +66,9 @@ class UserLevelSystem {
 
   // Get all unlocked items for a level
   getUnlockedItemsForLevel(userLevel) {
-    return Object.keys(this.itemUnlocks).filter(itemId => 
-      this.isItemUnlocked(itemId, userLevel)
-    )
+    return Object.keys(this.itemUnlocks)
+      .filter(itemId => this.isItemUnlocked(itemId, userLevel))
+      .map(itemId => parseInt(itemId)) // Convert string to number
   }
 
   // Get all unlocked sites for a level

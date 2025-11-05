@@ -1,5 +1,6 @@
 {
   "// User Level System Configuration": "User progression and unlocks configuration",
+  "// Max Item Slots": "Each level defines maximum number of items player can carry during exploration",
   "levelSystem": {
     "maxLevel": 20,
     "baseExpPerLevel": 50,
@@ -16,15 +17,17 @@
     {
       "level": 1,
       "expRequired": 0,
+      "maxItemSlots": 3,
       "title": "Novice Explorer",
       "description": "Beginning your archaeological journey",
       "unlockedItems": [1005, 1008, 1009, 1010, 1011, 1012],
       "unlockedSites": ["site_pyramid_giza"],
-      "perks": ["Basic exploration capabilities"]
+      "perks": ["Basic exploration capabilities", "Can carry up to 3 items"]
     },
     {
       "level": 2,
       "expRequired": 50,
+      "maxItemSlots": 3,
       "title": "Field Archaeologist",
       "description": "Gaining experience in field work",
       "unlockedItems": [1007, 1013, 1006],
@@ -34,51 +37,57 @@
     {
       "level": 3,
       "expRequired": 110,
+      "maxItemSlots": 4,
       "title": "Site Surveyor",
       "description": "Skilled in site documentation and measurement",
       "unlockedItems": [1004, 1014, 1015],
       "unlockedSites": [],
-      "perks": ["Aerial imaging available", "Precision measurement", "+5% hidden discovery rate"]
+      "perks": ["Aerial imaging available", "Precision measurement", "+5% hidden discovery rate", "Can carry up to 4 items"]
     },
     {
       "level": 4,
       "expRequired": 185,
+      "maxItemSlots": 5,
       "title": "Excavation Specialist",
       "description": "Expert in advanced detection techniques",
       "unlockedItems": [1003],
       "unlockedSites": [],
-      "perks": ["Magnetometry detection", "+10% hidden discovery rate"]
+      "perks": ["Magnetometry detection", "+10% hidden discovery rate", "Can carry up to 5 items"]
     },
     {
       "level": 5,
       "expRequired": 275,
+      "maxItemSlots": 6,
       "title": "Research Scholar",
       "description": "Master of cutting-edge archaeological technology",
       "unlockedItems": [1001, 1002],
       "unlockedSites": ["site_terracotta_army"],
-      "perks": ["LiDAR & GPR unlocked", "New exploration site", "+15% all discovery rates"]
+      "perks": ["LiDAR & GPR unlocked", "New exploration site", "+15% all discovery rates", "Can carry up to 6 items"]
     },
     {
       "level": 6,
       "expRequired": 385,
+      "maxItemSlots": 7,
       "title": "Technology Adopter",
       "description": "Embracing modern archaeological tools",
       "unlockedItems": [],
       "unlockedSites": [],
-      "perks": ["Advanced metal detection", "+20% metallic artifact discovery"]
+      "perks": ["Advanced metal detection", "+20% metallic artifact discovery", "Can carry up to 7 items"]
     },
     {
       "level": 7,
       "expRequired": 515,
+      "maxItemSlots": 8,
       "title": "Cultural Heritage Expert",
       "description": "Deep understanding of ancient cultures",
       "unlockedItems": [],
       "unlockedSites": [],
-      "perks": ["+25% experience from discoveries", "Artifact context insights"]
+      "perks": ["+25% experience from discoveries", "Artifact context insights", "Can carry up to 8 items"]
     },
     {
       "level": 8,
       "expRequired": 670,
+      "maxItemSlots": 8,
       "title": "Site Director",
       "description": "Leading archaeological expeditions",
       "unlockedItems": [],
@@ -88,15 +97,17 @@
     {
       "level": 9,
       "expRequired": 850,
+      "maxItemSlots": 8,
       "title": "International Explorer",
       "description": "Exploring sites worldwide",
       "unlockedItems": [],
-      "unlockedSites": ["site_pompeii"],
-      "perks": ["New exploration site unlocked", "Cross-cultural insights"]
+      "unlockedSites": [],
+      "perks": ["Cross-cultural insights"]
     },
     {
       "level": 10,
       "expRequired": 1060,
+      "maxItemSlots": 8,
       "title": "Master Archaeologist",
       "description": "Recognized expert in the field",
       "unlockedItems": [],
@@ -123,7 +134,6 @@
   },
   "siteUnlocks": {
     "site_pyramid_giza": { "requiredLevel": 1, "difficulty": "beginner" },
-    "site_terracotta_army": { "requiredLevel": 5, "difficulty": "intermediate" },
-    "site_pompeii": { "requiredLevel": 9, "difficulty": "advanced" }
+    "site_terracotta_army": { "requiredLevel": 5, "difficulty": "intermediate" }
   }
 }

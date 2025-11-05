@@ -7,13 +7,12 @@ function Navigation() {
   const { state } = useGame()
   const { state: authState, actions: authActions } = useAuth()
   const location = useLocation()
-  const uiTexts = state.uiTexts.navigation || {}
 
   const navItems = [
-    { path: '/', label: uiTexts.home || 'Home' },
-    { path: '/exploration', label: uiTexts.exploration || 'Exploration' },
-    { path: '/inventory', label: uiTexts.inventory || 'Inventory' },
-    { path: '/gallery', label: uiTexts.gallery || 'Gallery' }
+    { path: '/', label: 'Home' },
+    { path: '/exploration', label: 'Exploration' },
+    { path: '/inventory', label: 'Inventory' },
+    { path: '/gallery', label: 'Gallery' }
   ]
 
   return (

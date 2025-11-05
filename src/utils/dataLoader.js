@@ -28,9 +28,9 @@ class GameDataLoader {
     return await this.loadJson(`${this.baseUrl}/site-config/sites.json`)
   }
 
-  // Load discoveries configuration
-  async loadDiscoveries() {
-    return await this.loadJson(`${this.baseUrl}/site-config/discoveries.json`)
+  // Load ruins configuration (new structure)
+  async loadRuins() {
+    return await this.loadJson(`${this.baseUrl}/site-config/ruins.json`)
   }
 
   // Load routes configuration
@@ -38,63 +38,47 @@ class GameDataLoader {
     return await this.loadJson(`${this.baseUrl}/route-config/routes.json`)
   }
 
-  // Load characters configuration
-  async loadCharacters() {
-    return await this.loadJson(`${this.baseUrl}/character-config/characters.json`)
-  }
-
-  // Load UI texts
-  async loadUITexts() {
-    return await this.loadJson(`${this.baseUrl}/game-texts/ui-texts.json`)
-  }
-
-  // Load game messages
-  async loadMessages() {
-    return await this.loadJson(`${this.baseUrl}/game-texts/messages.json`)
-  }
-
   // Load all data in parallel
   async loadAllData() {
     try {
+      console.log('🔄 Starting to load game data...')
+      
       const [
         itemsData,
         sitesData,
-        discoveriesData,
-        routesData,
-        charactersData,
-        uiTextsData,
-        messagesData
+        ruinsData,
+        routesData
       ] = await Promise.all([
         this.loadItems(),
         this.loadSites(),
-        this.loadDiscoveries(),
-        this.loadRoutes(),
-        this.loadCharacters(),
-        this.loadUITexts(),
-        this.loadMessages()
+        this.loadRuins(),
+        this.loadRoutes()
       ])
 
-      return {
+      const result = {
         items: itemsData.items || [],
         sites: sitesData.sites || [],
-        discoveries: discoveriesData.discoveries || [],
-        routes: routesData.routes || [],
-        characters: charactersData.characters || [],
-        uiTexts: uiTextsData,
-        messages: messagesData
+        ruins: ruinsData.ruins || [],
+        routes: routesData.routes || []
       }
+      
+      console.log('✅ Game data loaded successfully:', {
+        items: result.items.length,
+        sites: result.sites.length,
+        ruins: result.ruins.length,
+        routes: result.routes.length
+      })
+      
+      return result
     } catch (error) {
-      console.error('Error loading game data:', error)
+      console.error('❌ Error loading game data:', error)
       
       // Return minimal default data to prevent app crash
       return {
         items: [],
         sites: [],
-        discoveries: [],
-        routes: [],
-        characters: [],
-        uiTexts: { navigation: {}, exploration: {}, inventory: {}, gallery: {} },
-        messages: { exploration: {}, errors: {} }
+        ruins: [],
+        routes: []
       }
     }
   }

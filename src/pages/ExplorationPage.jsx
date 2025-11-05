@@ -12,6 +12,7 @@ function ExplorationPage() {
   const [gameEngine, setGameEngine] = useState(null)
   const [preview, setPreview] = useState(null)
   const [levelUpInfo, setLevelUpInfo] = useState(null)
+  const [expInfo, setExpInfo] = useState(null) // 保存经验值信息
 
   // Initialize game engine when data is loaded
   useEffect(() => {
@@ -25,7 +26,7 @@ function ExplorationPage() {
         console.warn('Game data validation errors:', validation.errors)
       }
     }
-  }, [state.isLoading, state.items, state.routes, state.discoveries])
+  }, [state.isLoading, state.items, state.routes, state.ruins])
 
   // Update preview when selected items change
   useEffect(() => {
@@ -38,8 +39,6 @@ function ExplorationPage() {
       actions.setCurrentRoute(null)
     }
   }, [selectedItems, gameEngine])
-
-  const uiTexts = state.uiTexts.exploration || {}
 
   if (state.isLoading) {
     return (
@@ -71,31 +70,47 @@ function ExplorationPage() {
       const result = await gameEngine.executeExploration(selectedItems)
       
       if (result.success) {
-        // Add discovery to local collection
-        const discoveryInfo = actions.addDiscovery(result.discovery.discoveryId)
+        console.log('🎉 Exploration successful! Ruin:', result.ruin.ruinId)
+        
+        // Add ruin to local collection
+        const ruinInfo = actions.addDiscovery(result.ruin.ruinId)
+        console.log('💎 Ruin info from GameContext:', ruinInfo)
         
         // Add experience to user account
-        if (discoveryInfo?.experienceGained) {
+        if (ruinInfo?.experienceGained) {
+          console.log('📤 Sending to backend - ruinId:', result.ruin.ruinId, 'exp:', ruinInfo.experienceGained)
           const expResult = await authActions.addDiscovery(
-            result.discovery.discoveryId, 
-            discoveryInfo.experienceGained
+            result.ruin.ruinId, 
+            ruinInfo.experienceGained
           )
+          console.log('📥 Backend response:', expResult)
           
-          if (expResult.success && expResult.levelUp) {
-            const levelSystem = actions.getLevelSystem()
-            if (levelSystem) {
-              const levelUpRewards = levelSystem.getLevelUpRewards(expResult.newLevel)
-              console.log('Setting level up info:', levelUpRewards)
-              setLevelUpInfo(levelUpRewards)
+          if (expResult.success) {
+            // 保存经验值信息用于显示
+            setExpInfo({
+              gained: expResult.experienceGained,
+              total: expResult.newExperience,
+              isNew: expResult.isNewDiscovery
+            })
+            
+            if (expResult.levelUp) {
+              const levelSystem = actions.getLevelSystem()
+              if (levelSystem) {
+                const levelUpRewards = levelSystem.getLevelUpRewards(expResult.newLevel)
+                console.log('Setting level up info:', levelUpRewards)
+                setLevelUpInfo(levelUpRewards)
+              }
             }
           }
+        } else {
+          console.warn('⚠️ No ruinInfo or experienceGained!', ruinInfo)
         }
         
         // Add exploration record
         actions.addExplorationRecord(
           result.route.routeId,
           selectedItems,
-          result.discovery.discoveryId
+          result.ruin.ruinId
         )
       }
       
@@ -107,18 +122,19 @@ function ExplorationPage() {
   const resetExploration = () => {
     setExplorationResult(null)
     setLevelUpInfo(null)
+    setExpInfo(null) // 重置经验值信息
     setSelectedItems([])
     setPreview(null)
   }
 
   return (
     <div className="container">
-      <h1>{uiTexts.exploration || 'Exploration'}</h1>
+      <h1>Exploration</h1>
 
       {!explorationResult && (
         <>
           <div className="card">
-            <h2>{uiTexts.selectItems || 'Select Items'}</h2>
+            <h2>Select Items</h2>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px', marginTop: '20px' }}>
               {ownedItems.map(item => (
                 <ItemSelector
@@ -133,8 +149,8 @@ function ExplorationPage() {
 
           {preview && (
             <div className="card">
-              <h2>{uiTexts.explorationPreview || 'Exploration Preview'}</h2>
-              <ExplorationPreview preview={preview} uiTexts={uiTexts} />
+              <h2>Exploration Preview</h2>
+              <ExplorationPreview preview={preview} />
             </div>
           )}
 
@@ -151,19 +167,19 @@ function ExplorationPage() {
                   Exploring...
                 </>
               ) : (
-                uiTexts.startExploration || 'Start Exploration'
+                'Start Exploration'
               )}
             </button>
             
             {selectedItems.length === 0 && (
               <p style={{ textAlign: 'center', marginTop: '10px', color: '#f59e0b' }}>
-                {uiTexts.selectAtLeastOne || 'Please select at least one item to begin exploration'}
+                Please select at least one item to begin exploration
               </p>
             )}
             
             {selectedItems.length > 0 && !preview?.canExplore && (
               <p style={{ textAlign: 'center', marginTop: '10px', color: '#ef4444' }}>
-                {uiTexts.noRouteFound || 'No suitable exploration route found with current equipment'}
+                No suitable exploration route found with current equipment
               </p>
             )}
           </div>
@@ -174,9 +190,9 @@ function ExplorationPage() {
         <ExplorationResult 
           result={explorationResult} 
           onReset={resetExploration}
-          uiTexts={uiTexts}
           actions={actions}
           levelUpInfo={levelUpInfo}
+          expInfo={expInfo}
           onCloseLevelUp={() => setLevelUpInfo(null)}
         />
       )}
@@ -256,14 +272,14 @@ function ItemSelector({ item, isSelected, onToggle }) {
   )
 }
 
-function ExplorationPreview({ preview, uiTexts }) {
+function ExplorationPreview({ preview }) {
   const route = preview.matchedRoute
 
   return (
     <div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginBottom: '20px' }}>
         <div>
-          <strong>{uiTexts.equipmentWeight || 'Equipment Weight'}:</strong>
+          <strong>Equipment Weight:</strong>
           <div style={{ fontSize: '1.5rem', color: '#10b981', fontWeight: 'bold' }}>
             {preview.totalWeight}
           </div>
@@ -282,7 +298,7 @@ function ExplorationPreview({ preview, uiTexts }) {
           <p>{route.routeDescription}</p>
           
           <div style={{ marginTop: '15px' }}>
-            <strong>{uiTexts.accessibleAreas || 'Accessible Areas'}:</strong>
+            <strong>Accessible Areas:</strong>
             <div style={{ marginTop: '5px' }}>
               {route.accessibleAreas?.map((area, index) => (
                 <span 
@@ -316,7 +332,7 @@ function ExplorationPreview({ preview, uiTexts }) {
   )
 }
 
-function ExplorationResult({ result, onReset, uiTexts, actions, levelUpInfo, onCloseLevelUp }) {
+function ExplorationResult({ result, onReset, actions, expInfo }) {
   if (!result.success) {
     return (
       <div className="card">
@@ -329,15 +345,45 @@ function ExplorationResult({ result, onReset, uiTexts, actions, levelUpInfo, onC
     )
   }
 
-  const discovery = result.discovery
+  const ruin = result.ruin
   const route = result.route
-  const site = actions.getSite(route.targetSiteId)
+  const site = actions.getSite(ruin.siteId)
 
   return (
     <div className="card">
       <h2 style={{ color: '#10b981' }}>
-        {uiTexts.explorationComplete || 'Exploration Complete!'}
+        Exploration Complete!
       </h2>
+      
+      {/* 显示经验值信息 */}
+      {expInfo && (
+        <div style={{ 
+          marginBottom: '20px', 
+          padding: '15px', 
+          backgroundColor: 'rgba(16, 185, 129, 0.1)',
+          borderRadius: '8px',
+          border: '1px solid rgba(16, 185, 129, 0.3)'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div>
+              <strong style={{ color: '#10b981', fontSize: '1.2rem' }}>
+                {expInfo.isNew ? '🎉 首次发现!' : '🔁 重复探索'}
+              </strong>
+              <p style={{ margin: '5px 0 0 0', fontSize: '0.9rem', opacity: 0.8 }}>
+                {expInfo.isNew ? '获得完整经验值' : '获得 10% 经验值'}
+              </p>
+            </div>
+            <div style={{ textAlign: 'right' }}>
+              <div style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#10b981' }}>
+                +{expInfo.gained} EXP
+              </div>
+              <div style={{ fontSize: '0.9rem', opacity: 0.7 }}>
+                总经验: {expInfo.total}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
       
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '20px', marginTop: '20px' }}>
         <div style={{ 
@@ -351,21 +397,21 @@ function ExplorationResult({ result, onReset, uiTexts, actions, levelUpInfo, onC
           overflow: 'hidden'
         }}>
           <img 
-            src={discovery.discoveryImage || '/assets/images/discoveries/placeholder.svg'} 
-            alt={discovery.discoveryName}
+            src={ruin.ruinImage || '/assets/images/ruins/placeholder.svg'} 
+            alt={ruin.ruinName}
             style={{ 
               width: '100%', 
               height: '100%', 
               objectFit: 'cover' 
             }}
-            onError={(e) => e.target.src = '/assets/images/discoveries/placeholder.svg'}
+            onError={(e) => e.target.src = '/assets/images/ruins/placeholder.svg'}
           />
         </div>
         
         <div>
           <h3 style={{ margin: '0 0 10px 0', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            {discovery.discoveryName}
-            {discovery.isHidden && (
+            {ruin.ruinName}
+            {ruin.isHidden && (
               <span style={{ 
                 backgroundColor: '#f59e0b',
                 color: 'white',
@@ -384,7 +430,7 @@ function ExplorationResult({ result, onReset, uiTexts, actions, levelUpInfo, onC
           </p>
           
           <p style={{ lineHeight: '1.6', marginBottom: '20px' }}>
-            {discovery.discoveryDescription}
+            {ruin.ruinDescription}
           </p>
           
           <div style={{ 

@@ -112,10 +112,24 @@ let levelSystemConfig = null
 function loadLevelSystemConfig() {
   if (!levelSystemConfig) {
     try {
-      const configPath = path.join(__dirname, '../dist/game-content/user-config/level-system.json')
+      // Try production path first (dist/)
+      let configPath = path.join(__dirname, '../dist/game-content/user-config/level-system.json')
+      
+      // If dist doesn't exist, use development path (public/)
+      if (!fs.existsSync(configPath)) {
+        configPath = path.join(__dirname, '../public/game-content/user-config/level-system.json')
+        console.log('🛠️  Development mode: Loading config from public/')
+      } else {
+        console.log('🚀 Production mode: Loading config from dist/')
+      }
+      
       const configData = fs.readFileSync(configPath, 'utf8')
       levelSystemConfig = JSON.parse(configData)
       console.log('✅ Level system configuration loaded successfully')
+      console.log('📋 Config preview:', {
+        levels: levelSystemConfig.levels?.length || 0,
+        itemUnlocks: Object.keys(levelSystemConfig.itemUnlocks || {}).length
+      })
     } catch (error) {
       console.error('❌ Failed to load level system configuration:', error)
       // Fallback configuration
@@ -386,9 +400,7 @@ app.post('/api/user/add-discovery', authenticateToken, (req, res) => {
         return res.status(500).json({ error: 'Failed to add discovery' })
       }
 
-      if (this.changes === 0) {
-        return res.status(400).json({ error: 'Discovery already exists' })
-      }
+      const isNewDiscovery = this.changes > 0
 
       // Get current user data
       db.get('SELECT experience, level FROM users WHERE id = ?', [userId], (err, user) => {
@@ -397,7 +409,9 @@ app.post('/api/user/add-discovery', authenticateToken, (req, res) => {
           return res.status(500).json({ error: 'Database error' })
         }
 
-        const newExperience = user.experience + experienceGained
+        // If it's a repeated discovery, give 10% experience
+        const actualExpGained = isNewDiscovery ? experienceGained : Math.floor(experienceGained * 0.1)
+        const newExperience = user.experience + actualExpGained
         const oldLevel = user.level
         const newLevel = calculateLevelFromExp(newExperience)
 
@@ -411,11 +425,22 @@ app.post('/api/user/add-discovery', authenticateToken, (req, res) => {
             }
 
             const response = {
-              message: 'Discovery added successfully',
+              message: isNewDiscovery ? 'Discovery added successfully' : 'Exploration completed (already discovered)',
               newExperience,
               newLevel,
-              levelUp: newLevel > oldLevel
+              levelUp: newLevel > oldLevel,
+              isNewDiscovery,
+              experienceGained: actualExpGained
             }
+
+            console.log('✅ Discovery processed:', {
+              userId,
+              discoveryId,
+              isNew: isNewDiscovery,
+              expGained: actualExpGained,
+              newExp: newExperience,
+              newLevel
+            })
 
             res.json(response)
           }

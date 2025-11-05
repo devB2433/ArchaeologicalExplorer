@@ -3,7 +3,17 @@ import { useGame } from '../contexts/GameContext'
 
 function GalleryPage() {
   const { state, actions } = useGame()
-  const uiTexts = state.uiTexts.gallery || {}
+  
+  // Debug logging
+  console.log('🖼️ Gallery Debug:', {
+    discoveryCollectionLength: state.discoveryCollection?.length,
+    discoveryCollection: state.discoveryCollection,
+    ruins: state.ruins.map(r => ({
+      ruinId: r.ruinId,
+      name: r.ruinName,
+      isCollected: actions.isDiscoveryCollected(r.ruinId)
+    }))
+  })
   
   if (state.isLoading) {
     return (
@@ -14,25 +24,25 @@ function GalleryPage() {
     )
   }
 
-  // Group discoveries by site
-  const discoveriesBySite = {}
+  // Group ruins by site
+  const ruinsBySite = {}
   state.sites.forEach(site => {
-    discoveriesBySite[site.siteId] = {
+    ruinsBySite[site.siteId] = {
       site,
-      discoveries: state.discoveries.filter(d => d.siteId === site.siteId)
+      ruins: state.ruins.filter(r => r.siteId === site.siteId)
     }
   })
 
-  const totalDiscoveries = state.discoveries.length
+  const totalRuins = state.ruins.length
   const collectedDiscoveries = state.discoveryCollection.length
   const hiddenCollected = state.discoveryCollection.filter(collected => {
-    const discovery = actions.getDiscovery(collected.discoveryId)
-    return discovery && discovery.isHidden
+    const ruin = actions.getRuin(collected.discoveryId)
+    return ruin && ruin.isHidden
   }).length
 
   return (
     <div className="container">
-      <h1>{uiTexts.discoveryGallery || 'Discovery Gallery'}</h1>
+      <h1>Discovery Gallery</h1>
       
       <div className="card">
         <h2>Collection Statistics</h2>
@@ -41,41 +51,41 @@ function GalleryPage() {
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#10b981' }}>
               {collectedDiscoveries}
             </div>
-            <div>{uiTexts.totalDiscoveries || 'Total Discoveries'}</div>
+            <div>Total Discoveries</div>
           </div>
           <div>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#f59e0b' }}>
               {hiddenCollected}
             </div>
-            <div>{uiTexts.hiddenFound || 'Hidden Found'}</div>
+            <div>Hidden Found</div>
           </div>
           <div>
             <div style={{ fontSize: '2rem', fontWeight: 'bold', color: '#8b5cf6' }}>
-              {Math.round((collectedDiscoveries / totalDiscoveries) * 100)}%
+              {totalRuins > 0 ? Math.round((collectedDiscoveries / totalRuins) * 100) : 0}%
             </div>
             <div>Completion Rate</div>
           </div>
         </div>
       </div>
 
-      {Object.entries(discoveriesBySite).map(([siteId, { site, discoveries }]) => {
-        const siteCollected = discoveries.filter(d => actions.isDiscoveryCollected(d.discoveryId))
+      {Object.entries(ruinsBySite).map(([siteId, { site, ruins }]) => {
+        const siteCollected = ruins.filter(r => actions.isDiscoveryCollected(r.ruinId))
         
         return (
           <div key={siteId} className="card">
             <h2>{site.siteName}</h2>
             <p style={{ opacity: 0.8, marginBottom: '20px' }}>{site.siteDescription}</p>
             <p style={{ marginBottom: '20px' }}>
-              Collected: {siteCollected.length} / {discoveries.length}
+              Collected: {siteCollected.length} / {ruins.length}
             </p>
             
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '15px' }}>
-              {discoveries.map(discovery => (
-                <DiscoveryCard 
-                  key={discovery.discoveryId} 
-                  discovery={discovery} 
-                  isCollected={actions.isDiscoveryCollected(discovery.discoveryId)}
-                  collectionData={state.discoveryCollection.find(c => c.discoveryId === discovery.discoveryId)}
+              {ruins.map(ruin => (
+                <RuinCard 
+                  key={ruin.ruinId} 
+                  ruin={ruin} 
+                  isCollected={actions.isDiscoveryCollected(ruin.ruinId)}
+                  collectionData={state.discoveryCollection.find(c => c.discoveryId === ruin.ruinId)}
                 />
               ))}
             </div>
@@ -86,7 +96,7 @@ function GalleryPage() {
   )
 }
 
-function DiscoveryCard({ discovery, isCollected, collectionData }) {
+function RuinCard({ ruin, isCollected, collectionData }) {
   const isNew = collectionData && collectionData.isNew
 
   return (
@@ -112,7 +122,7 @@ function DiscoveryCard({ discovery, isCollected, collectionData }) {
         </div>
       )}
       
-      {discovery.isHidden && (
+      {ruin.isHidden && (
         <div style={{
           position: 'absolute',
           top: '10px',
@@ -140,34 +150,48 @@ function DiscoveryCard({ discovery, isCollected, collectionData }) {
         overflow: 'hidden'
       }}>
         {isCollected ? (
-          <img 
-            src={discovery.discoveryImage || '/assets/images/discoveries/placeholder.svg'} 
-            alt={discovery.discoveryName}
-            style={{ 
-              width: '100%', 
-              height: '100%', 
-              objectFit: 'cover' 
-            }}
-            onError={(e) => {
-              e.target.style.display = 'none'
-              e.target.nextElementSibling.style.display = 'flex'
-            }}
-          />
-        ) : null}
-        <div style={{ 
-          display: isCollected ? 'none' : 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          height: '100%',
-          color: '#9ca3af'
-        }}>
-          🔒 Not Yet Discovered
-        </div>
+          <>
+            <img 
+              src={ruin.ruinImage || '/assets/images/ruins/placeholder.svg'} 
+              alt={ruin.ruinName}
+              style={{ 
+                width: '100%', 
+                height: '100%', 
+                objectFit: 'cover' 
+              }}
+              onError={(e) => {
+                e.target.style.display = 'none'
+                e.target.nextElementSibling.style.display = 'flex'
+              }}
+            />
+            <div style={{ 
+              display: 'none',
+              alignItems: 'center',
+              justifyContent: 'center',
+              width: '100%',
+              height: '100%',
+              color: '#9ca3af',
+              fontSize: '3rem'
+            }}>
+              🏛️
+            </div>
+          </>
+        ) : (
+          <div style={{ 
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            width: '100%',
+            height: '100%',
+            color: '#9ca3af'
+          }}>
+            🔒 Not Yet Discovered
+          </div>
+        )}
       </div>
 
       <h3 style={{ margin: '0 0 10px 0', fontSize: '1.1rem' }}>
-        {isCollected ? discovery.discoveryName : '???'}
+        {isCollected ? ruin.ruinName : '???'}
       </h3>
       
       {isCollected ? (
@@ -177,7 +201,7 @@ function DiscoveryCard({ discovery, isCollected, collectionData }) {
           opacity: 0.8,
           lineHeight: '1.4'
         }}>
-          {discovery.discoveryDescription}
+          {ruin.ruinDescription}
         </p>
       ) : (
         <p style={{ 
@@ -186,7 +210,7 @@ function DiscoveryCard({ discovery, isCollected, collectionData }) {
           opacity: 0.6,
           fontStyle: 'italic'
         }}>
-          Complete explorations to discover this artifact
+          Complete explorations to discover this ruin
         </p>
       )}
 

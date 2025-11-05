@@ -47,7 +47,7 @@ function HomePage() {
     )
   }
 
-  const totalDiscoveries = state.discoveries.length
+  const totalRuins = state.ruins.length
   const collectedDiscoveries = authState.isAuthenticated && userStats ? 
     userStats.discoveryCount : state.discoveryCollection.length
   const totalItems = state.items.length
@@ -70,7 +70,7 @@ function HomePage() {
           <h3>Your Progress</h3>
           <div style={{ marginTop: '15px' }}>
             <div style={{ marginBottom: '10px' }}>
-              <strong>Discoveries:</strong> {collectedDiscoveries} / {totalDiscoveries}
+              <strong>Discoveries:</strong> {collectedDiscoveries} / {totalRuins}
             </div>
             <div style={{ marginBottom: '10px' }}>
               <strong>Items Owned:</strong> {ownedItems} / {totalItems}

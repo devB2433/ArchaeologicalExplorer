@@ -10,7 +10,6 @@
       "explorationWeight": 10,
       "rarity": "legendary",
       "isDefaultOwned": false,
-      "requiredLevel": 1,
       "citation": "https://www.yellowscan.com/knowledge/lidar-vs-photogrammetry-key-differences-and-applications/"
     },
     {
@@ -22,7 +21,6 @@
       "explorationWeight": 10,
       "rarity": "legendary",
       "isDefaultOwned": false,
-      "requiredLevel": 5,
       "citation": "https://www.sensoft.ca"
     },
     {
@@ -34,7 +32,6 @@
       "explorationWeight": 6,
       "rarity": "rare",
       "isDefaultOwned": false,
-      "requiredLevel": 4,
       "citation": "https://www.sphengineering.com/news/the-role-of-magnetometry-in-advancing-mineral-exploration"
     },
     {
@@ -46,7 +43,6 @@
       "explorationWeight": 5,
       "rarity": "rare",
       "isDefaultOwned": false,
-      "requiredLevel": 3,
       "citation": "https://archaeologymag.com/encyclopedia/aerial-archaeology/"
     },
     {
@@ -57,8 +53,7 @@
       "itemCategory": "recording_tools",
       "explorationWeight": 1,
       "rarity": "common",
-      "isDefaultOwned": false,
-      "requiredLevel": 1,
+      "isDefaultOwned": true,
       "citation": "https://en.wikipedia.org/wiki/Camera"
     },
     {
@@ -70,7 +65,6 @@
       "explorationWeight": 4,
       "rarity": "rare",
       "isDefaultOwned": false,
-      "requiredLevel": 2,
       "citation": "http://www.luciongroup.com/news/drones-heritage-the-rise-of-drone-technology-in-archaeology/"
     },
     {
@@ -82,7 +76,6 @@
       "explorationWeight": 3,
       "rarity": "common",
       "isDefaultOwned": false,
-      "requiredLevel": 2,
       "citation": "https://www.saa.org/about-archaeology/what-do-archaeologists-do#:~:text=You%20may%20think%20of%20shovels,and%20dustpans%2C%20are%20everyday%20objects"
     },
     {
@@ -93,8 +86,7 @@
       "itemCategory": "digging_tools",
       "explorationWeight": 2,
       "rarity": "common",
-      "isDefaultOwned": false,
-      "requiredLevel": 1,
+      "isDefaultOwned": true,
       "citation": "https://www.youtube.com/watch?v=U_ZyOFpGpYs&t=4s"
     },
     {
@@ -105,8 +97,7 @@
       "itemCategory": "digging_tools",
       "explorationWeight": 1,
       "rarity": "common",
-      "isDefaultOwned": false,
-      "requiredLevel": 1,
+      "isDefaultOwned": true,
       "citation": "https://www.texasbeyondhistory.net/ransom/ransomkids/images/kids-evidence-gardens.html#:~:text=The%20pick%20mattock%20is%20a,used%20for%20cutting%20through%20roots"
     },
     {
@@ -117,8 +108,7 @@
       "itemCategory": "cleaning_tools",
       "explorationWeight": 1,
       "rarity": "common",
-      "isDefaultOwned": false,
-      "requiredLevel": 1,
+      "isDefaultOwned": true,
       "citation": "https://www.youtube.com/watch?v=NfP6yWhdAvw"
     },
     {
@@ -129,8 +119,7 @@
       "itemCategory": "cleaning_tools",
       "explorationWeight": 1,
       "rarity": "common",
-      "isDefaultOwned": false,
-      "requiredLevel": 1,
+      "isDefaultOwned": true,
       "citation": "https://manitobaarchaeologicalsociety.ca/content/daily-life-activities"
     },
     {
@@ -141,8 +130,7 @@
       "itemCategory": "utility_tools",
       "explorationWeight": 2,
       "rarity": "common",
-      "isDefaultOwned": false,
-      "requiredLevel": 1,
+      "isDefaultOwned": true,
       "citation": "https://medium.com/@sandeeoster17/from-buckets-to-artifacts-archaeological-sorting-ece0ca64d185"
     },
     {
@@ -154,7 +142,6 @@
       "explorationWeight": 3,
       "rarity": "common",
       "isDefaultOwned": false,
-      "requiredLevel": 2,
       "citation": "https://sandiegoarchaeology.org/dig-deeper-what-tools-do-archaeologists-use/#:~:text=A%20tool%20that%20is%20universal,be%20hiding%20within%20the%20dirt"
     },
     {
@@ -166,7 +153,6 @@
       "explorationWeight": 5,
       "rarity": "rare",
       "isDefaultOwned": false,
-      "requiredLevel": 3,
       "citation": "https://www.saa.org/about-archaeology/what-do-archaeologists-do#:~:text=A%20surface%20survey%20is%20a,remove%2C%20are%20photographed%20and%20drawn"
     },
     {
@@ -178,7 +164,6 @@
       "explorationWeight": 4,
       "rarity": "rare",
       "isDefaultOwned": false,
-      "requiredLevel": 3,
       "citation": "https://www.saa.org/about-archaeology/what-do-archaeologists-do#:~:text=A%20surface%20survey%20is%20a,remove%2C%20are%20photographed%20and%20drawn"
     }
   ],
