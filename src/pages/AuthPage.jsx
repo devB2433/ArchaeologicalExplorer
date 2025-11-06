@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useAuth } from '../contexts/AuthContext'
 import './AuthPage.css'
 
@@ -11,6 +11,45 @@ function AuthPage() {
     username: '',
     verificationCode: ''
   })
+  const [stats, setStats] = useState({
+    totalUsers: 0,
+    totalExplorations: 0,
+    loading: true
+  })
+
+  // Fetch statistics on component mount
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
+          ? 'http://localhost:3001/api'
+          : `${window.location.protocol}//${window.location.host}/api`
+        
+        console.log('📊 Fetching stats from:', `${apiBaseUrl}/stats/public`)
+        const response = await fetch(`${apiBaseUrl}/stats/public`)
+        const data = await response.json()
+        
+        console.log('📊 Stats response:', data)
+        
+        if (data.success) {
+          console.log('✅ Stats loaded - Users:', data.totalUsers, 'Explorations:', data.totalExplorations)
+          setStats({
+            totalUsers: data.totalUsers || 0,
+            totalExplorations: data.totalExplorations || 0,
+            loading: false
+          })
+        } else {
+          console.error('❌ Stats fetch failed:', data)
+          setStats(prev => ({ ...prev, loading: false }))
+        }
+      } catch (error) {
+        console.error('❌ Failed to fetch statistics:', error)
+        setStats(prev => ({ ...prev, loading: false }))
+      }
+    }
+    
+    fetchStats()
+  }, [])
 
   const handleInputChange = (e) => {
     setFormData(prev => ({
@@ -29,10 +68,11 @@ function AuthPage() {
       }
     } else {
       if (state.registrationStep === 'register') {
+        // Use email as username automatically
         const result = await actions.register({
           email: formData.email,
           password: formData.password,
-          username: formData.username
+          username: formData.email  // Set username to email
         })
         if (result.success) {
           console.log('Registration initiated, check email for verification')
@@ -81,6 +121,28 @@ function AuthPage() {
 
   return (
     <div className="auth-container">
+      {/* Statistics Card - Left */}
+      <div className="stats-card">
+        <h3 style={{ margin: '0 0 15px 0', fontSize: '2rem', color: 'white', textAlign: 'center', fontWeight: 'bold' }}>Community Stats</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+          <div className="stat-item">
+            <div className="stat-icon">👥</div>
+            <div className="stat-value">
+              {stats.loading ? '...' : stats.totalUsers.toLocaleString()}
+            </div>
+            <div className="stat-label">Explorers</div>
+          </div>
+          <div className="stat-item">
+            <div className="stat-icon">🔍</div>
+            <div className="stat-value">
+              {stats.loading ? '...' : stats.totalExplorations.toLocaleString()}
+            </div>
+            <div className="stat-label">Explorations</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Auth Card - Right */}
       <div className="auth-card">
         <div className="auth-header">
           <h1>Archaeological Explorer</h1>
@@ -139,19 +201,6 @@ function AuthPage() {
             )}
           </button>
         </form>
-
-        <div className="auth-footer">
-          <button 
-            className="link-button"
-            onClick={switchMode}
-            disabled={state.isLoading}
-          >
-            {isLogin 
-              ? "Don't have an account? Register here"
-              : "Already have an account? Login here"
-            }
-          </button>
-        </div>
       </div>
     </div>
   )
@@ -248,20 +297,6 @@ function RegisterForm({ formData, onChange, isLoading, registrationStep }) {
 
   return (
     <>
-      <div className="form-group">
-        <label htmlFor="username">Username</label>
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value={formData.username}
-          onChange={onChange}
-          required
-          disabled={isLoading}
-          placeholder="Choose a username"
-        />
-      </div>
-
       <div className="form-group">
         <label htmlFor="email">Email Address</label>
         <input

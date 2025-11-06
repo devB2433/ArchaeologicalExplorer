@@ -151,7 +151,6 @@ function HomePage() {
             {authState.isAuthenticated && userStats ? (
               <div>
                 <p>Total discoveries: {userStats.discoveryCount}</p>
-                <p>Total expeditions: {userStats.explorationCount}</p>
                 {userStats.lastExploration && (
                   <p>Last exploration: {new Date(userStats.lastExploration).toLocaleDateString()}</p>
                 )}

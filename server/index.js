@@ -64,18 +64,6 @@ db.serialize(() => {
     UNIQUE(user_id, discovery_id)
   )`)
 
-  // User exploration history
-  db.run(`CREATE TABLE IF NOT EXISTS user_explorations (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    route_id TEXT NOT NULL,
-    items_used TEXT NOT NULL,
-    discovery_id TEXT,
-    experience_gained INTEGER DEFAULT 0,
-    explored_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users (id)
-  )`)
-
   // Email verification codes
   db.run(`CREATE TABLE IF NOT EXISTS verification_codes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -478,31 +466,19 @@ app.get('/api/user/stats', authenticateToken, (req, res) => {
         return res.status(500).json({ error: 'Database error' })
       }
       
-      // Get exploration count
+      // Get last discovery date
       db.get(
-        'SELECT COUNT(*) as explorationCount FROM user_explorations WHERE user_id = ?',
+        'SELECT obtained_at FROM user_discoveries WHERE user_id = ? ORDER BY obtained_at DESC LIMIT 1',
         [userId],
-        (err, explorationResult) => {
+        (err, lastDiscoveryResult) => {
           if (err) {
             return res.status(500).json({ error: 'Database error' })
           }
           
-          // Get last exploration date
-          db.get(
-            'SELECT explored_at FROM user_explorations WHERE user_id = ? ORDER BY explored_at DESC LIMIT 1',
-            [userId],
-            (err, lastExplorationResult) => {
-              if (err) {
-                return res.status(500).json({ error: 'Database error' })
-              }
-              
-              res.json({
-                discoveryCount: discoveryResult.discoveryCount,
-                explorationCount: explorationResult.explorationCount,
-                lastExploration: lastExplorationResult?.explored_at || null
-              })
-            }
-          )
+          res.json({
+            discoveryCount: discoveryResult.discoveryCount,
+            lastExploration: lastDiscoveryResult?.obtained_at || null
+          })
         }
       )
     }
@@ -591,37 +567,26 @@ app.delete('/api/dev/clean-user-data/:userId', (req, res) => {
     
     const deletedDiscoveries = this.changes
     
-    // Delete all explorations for user
-    db.run('DELETE FROM user_explorations WHERE user_id = ?', [userId], function(err) {
-      if (err) {
-        console.error('❌ Failed to delete explorations:', err)
-        return res.status(500).json({ error: 'Failed to clean explorations' })
-      }
-      
-      const deletedExplorations = this.changes
-      
-      // Reset user experience and level
-      db.run(
-        'UPDATE users SET experience = 0, level = 1 WHERE id = ?',
-        [userId],
-        (err) => {
-          if (err) {
-            console.error('❌ Failed to reset user stats:', err)
-            return res.status(500).json({ error: 'Failed to reset user stats' })
-          }
-          
-          console.log('✅ User data cleaned successfully')
-          
-          res.json({
-            message: 'User data cleaned successfully',
-            deletedDiscoveries,
-            deletedExplorations,
-            resetLevel: 1,
-            resetExperience: 0
-          })
+    // Reset user experience and level
+    db.run(
+      'UPDATE users SET experience = 0, level = 1 WHERE id = ?',
+      [userId],
+      (err) => {
+        if (err) {
+          console.error('❌ Failed to reset user stats:', err)
+          return res.status(500).json({ error: 'Failed to reset user stats' })
         }
-      )
-    })
+        
+        console.log('✅ User data cleaned successfully')
+        
+        res.json({
+          message: 'User data cleaned successfully',
+          deletedDiscoveries,
+          resetLevel: 1,
+          resetExperience: 0
+        })
+      }
+    )
   })
 })
 
@@ -697,6 +662,36 @@ app.get('/api/admin/users', (req, res) => {
   } else {
     res.status(401).json({ error: 'Unauthorized' })
   }
+})
+
+// Public statistics endpoint (no authentication required)
+app.get('/api/stats/public', (req, res) => {
+  db.get(`
+    SELECT COUNT(*) as total_users FROM users
+  `, [], (err, userStats) => {
+    if (err) {
+      console.error('❌ Error fetching user stats:', err)
+      return res.status(500).json({ error: 'Database error', success: false })
+    }
+    
+    // Count total discoveries instead of explorations (since explorations table is not used)
+    db.get(`
+      SELECT COUNT(*) as total_discoveries FROM user_discoveries
+    `, [], (err2, discoveryStats) => {
+      if (err2) {
+        console.error('❌ Error fetching discovery stats:', err2)
+        return res.status(500).json({ error: 'Database error', success: false })
+      }
+      
+      console.log('📊 Stats fetched - Users:', userStats.total_users, 'Discoveries:', discoveryStats.total_discoveries)
+      
+      res.json({
+        success: true,
+        totalUsers: userStats.total_users || 0,
+        totalExplorations: discoveryStats.total_discoveries || 0  // Using discoveries count
+      })
+    })
+  })
 })
 
 app.get('/api/admin/stats', (req, res) => {
