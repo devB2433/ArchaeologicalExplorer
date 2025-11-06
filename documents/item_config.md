@@ -27,10 +27,10 @@ Total Weight = Sum of all selected items' weights + Item combination bonus
 
 | Total Weight Range<br>总权重范围 | Exploration Level<br>探索等级 | Accessible Areas<br>能到达的区域 | Example Combination<br>典型组合示例 |
 |-----------|---------|-------------|-------------|
-| 1-3 | **Surface** 表面 | Exterior, shallow areas<br>外部、浅层区域 | Brush(1) + Notebook(1) = 2<br>刷子(1) + 笔记本(1) = 2 |
-| 4-6 | **Moderate** 中层 | Interior corridors, rooms<br>内部走廊、房间 | Brush(1) + Trowel(3) + Notebook(1) = 5<br>刷子(1) + 铲子(3) + 笔记本(1) = 5 |
-| 7-10 | **Deep** 深层 | Secret passages, treasure rooms<br>秘密通道、宝库 | Trowel(3) + Metal Detector(5) = 8<br>铲子(3) + 金属探测器(5) = 8 |
-| 11+ | **Legendary** 传说 | Most hidden areas<br>最隐秘区域 | Deep combo + Combination bonus<br>深层组合 + 组合奖励 |
+| 1-10 | **Beginner** 新手 | Surface exploration<br>地表探索 | Camera(1) + Brush(1) + Shovel(2) = 4<br>相机(1) + 刷子(1) + 铁锹(2) = 4 |
+| 11-20 | **Beginner** 新手 | Basic excavation<br>基础挖掘 | Camera(1) + Shovel(2) + Bucket(2) + Trowel(3) = 8<br>相机(1) + 铁锹(2) + 桶(2) + 泥刀(3) = 8 |
+| 15-50 | **Advanced** 进阶 | Moderate excavation<br>中度挖掘 | Drone(4) + Magnetometry(6) + Trowel(3) + Shovel(2) = 15<br>无人机(4) + 磁力仪(6) + 泥刀(3) + 铁锹(2) = 15 |
+| 40+ | **Master** 大师 | Deep exploration<br>深度探索 | LiDAR(10) + GPR(10) + Magnetometry(6) + Drone(4) + others = 40+<br>激光雷达(10) + 地质雷达(10) + 磁力仪(6) + 无人机(4) + 其他 = 40+ |
 
 ### Route Matching Example | 路线匹配示例
 
@@ -40,32 +40,40 @@ Route configuration in `routes.json`:
 
 ```json
 {
-  "routeId": "pyramid_surface_basic",
+  "routeId": "beginner_exploration",
   "triggerConditions": {
     "minWeight": 1,
-    "maxWeight": 4
+    "maxWeight": 20
   }
 }
 
 {
-  "routeId": "pyramid_deep_expert", 
+  "routeId": "advanced_exploration", 
   "triggerConditions": {
-    "minWeight": 8,
-    "maxWeight": 15
+    "minWeight": 15,
+    "maxWeight": 50
+  }
+}
+
+{
+  "routeId": "master_exploration", 
+  "triggerConditions": {
+    "minWeight": 40,
+    "maxWeight": 999
   }
 }
 ```
 
 ### Strategic Considerations | 策略考量
 
-- **Higher weight** → Deeper exploration → Higher hidden discovery probability
-- **更高权重** → 更深探索 → 更高隐藏发现概率
+- **Higher weight** → Deeper exploration → Higher route difficulty access
+- **更高权重** → 更深探索 → 更高路线难度访问
 
-- **Not always better**: Need to match route weight ranges
-- **并非越高越好**：需要匹配路线的权重范围
+- **Match route ranges**: Need to match route weight ranges (Beginner 1-20, Advanced 15-50, Master 40+)
+- **匹配路线范围**：需要匹配路线权重范围（新手 1-20、进阶 15-50、大师 40+）
 
-- **Risk of skipping**: Too high weight may skip routes that require lower weight
-- **跳过风险**：权重过高可能跳过只能用低权重触发的路线
+- **Strategic choice**: Choose items wisely to reach target difficulty
+- **策略选择**：明智选择物品以达到目标难度
 
 ---
 
@@ -82,38 +90,36 @@ Rarity is determined purely by **exploration weight**. Simple and straightforwar
 **Common (普通)** - Weight 1-3
 - Basic exploration tools
 - 基础探索工具
-- Suitable for surface and shallow exploration
-- 适用于表面和浅层探索
-- Examples: Brush (1), Notebook (1), Trowel (3), Camera (2), Flashlight (2), Magnifying Glass (2)
-- 示例：刷子(1)、笔记本(1)、铲子(3)、相机(2)、手电筒(2)、放大镜(2)
+- Suitable for beginner exploration
+- 适用于新手探索
+- Examples: Camera (1), Brush (1), Hand Pick (1), Dental Pick (1), Shovel (2), Bucket (2), Trowel (3), Wheelbarrow (3)
+- 示例：相机(1)、刷子(1)、手镐(1)、牙科钩(1)、铁锹(2)、桶(2)、泥刀(3)、手推车(3)
 
 **Rare (稀有)** - Weight 4-6
 - Advanced equipment with high power
 - 高威力的高级设备
-- Enables deep exploration
-- 可进行深层探索
-- Examples: Metal Detector (5), Ancient Map (4)
-- 示例：金属探测器(5)、古代地图(4)
+- Enables advanced exploration
+- 可进行进阶探索
+- Examples: Drone (4), Line Level (4), Aerial and Satellite Imagery (5), Tape Measure (5), Magnetometry (6)
+- 示例：无人机(4)、水平仪(4)、航拍卫星影像(5)、卷尺(5)、磁力仪(6)
 
-**Legendary (传说)** - Weight 7-10
+**Legendary (传说)** - Weight 10
 - Ultimate exploration equipment
 - 终极探索装备
 - Game-changing power
 - 改变游戏的威力
-- Maximum impact on exploration results
-- 对探索结果产生最大影响
-- Reserved for future top-tier items
-- 为未来顶级物品预留
-- Examples: (To be added)
-- 示例：（待添加）
+- Enables master exploration
+- 可进行大师级探索
+- Examples: LiDAR (10), Ground-penetrating Radar (10)
+- 示例：激光雷达(10)、地质雷达(10)
 
 ### Rarity Levels | 稀有度等级
 
 | Rarity<br>稀有度 | Weight Range<br>权重范围 | Current Items<br>当前物品示例 | Unlock Level<br>解锁等级 |
 |-------|------|-------------|-------------|
-| **common**<br>普通 | 1-3 | Brush, Notebook, Trowel, Camera, Flashlight, Magnifying Glass<br>刷子、笔记本、铲子、相机、手电筒、放大镜 | 1-4 |
-| **rare**<br>稀有 | 4-6 | Metal Detector, Ancient Map<br>金属探测器、古代地图 | 1-3 |
-| **legendary**<br>传说 | 7-10 | (Reserved for future)<br>（为未来预留） | TBD |
+| **common**<br>普通 | 1-3 | Camera, Brush, Hand Pick, Dental Pick, Shovel, Bucket, Trowel, Wheelbarrow<br>相机、刷子、手镐、牙科钩、铁锹、桶、泥刀、手推车 | 1-2 |
+| **rare**<br>稀有 | 4-6 | Drone, Line Level, Aerial Imagery, Tape Measure, Magnetometry<br>无人机、水平仪、航拍影像、卷尺、磁力仪 | 2-4 |
+| **legendary**<br>传说 | 10 | LiDAR, Ground-penetrating Radar<br>激光雷达、地质雷达 | 5 |
 
 ### ⚠️ Important Design Change | 重要设计变更
 
@@ -183,14 +189,14 @@ When players **carry all items** listed in a combination simultaneously, they re
 ```
 
 **Effect | 效果：**
-- Individual weights: 1(Brush/1001) + 3(Trowel/1004) + 1(Notebook/1002) = **5**
-- 单独携带：1(刷子/1001) + 3(铲子/1004) + 1(笔记本/1002) = **5**
+- Individual weights: LiDAR(10) + Aerial Imagery(5) + GPR(10) = **25**
+- 单独携带：LiDAR(10) + Aerial Imagery(5) + GPR(10) = **25**
 
-- With combo: 5 + 2(combo bonus) = **7** ⭐
-- 触发组合：5 + 2(组合奖励) = **7** ⭐
+- With combo: 25 + 2(combo bonus) = **27** ⭐
+- 触发组合：25 + 2(组合奖励) = **27** ⭐
 
-- **Impact**: Jumps from Moderate(5) to Deep(7)!
-- **影响**：从中层(5)直接跳到深层(7)！
+- **Impact**: Stays in Advanced route (15-50), bonus helps reach higher end
+- **影响**：留在进阶路线(15-50)，加成帮助达到更高端
 
 #### Combination 2: Modern Explorer Set | 组合2：现代探索者套装
 
@@ -206,14 +212,14 @@ When players **carry all items** listed in a combination simultaneously, they re
 ```
 
 **Effect | 效果：**
-- Individual weights: 5(Metal Detector/1003) + 2(Camera/1007) + 2(Flashlight/1008) = **9**
-- 单独携带：5(金属探测器/1003) + 2(相机/1007) + 2(手电筒/1008) = **9**
+- Individual weights: Magnetometry(6) + Trowel(3) + Shovel(2) = **11**
+- 单独携带：Magnetometry(6) + Trowel(3) + Shovel(2) = **11**
 
-- With combo: 9 + 3(combo bonus) = **12** ⭐⭐
-- 触发组合：9 + 3(组合奖励) = **12** ⭐⭐
+- With combo: 11 + 3(combo bonus) = **14** ⭐⭐
+- 触发组合：11 + 3(组合奖励) = **14** ⭐⭐
 
-- **Impact**: Enters Legendary tier (11+)!
-- **影响**：进入传说级探索范围(11+)！
+- **Impact**: Stays in Beginner route (1-20), bonus helps approach Advanced threshold
+- **影响**：留在新手路线(1-20)，加成帮助接近进阶门槛
 
 ### Strategic Value | 战略意义
 
@@ -263,31 +269,31 @@ calculateCombinationBonus(selectedItems) {
 
 ### Scenario 1: Level 1 Player - Basic Exploration | 场景1：1级玩家 - 基础探索
 
-- **Available items** | **可用物品**: Brush(1001), Notebook(1002), Metal Detector(1003)
-- **Carried items** | **携带物品**: 1001 + 1002 + 1003 = Total weight **7**
-- **Triggered route** | **触发路线**: `pyramid_deep_expert` (weight 8-15, needs adjustment)
-- **Exploration level** | **探索等级**: Deep
-- **Hidden discovery probability** | **隐藏发现概率**: 25%
-- **🎯 Key improvement**: Level 1 players can now access deep exploration!
-- **🎯 关键改进**：1级玩家现在可以进行深层探索！
+- **Available items** | **可用物品**: Camera(1), Shovel(2), Hand Pick(1), Brush(1), Dental Pick(1), Bucket(2)
+- **Carried items** | **携带物品**: Camera + Shovel + Bucket = Total weight **5** (3 item slots)
+- **Triggered route** | **触发路线**: `beginner_exploration` (weight 1-20)
+- **Exploration level** | **探索等级**: Beginner
+- **Discoverable ruins** | **可发现遗迹**: Giza Pyramids, Terracotta Warriors, Great Wall
+- **🎯 Key point**: Level 1 players can explore immediately with default items!
+- **🎯 关键要点**：1级玩家可以用默认物品立即开始探索！
 
-### Scenario 2: Level 2 Player - Classic Combo | 场景2：2级玩家 - 经典组合
+### Scenario 2: Level 3 Player - Advanced Access | 场景2：3级玩家 - 进阶访问
 
-- **New unlocked items** | **新解锁物品**: Trowel(1004), Magnifying Glass(1005)
-- **Carried items** | **携带物品**: 1001 + 1004 + 1002 = 5
-- **Combo triggered** | **触发组合** → 5 + 2 = Total weight **7**
-- **Exploration level** | **探索等级**: Deep
-- **Hidden discovery probability** | **隐藏发现概率**: 25%
-- **Max possible weight** | **最大可能权重**: 1+3+1+5+2 = **12** (Legendary tier)
+- **New unlocked items** | **新解锁物品**: Trowel(3), Drone(4), Satellite(5), Tape Measure(5)
+- **Carried items** | **携带物品**: Drone + Satellite + Trowel + Camera = **13** (4 item slots)
+- **Triggered route** | **触发路线**: `beginner_exploration` (13 is in 1-20 range)
+- **Exploration level** | **探索等级**: Beginner
+- **Tip** | **提示**: Need 15+ weight to access Advanced route
+- **Max possible weight** | **最大可能权重**: All available items = **32**
 
-### Scenario 3: Level 3 Player - Modern Set | 场景3：3级玩家 - 现代套装
+### Scenario 3: Level 5 Player - Master Route | 场景3：5级玩家 - 大师路线
 
-- **New unlocked items** | **新解锁物品**: Ancient Map(1006), Camera(1007)
-- **Carried items** | **携带物品**: 1003 + 1007 + 1008 = 9
-- **Combo triggered** | **触发组合** → 9 + 3 = Total weight **12**
-- **Exploration level** | **探索等级**: Legendary
-- **Hidden discovery probability** | **隐藏发现概率**: 40%+ (base 25% + Ancient Map 15%)
-- **Max possible weight** | **最大可能权重**: 1+1+5+3+2+4+2 = **18** (Super Legendary)
+- **New unlocked items** | **新解锁物品**: LiDAR(10), GPR(10), Magnetometry(6)
+- **Carried items** | **携带物品**: LiDAR + GPR + Magnetometry + Drone + Satellite + Trowel = **40** (6 slots)
+- **Triggered route** | **触发路线**: `master_exploration` (weight 40+)
+- **Exploration level** | **探索等级**: Master
+- **Discoverable ruins** | **可发现遗迹**: All ruins including Great Sphinx (25%) and Sanxingdui (20%)
+- **Max possible weight** | **最大可能权重**: All 15 items = **59**
 
 ---
 
@@ -423,8 +429,8 @@ calculateCombinationBonus(selectedItems) {
 - ✅ Decoupled rarity from unlock level
 - ✅ 解除稀有度与解锁等级的耦合
 
-- ✅ Simplified rarity classification: Common(1-3), Rare(4-6), Legendary(7-10)
-- ✅ 简化稀有度分级：Common(1-3), Rare(4-6), Legendary(7-10)
+- ✅ Simplified rarity classification: Common(1-3), Rare(4-6), Legendary(10)
+- ✅ 简化稀有度分级：Common(1-3), Rare(4-6), Legendary(10)
 
 - ✅ Added `citation` field for educational reference links
 - ✅ 新增 `citation` 字段用于教育参考链接
@@ -434,4 +440,4 @@ calculateCombinationBonus(selectedItems) {
 
 ---
 
-*Last Updated: 2025-11-01*
+*Last Updated: 2025-11-06*

@@ -2,7 +2,7 @@
   "// User Level System Configuration": "User progression and unlocks configuration",
   "// Max Item Slots": "Each level defines maximum number of items player can carry during exploration",
   "levelSystem": {
-    "maxLevel": 20,
+    "maxLevel": 10,
     "baseExpPerLevel": 50,
     "expGrowthRate": 1.15,
     "expRewards": {
