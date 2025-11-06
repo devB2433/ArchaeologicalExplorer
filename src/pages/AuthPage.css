@@ -15,7 +15,7 @@
   padding: 40px;
   width: 100%;
   max-width: 450px;
-  height: 550px;
+  min-height: 550px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -269,7 +269,7 @@
   padding: 40px;
   width: 100%;
   max-width: 450px;
-  height: 550px;
+  min-height: 550px;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   display: flex;

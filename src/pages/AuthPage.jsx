@@ -247,33 +247,7 @@ function RegisterForm({ formData, onChange, isLoading, registrationStep }) {
         <div className="verification-info">
           <h3>Email Verification</h3>
           <p>We've sent a verification code to <strong>{formData.email}</strong></p>
-          <p>Please enter the 6-digit code below:</p>
-          <div className="dev-mode-notice">
-            <p><strong>Development Mode Note:</strong></p>
-            <p>📧 If email service is not configured, the verification code will appear in the server console</p>
-            <p>🔍 Please check the terminal running <code>node server/index.js</code></p>
-            <button 
-              type="button" 
-              className="debug-button"
-              onClick={() => {
-                // Use dynamic API address
-                const apiBaseUrl = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                  ? 'http://localhost:3001/api'
-                  : `${window.location.protocol}//${window.location.host}/api`
-                
-                // Open browser console to show debug info
-                fetch(`${apiBaseUrl}/auth/debug-codes/${formData.email}`)
-                  .then(res => res.json())
-                  .then(data => {
-                    console.log('Verification code debug info:', data)
-                    alert('Verification code info output to browser console (press F12 to view)')
-                  })
-                  .catch(err => console.error('Debug failed:', err))
-              }}
-            >
-              🔍 Debug Verification Code
-            </button>
-          </div>
+          <p>Please check your email and enter the 6-digit code below:</p>
         </div>
 
         <div className="form-group">
