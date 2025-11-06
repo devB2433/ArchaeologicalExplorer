@@ -14,9 +14,9 @@ Explore the mysteries of ancient civilizations, discover lost ruins, and become 
 
 ### 📖 Game Overview
 
-**Archaeological Explorer** is a historical archaeology-themed exploration game. You'll play as an archaeologist, collecting tools and planning expedition routes to gradually discover famous ruins around the world.
+**Archaeological Explorer** is a historical archaeology-themed exploration game. You'll play as an archaeologist, collecting professional tools and planning expeditions to gradually discover famous ruins around the world.
 
-Each expedition is a unique experience — choose the right combination of tools, and you might discover pyramids, terracotta warriors, or mysterious ancient Greek sites!
+Each expedition is unique — choose the right combination of tools based on their exploration weight, and you might discover the Pyramids of Giza, Terracotta Warriors, or the mysterious Theatre of Dionysus!
 
 ---
 
@@ -24,7 +24,7 @@ Each expedition is a unique experience — choose the right combination of tools
 
 ### 1. Register an Account
 
-Visit [https://ancientecho.ca](https://ancientecho.ca) and click **Register** to create a new account:
+Visit [https://ancientecho.ca](https://ancientecho.ca) and click **Register**:
 
 - 📧 Enter your email address
 - 🔒 Set a password (at least 6 characters)
@@ -33,7 +33,7 @@ Visit [https://ancientecho.ca](https://ancientecho.ca) and click **Register** to
 
 ### 2. Login to Play
 
-After successful registration, login with your email and password to begin your archaeological journey!
+After registration, login with your email and password to begin your archaeological journey!
 
 ---
 
@@ -41,51 +41,67 @@ After successful registration, login with your email and password to begin your 
 
 ### 🎒 Inventory
 
-Your inventory contains various archaeological tools, each with a different **weight value**:
+Your inventory contains various professional archaeological tools. Each tool has an **exploration weight** value:
 
-#### 📦 Basic Tools (Default for Beginners)
-- 📷 **Camera** - Weight: 2
-- 🔨 **Pickaxe** - Weight: 2
-- 🪣 **Bucket** - Weight: 1
-- 🪥 **Toothpick** - Weight: 1
-- 🖌️ **Brush** - Weight: 1
-- ⛏️ **Shovel** - Weight: 1
+#### 📦 Basic Tools (Starting Equipment - Level 1)
+- 📷 **Camera** - Weight: 1 - For recording discoveries
+- ⛏️ **Shovel** - Weight: 2 - Essential digging tool
+- 🔨 **Hand Pick (Mattock)** - Weight: 1 - For breaking hard soil
+- 🖌️ **Brush** - Weight: 1 - For delicate cleaning
+- 🦷 **Dental Pick** - Weight: 1 - Precision work on small items
+- 🪣 **Bucket** - Weight: 2 - For carrying excavated soil
 
-#### 🌟 Advanced Tools (Unlocked by Leveling)
-- 🔦 **Flashlight** - Weight: 2 - Requires Lv.2
-- 🧭 **Compass** - Weight: 2 - Requires Lv.3
-- 📐 **Protractor** - Weight: 3 - Requires Lv.4
-- 🗺️ **Map** - Weight: 3 - Requires Lv.5
-- 🔍 **Magnifying Glass** - Weight: 4 - Requires Lv.6
-- 📡 **Radar** - Weight: 5 - Requires Lv.8
+**Total starting weight: 8** (Perfect for Beginner exploration!)
 
-> 💡 **Tip**: Different tool combinations trigger different expedition routes!
+#### 🌟 Advanced Tools (Unlock by Leveling)
+
+**Level 2 Unlocks:**
+- 🪛 **Trowel** - Weight: 3 - Careful excavation tool
+- 🛞 **Wheelbarrow** - Weight: 3 - Move large quantities of soil
+- 🚁 **Drone** - Weight: 4 - Aerial site scanning
+
+**Level 3 Unlocks:**
+- 🛰️ **Aerial & Satellite Imagery** - Weight: 5 - Spot sites from above
+- 📏 **Tape Measure** - Weight: 5 - Precise measurements
+- 📐 **Line Level** - Weight: 4 - Accurate leveling
+
+**Level 4 Unlocks:**
+- 🧲 **Magnetometry** - Weight: 6 - Detect buried features
+
+**Level 5 Unlocks (Legendary):**
+- 📡 **LiDAR** - Weight: 10 - Advanced 3D mapping
+- 📻 **Ground-penetrating Radar (GPR)** - Weight: 10 - See underground structures
+
+> 💡 **Strategy Tip**: Mix light and heavy tools to reach your target weight range!
 
 ---
 
 ### 🗺️ Exploration Routes
 
-Based on your **total tool weight**, the game matches different difficulty expedition routes:
+Based on your **total tool weight**, the game matches different difficulty routes:
 
-#### 🟢 Beginner Route
-- **Weight Required**: 8-12
-- **Recommended Combo**: Camera + Pickaxe + Bucket + Toothpick + Brush + Shovel
-- **Discoverable Ruins**: Common archaeological sites
+#### 🟢 Beginner Exploration
+- **Weight Range**: 1 - 20
+- **Starting Combo**: All 6 basic tools = 8 weight ✓
+- **Difficulty**: ⭐
+- **Description**: Basic surface exploration suitable for newcomers
+- **Discoverable Ruins**: Common archaeological sites like Pyramids of Giza, Terracotta Warriors
 
-#### 🟡 Intermediate Route
-- **Weight Required**: 13-18
-- **Recommended Combo**: Add Flashlight, Compass, etc.
-- **Discoverable Ruins**: More valuable historical sites
+#### 🟡 Advanced Exploration
+- **Weight Range**: 15 - 50
+- **Example Combo**: Basic tools + Trowel + Drone = 15 weight
+- **Difficulty**: ⭐⭐⭐
+- **Description**: Deeper excavation requiring moderate equipment
+- **Discoverable Ruins**: Historical sites like Karnak Temple, Forbidden City
 
-#### 🟠 Advanced Route
-- **Weight Required**: 19-25
-- **Recommended Combo**: Include Protractor, Map, and other professional tools
-- **Discoverable Ruins**: Rare ancient wonders
+#### 🔴 Master Exploration
+- **Weight Range**: 40+
+- **Expert Combo**: LiDAR + GPR + Magnetometry + others = 40+ weight
+- **Difficulty**: ⭐⭐⭐⭐⭐
+- **Description**: Ultimate exploration for expert archaeologists
+- **Discoverable Ruins**: Hidden treasures like Great Sphinx, Sanxingdui
 
-#### 🔴 Expert Route
-- **Weight Required**: 26+
-- **Recommended Combo**: Equip Magnifying Glass, Radar, and other top-tier tools
-- **Discoverable Ruins**: Legendary lost civilizations
+> ⚠️ **Item Limit**: You can only carry a limited number of tools (starts at 3, increases with level)!
 
 ---
 
@@ -93,65 +109,84 @@ Based on your **total tool weight**, the game matches different difficulty exped
 
 Click **Exploration** to start your archaeological adventure:
 
-1. **Select Tools**: Choose which tools to carry from your inventory
-   - ✅ Check the tools you want to bring
-   - 📊 View current total weight
-   - 🎯 System matches routes based on weight
+1. **Select Tools**
+   - ✅ Check tools from your inventory
+   - 📊 Watch your total weight
+   - 🎯 Respect your item carry limit (shown at top)
+   - 💡 The system will match a route based on your total weight
 
-2. **Start Exploration**: Click the "Start Exploration" button
-   - 🎲 System randomly generates results based on route difficulty and ruin discovery probability
+2. **Start Exploration**
+   - Click "Start Exploration" button
+   - 🎲 Results are based on route difficulty and ruin discovery probability
    - 🎉 Successfully discovering new ruins grants experience points
-   - 📈 Experience accumulates for leveling up
+   - 📈 Accumulate EXP to level up and unlock new tools
 
-3. **View Discoveries**: Check all ruins you've discovered in the **Discoveries** page
-   - 🏛️ Detailed ruin information
-   - 🖼️ Beautiful ruin images
-   - 🔗 Authoritative historical source links
+3. **View Discoveries**
+   - Check the **Discoveries** page for all ruins you've found
+   - 🏛️ Read detailed historical descriptions
+   - 🖼️ View authentic ruin photographs
+   - 🔗 Access authoritative source citations
 
 ---
 
 ### 📊 Level System
 
-Gain experience (EXP) through exploring ruins to level up your archaeologist:
+Gain experience (EXP) through exploring ruins to level up:
 
-| Level | Total EXP Required | Unlocked Content |
-|-------|-------------------|------------------|
-| Lv.1 | 0 EXP | Basic Tools |
-| Lv.2 | 50 EXP | Flashlight |
-| Lv.3 | 110 EXP | Compass |
-| Lv.4 | 180 EXP | Protractor |
-| Lv.5 | 260 EXP | Map |
-| Lv.6 | 350 EXP | Magnifying Glass |
-| Lv.7 | 450 EXP | - |
-| Lv.8 | 560 EXP | Radar |
-| Lv.9 | 680 EXP | - |
-| Lv.10 | 810 EXP | Max Level |
+| Level | Total EXP | Max Items | Unlocked Tools | Title |
+|-------|-----------|-----------|----------------|-------|
+| **Lv.1** | 0 | 3 items | 6 Basic Tools | Novice Explorer |
+| **Lv.2** | 50 | 3 items | Trowel, Wheelbarrow, Drone | Field Archaeologist |
+| **Lv.3** | 110 | 4 items | Aerial Imagery, Tape Measure, Line Level | Site Surveyor |
+| **Lv.4** | 185 | 5 items | Magnetometry | Excavation Specialist |
+| **Lv.5** | 275 | 6 items | LiDAR, GPR | Research Scholar |
+| **Lv.6** | 385 | 7 items | - | Technology Adopter |
+| **Lv.7** | 515 | 8 items | - | Cultural Heritage Expert |
+| **Lv.8** | 670 | 8 items | - | Site Director |
+| **Lv.9** | 850 | 8 items | - | International Explorer |
+| **Lv.10** | 1060 | 8 items | - | Master Archaeologist |
 
-> 🎓 **Each successful ruin discovery grants experience points. Different routes provide different EXP amounts!**
+> 🎓 **Level Perks**: Higher levels unlock more tool slots and special bonuses like increased discovery rates!
 
 ---
 
 ## 🌍 Discoverable Ruins
 
-The game features famous archaeological ruins from around the world, including but not limited to:
+The game features 10 authentic archaeological ruins from around the world:
 
-### 🇪🇬 Ancient Egypt
-- 🔺 **Great Pyramid of Giza**
-- 🦁 **Great Sphinx**
-- 🏛️ **Karnak Temple**
-- ⚰️ **Valley of the Kings**
+### 🇪🇬 Ancient Egypt (4 Ruins)
 
-### 🇨🇳 Ancient China
-- 🧱 **Great Wall of China**
-- 🏯 **Forbidden City**
-- 🪖 **Terracotta Warriors**
-- 🗿 **Sanxingdui**
+**Beginner Difficulty:**
+- 🔺 **Pyramids of Giza** - The Great Pyramid, oldest of the Seven Wonders (90% discovery rate)
+- ⚰️ **Valley of the Kings** - Royal burial ground, Tutankhamun's tomb (85% discovery rate)
 
-### 🇬🇷 Ancient Greece
-- 🏛️ **Mycenae**
-- 🎭 **Theatre of Dionysus**
+**Advanced Difficulty:**
+- 🏛️ **Temples of Karnak** - Massive 200-acre temple complex (80% discovery rate)
 
-> 📚 **Each ruin comes with detailed historical descriptions and authoritative source links!**
+**Master Difficulty:**
+- 🦁 **Great Sphinx of Giza** - Mysterious guardian statue (25% discovery rate) 🔒
+
+### 🇨🇳 Ancient China (4 Ruins)
+
+**Beginner Difficulty:**
+- 🪖 **Terracotta Warriors** - 8,000 life-size soldiers (90% discovery rate)
+- 🧱 **Great Wall of China** - 21,000km defensive structure (85% discovery rate)
+
+**Advanced Difficulty:**
+- 🏯 **Forbidden City** - Imperial palace for 500+ years (75% discovery rate)
+
+**Master Difficulty:**
+- 🗿 **Sanxingdui Ruins** - Mysterious Bronze Age civilization (20% discovery rate) 🔒
+
+### 🇬🇷 Ancient Greece (2 Ruins)
+
+**Beginner Difficulty:**
+- 🎭 **Theatre of Dionysus** - Birthplace of Greek drama, 15,000 capacity (88% discovery rate)
+
+**Advanced Difficulty:**
+- 🏛️ **Mycenae** - Bronze Age fortress, Lion Gate, King Agamemnon's city (70% discovery rate)
+
+> 🔒 **Hidden Ruins**: Some ruins have lower discovery probabilities and require specific route difficulties!
 
 ---
 
@@ -159,28 +194,47 @@ The game features famous archaeological ruins from around the world, including b
 
 ### 🎯 Beginner's Guide
 
-1. **Start with Basics**: Use the default 6 tools for beginner expeditions to familiarize yourself with game mechanics
-2. **Smart Combinations**: More tools isn't always better — too much weight might prevent matching suitable routes
-3. **Continuous Exploration**: Gain experience through multiple expeditions to gradually unlock more tools
-4. **Collect All**: Try to discover all ruins and complete your archaeological collection
+1. **Start with Basics**: Use all 6 starting tools (8 weight) for Beginner routes
+2. **Item Limit Matters**: At Level 1, you can only carry 3 items max! Choose wisely
+3. **Weight Strategy**: Don't just pick any 3 items — calculate total weight
+   - Example: Camera(1) + Shovel(2) + Bucket(2) = 5 weight (still Beginner)
+   - Avoid: 3 random heavy tools might exceed Beginner range
+4. **Level Up First**: Reach Level 2-3 before attempting Advanced routes
+5. **Read About Ruins**: Each ruin has real historical information and citations!
 
 ### 🌟 Advanced Strategies
 
-1. **Weight Optimization**: Adjust tool combinations based on target routes, precisely controlling weight range
-2. **Tool Unlocking**: Prioritize unlocking high-weight tools to access higher difficulty routes
-3. **Probability Research**: Different routes have different ruin discovery probabilities — find the optimal strategy
-4. **Knowledge Building**: Read the historical materials about ruins to truly understand these ancient wonders
+1. **Weight Optimization**:
+   - For Beginner (1-20): Mix light tools, total ≤20
+   - For Advanced (15-50): Add medium tools like Trowel, Drone
+   - For Master (40+): Use legendary tools like LiDAR + GPR
+
+2. **Item Slot Management**:
+   - Level 1-2: Only 3 slots — prioritize weight-efficient tools
+   - Level 3-4: 4-5 slots — can now add Drone or Aerial Imagery
+   - Level 5+: 6-8 slots — finally use full legendary loadout
+
+3. **Discovery Probability**:
+   - Common ruins (85-90%): Easy to discover on Beginner routes
+   - Rare ruins (70-80%): Need Advanced routes, may take multiple tries
+   - Hidden ruins (20-25%): Master routes only, very challenging!
+
+4. **Efficient Leveling**:
+   - Each discovery = 25-50 EXP
+   - First-time discoveries = bonus EXP
+   - Focus on high-probability ruins first to level up faster
 
 ---
 
 ## 🎨 Game Features
 
-- 🏛️ **Authentic History**: All ruins are based on real archaeological discoveries
-- 📚 **Educational Value**: Each ruin includes detailed descriptions and authoritative sources
-- 🎲 **Strategic Gameplay**: Strategically explore different difficulty ruins through tool combinations
-- 📈 **Progression System**: Complete leveling and tool unlock mechanisms
-- 🖼️ **Beautiful Presentation**: High-quality ruin images and elegant UI design
-- 🌐 **Play Anywhere**: Browser-based, no download or installation required
+- 🏛️ **Authentic History**: All ruins based on real archaeological discoveries
+- 📚 **Educational**: Detailed descriptions with authoritative source citations
+- 🎲 **Strategic Gameplay**: Weight-based route matching and item slot management
+- 📈 **Progression System**: 10 levels, gradually unlock 15 professional tools
+- 🖼️ **Beautiful Presentation**: High-quality ruin photographs
+- 🌐 **Play Anywhere**: Browser-based, no download required
+- 🔒 **Hidden Content**: Secret ruins with low discovery rates for expert players
 
 ---
 
@@ -194,9 +248,9 @@ The game features famous archaeological ruins from around the world, including b
 
 ## 🎓 About the Project
 
-**Archaeological Explorer** is an educational and entertainment-focused historical archaeology game. It aims to help players learn about famous archaeological ruins and ancient civilizations worldwide through interactive gameplay.
+**Archaeological Explorer** combines education and entertainment to teach players about world-famous archaeological sites and ancient civilizations through interactive gameplay.
 
-Every ruin description has been carefully researched with authoritative historical sources. We hope players can learn real historical knowledge while enjoying the game.
+Every ruin description is carefully researched with authoritative historical sources. We hope players learn real history while enjoying the game experience.
 
 ---
 
