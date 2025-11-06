@@ -59,28 +59,28 @@ function InventoryPage() {
 }
 
 function ItemCard({ item, isOwned }) {
-  // Rarity visual effects - Vintage/Retro theme
+  // Rarity visual effects - Earth tone color scheme with clear distinction
   const rarityStyles = {
     common: {
-      borderColor: '#a8a29e',  // Warm stone gray
-      glowColor: 'rgba(168, 162, 158, 0.4)',
-      backgroundColor: 'rgba(168, 162, 158, 0.12)',
+      borderColor: '#a89174',  // Medium earth brown
+      glowColor: 'rgba(168, 145, 116, 0.5)',
+      backgroundColor: 'rgba(168, 145, 116, 0.15)',
       badgeIcon: '🔹',
-      cardBgColor: '#78716c'  // Vintage stone background
+      cardBgColor: '#f0e6d2'  // Very light cream - lightest
     },
     rare: {
-      borderColor: '#a78bfa',  // Soft vintage purple
-      glowColor: 'rgba(167, 139, 250, 0.45)',
-      backgroundColor: 'rgba(167, 139, 250, 0.12)',
+      borderColor: '#8b6f47',  // Darker warm brown
+      glowColor: 'rgba(139, 111, 71, 0.5)',
+      backgroundColor: 'rgba(139, 111, 71, 0.12)',
       badgeIcon: '💎',
-      cardBgColor: '#7c3aed'  // Deep vintage purple
+      cardBgColor: '#d4c4a8'  // Medium tan - clearly darker
     },
     legendary: {
-      borderColor: '#fbbf24',  // Antique gold
-      glowColor: 'rgba(251, 191, 36, 0.5)',
-      backgroundColor: 'rgba(251, 191, 36, 0.15)',
+      borderColor: '#5d4e37',  // Very deep brown (coffee)
+      glowColor: 'rgba(93, 78, 55, 0.6)',
+      backgroundColor: 'rgba(93, 78, 55, 0.15)',
       badgeIcon: '⭐',
-      cardBgColor: '#b45309'  // Bronze/antique gold background
+      cardBgColor: '#b8a889'  // Darker taupe - darkest
     }
   }
 
@@ -113,23 +113,25 @@ function ItemCard({ item, isOwned }) {
           textTransform: 'uppercase',
           display: 'flex',
           alignItems: 'center',
-          gap: '4px'
+          gap: '4px',
+          zIndex: 10
         }}>
           {style.badgeIcon} {rarity}
         </div>
       )}
 
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
-        {/* Large icon with rarity glow */}
+        {/* Large circular icon - enlarged */}
         <div style={{ 
-          width: '140px', 
-          height: '140px', 
+          width: '180px', 
+          height: '180px', 
+          borderRadius: '50%',
+          overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
-          borderRadius: '8px',
-          background: 'transparent',  // Force transparent background
+          background: 'transparent',
           boxShadow: isOwned ? `0 0 20px ${style.glowColor}` : 'none'
         }}>
           <img 
@@ -138,7 +140,7 @@ function ItemCard({ item, isOwned }) {
             style={{ 
               width: '100%', 
               height: '100%',
-              objectFit: 'contain',
+              objectFit: 'cover',
               background: 'transparent',
               filter: 'sepia(0.1)'
             }}
@@ -148,10 +150,9 @@ function ItemCard({ item, isOwned }) {
           />
         </div>
         
-        {/* Text information */}
+        {/* Text information - description only */}
         <div style={{ width: '100%', textAlign: 'center' }}>
-          <h3 style={{ margin: '0 0 10px 0', fontSize: '1.2rem' }}>{item.itemName}</h3>
-          <p style={{ margin: '0 0 15px 0', fontSize: '0.95rem', opacity: 0.8, lineHeight: '1.4' }}>
+          <p style={{ margin: '0 0 15px 0', fontSize: '0.95rem', opacity: 1, lineHeight: '1.4', color: '#2c1810' }}>
             {item.itemDescription}
           </p>
           
@@ -165,20 +166,20 @@ function ItemCard({ item, isOwned }) {
                 display: 'inline-block',
                 marginTop: '10px',
                 padding: '8px 16px',
-                backgroundColor: 'rgba(217, 119, 6, 0.15)',  // Vintage amber tint
-                color: '#d97706',  // Vintage amber
+                backgroundColor: 'rgba(139, 111, 71, 0.15)',
+                color: '#3e2723',
                 borderRadius: '8px',
                 textDecoration: 'none',
                 fontSize: '0.85rem',
                 fontWeight: '500',
-                border: '1px solid rgba(217, 119, 6, 0.3)',
+                border: '1px solid rgba(139, 111, 71, 0.3)',
                 transition: 'all 0.2s'
               }}
               onMouseEnter={(e) => {
-                e.target.style.backgroundColor = 'rgba(217, 119, 6, 0.25)'
+                e.target.style.backgroundColor = 'rgba(139, 111, 71, 0.25)'
               }}
               onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'rgba(217, 119, 6, 0.15)'
+                e.target.style.backgroundColor = 'rgba(139, 111, 71, 0.15)'
               }}
             >
               🔗 Learn More

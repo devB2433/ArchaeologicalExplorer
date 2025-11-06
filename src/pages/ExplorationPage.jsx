@@ -234,25 +234,25 @@ function ExplorationPage() {
 }
 
 function ItemSelector({ item, isSelected, onToggle }) {
-  // Rarity visual effects - Vintage/Retro theme
+  // Rarity visual effects - Earth tone color scheme with clear distinction
   const rarityStyles = {
     common: {
-      borderColor: '#a8a29e',  // Warm stone gray
-      glowColor: 'rgba(168, 162, 158, 0.4)',
-      backgroundColor: 'rgba(168, 162, 158, 0.12)',
-      cardBgColor: '#78716c'  // Vintage stone background
+      borderColor: '#a89174',  // Medium earth brown
+      glowColor: 'rgba(168, 145, 116, 0.5)',
+      backgroundColor: 'rgba(168, 145, 116, 0.15)',
+      cardBgColor: '#f0e6d2'  // Very light cream - lightest
     },
     rare: {
-      borderColor: '#a78bfa',  // Soft vintage purple
-      glowColor: 'rgba(167, 139, 250, 0.45)',
-      backgroundColor: 'rgba(167, 139, 250, 0.12)',
-      cardBgColor: '#7c3aed'  // Deep vintage purple
+      borderColor: '#8b6f47',  // Darker warm brown
+      glowColor: 'rgba(139, 111, 71, 0.5)',
+      backgroundColor: 'rgba(139, 111, 71, 0.12)',
+      cardBgColor: '#d4c4a8'  // Medium tan - clearly darker
     },
     legendary: {
-      borderColor: '#fbbf24',  // Antique gold
-      glowColor: 'rgba(251, 191, 36, 0.5)',
-      backgroundColor: 'rgba(251, 191, 36, 0.15)',
-      cardBgColor: '#b45309'  // Bronze/antique gold background
+      borderColor: '#5d4e37',  // Very deep brown (coffee)
+      glowColor: 'rgba(93, 78, 55, 0.6)',
+      backgroundColor: 'rgba(93, 78, 55, 0.15)',
+      cardBgColor: '#b8a889'  // Darker taupe - darkest
     }
   }
 

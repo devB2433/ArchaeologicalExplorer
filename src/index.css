@@ -4,8 +4,8 @@
   font-weight: 400;
 
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #3e2723;  /* Dark brown text instead of white */
+  background-color: #e7dcc8;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -24,7 +24,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e7dcc8 0%, #c9b89a 50%, #a89174 100%);
 }
 
 #root {
@@ -47,16 +47,17 @@ body {
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.6);  /* More opaque white for better readability */
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 20px;
   margin: 10px 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(139, 115, 85, 0.3);  /* Brown border */
+  color: #3e2723;  /* Dark brown text */
 }
 
 .button {
-  background: #4f46e5;
+  background: #8b6f47;  /* Warm brown instead of green/blue */
   color: white;
   border: none;
   padding: 12px 24px;
@@ -67,19 +68,20 @@ body {
 }
 
 .button:hover {
-  background: #4338ca;
+  background: #6d5633;  /* Darker brown on hover */
   transform: translateY(-1px);
 }
 
 .button:disabled {
-  background: #6b7280;
+  background: #9ca3af;
   cursor: not-allowed;
   transform: none;
+  opacity: 0.5;
 }
 
 /* Navigation */
 .nav {
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(62, 39, 35, 0.8);  /* Dark brown instead of black */
   padding: 15px 0;
   backdrop-filter: blur(10px);
 }
@@ -96,7 +98,7 @@ body {
 .nav-title {
   font-size: 1.5rem;
   font-weight: bold;
-  color: white;
+  color: #f5f5dc;  /* Beige instead of white */
 }
 
 .nav-links {
@@ -108,7 +110,7 @@ body {
 }
 
 .nav-link {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(245, 245, 220, 0.8);  /* Beige with opacity */
   text-decoration: none;
   padding: 8px 16px;
   border-radius: 6px;
@@ -117,8 +119,8 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-  color: white;
-  background: rgba(255, 255, 255, 0.1);
+  color: #f5f5dc;
+  background: rgba(139, 111, 71, 0.3);  /* Brown tint */
 }
 
 /* User info styles */
@@ -126,7 +128,7 @@ body {
   display: flex;
   align-items: center;
   gap: 15px;
-  color: white;
+  color: #f5f5dc;  /* Beige */
 }
 
 .user-level {
@@ -136,7 +138,7 @@ body {
 }
 
 .level-badge {
-  background: #4f46e5;
+  background: #8b6f47;  /* Brown instead of blue */
   color: white;
   padding: 4px 8px;
   border-radius: 12px;
@@ -170,14 +172,14 @@ body {
 
 .exp-progress {
   height: 100%;
-  background: #10b981;
+  background: #8b6f47;  /* Brown instead of green */
   transition: width 0.3s ease;
 }
 
 .logout-btn {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(139, 111, 71, 0.3);  /* Brown tint */
   border: none;
-  color: white;
+  color: #f5f5dc;
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
@@ -186,7 +188,7 @@ body {
 }
 
 .logout-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(139, 111, 71, 0.5);
 }
 
 /* Loading spinner */
@@ -195,13 +197,13 @@ body {
   justify-content: center;
   align-items: center;
   height: 200px;
-  color: white;
+  color: #3e2723;  /* Dark brown */
 }
 
 .spinner {
-  border: 3px solid rgba(255, 255, 255, 0.3);
+  border: 3px solid rgba(62, 39, 35, 0.3);  /* Dark brown */
   border-radius: 50%;
-  border-top: 3px solid white;
+  border-top: 3px solid #8b6f47;  /* Brown */
   width: 30px;
   height: 30px;
   animation: spin 1s linear infinite;
@@ -228,7 +230,7 @@ body {
 }
 
 .level-up-modal {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #e7dcc8 0%, #c9b89a 50%, #a89174 100%);
   border-radius: 20px;
   max-width: 500px;
   width: 90%;
@@ -254,12 +256,12 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(62, 39, 35, 0.3);  /* Brown border */
 }
 
 .level-up-header h2 {
   margin: 0;
-  color: white;
+  color: #3e2723;  /* Dark brown */
   font-size: 1.8rem;
   font-weight: bold;
 }
@@ -267,7 +269,7 @@ body {
 .close-btn {
   background: none;
   border: none;
-  color: white;
+  color: #3e2723;  /* Dark brown */
   font-size: 1.5rem;
   cursor: pointer;
   padding: 5px;
@@ -281,12 +283,12 @@ body {
 }
 
 .close-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(62, 39, 35, 0.1);
 }
 
 .level-up-content {
   padding: 25px;
-  color: white;
+  color: #3e2723;  /* Dark brown */
 }
 
 .new-level {
@@ -298,8 +300,8 @@ body {
   display: block;
   font-size: 3rem;
   font-weight: bold;
-  color: #ffd700;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  color: #b8860b;  /* Dark goldenrod */
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .level-title {
@@ -307,7 +309,7 @@ body {
   font-size: 1.3rem;
   font-weight: 600;
   margin-top: 8px;
-  color: rgba(255, 255, 255, 0.9);
+  color: rgba(62, 39, 35, 0.9);  /* Dark brown */
 }
 
 .level-description {
@@ -325,7 +327,7 @@ body {
 .unlocks-section h3 {
   margin: 0 0 12px 0;
   font-size: 1.1rem;
-  color: #10b981;
+  color: #8b6f47;  /* Brown instead of green */
 }
 
 .unlocked-items {
@@ -338,7 +340,7 @@ body {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(139, 111, 71, 0.15);  /* Brown tint */
   padding: 8px 12px;
   border-radius: 8px;
   font-size: 0.9rem;
@@ -357,7 +359,7 @@ body {
 }
 
 .unlocked-site {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(139, 111, 71, 0.15);  /* Brown tint */
   padding: 10px 15px;
   border-radius: 8px;
   font-weight: 500;
