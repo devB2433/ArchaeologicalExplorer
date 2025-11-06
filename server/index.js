@@ -8,6 +8,9 @@ const { v4: uuidv4 } = require('uuid')
 const path = require('path')
 const fs = require('fs')
 
+// Load environment variables
+require('dotenv').config()
+
 const app = express()
 const PORT = process.env.PORT || 3001
 const JWT_SECRET = process.env.JWT_SECRET || 'archaeology_game_secret_key_2024'
@@ -75,19 +78,41 @@ db.serialize(() => {
   )`)
 })
 
-// Email configuration (using Gmail SMTP for demo)
+// Email configuration
 let emailTransporter = null
 
 // Initialize email transporter only if credentials are provided
 if (process.env.EMAIL_USER && process.env.EMAIL_PASS) {
-  emailTransporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS
-    }
+  // Support both Gmail and Hostinger email services
+  const emailConfig = process.env.EMAIL_SERVICE === 'hostinger' 
+    ? {
+        host: process.env.SMTP_HOST || 'smtp.hostinger.com',
+        port: parseInt(process.env.SMTP_PORT) || 465,
+        secure: true, // SSL for port 465
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        },
+        tls: {
+          rejectUnauthorized: false
+        }
+      }
+    : {
+        service: 'gmail',
+        auth: {
+          user: process.env.EMAIL_USER,
+          pass: process.env.EMAIL_PASS
+        }
+      }
+  
+  emailTransporter = nodemailer.createTransport(emailConfig)
+  console.log('✅ Email service initialized with SMTP credentials')
+  console.log('📧 Using service:', process.env.EMAIL_SERVICE || 'gmail')
+  console.log('🔌 SMTP Config:', {
+    host: emailConfig.host || emailConfig.service,
+    port: emailConfig.port || 'default',
+    secure: emailConfig.secure
   })
-  console.log('Email service initialized with SMTP credentials')
 } else {
   console.log('⚠️  No email credentials found. Running in development mode.')
   console.log('📧 Verification codes will be displayed in console instead of sent via email.')
@@ -217,15 +242,23 @@ app.post('/api/auth/register', async (req, res) => {
       return res.status(400).json({ error: 'Email, password, and username are required' })
     }
 
-    // Check if user already exists
-    db.get('SELECT id FROM users WHERE email = ?', [email], async (err, row) => {
+    // Check if verified user already exists
+    db.get('SELECT id, is_verified FROM users WHERE email = ?', [email], async (err, row) => {
       if (err) {
         console.error('Database error during user check:', err)
         return res.status(500).json({ error: 'Database error' })
       }
 
-      if (row) {
-        return res.status(400).json({ error: 'Email already registered' })
+      // If verified user exists, don't allow re-registration
+      if (row && row.is_verified === 1) {
+        return res.status(400).json({ error: 'Email already registered and verified. Please login.' })
+      }
+
+      // If unverified user exists, delete it and allow re-registration
+      if (row && row.is_verified === 0) {
+        console.log(`🗑️  Deleting unverified user for email: ${email}`)
+        db.run('DELETE FROM users WHERE email = ? AND is_verified = 0', [email])
+        db.run('DELETE FROM verification_codes WHERE email = ?', [email])
       }
 
       // Hash password
