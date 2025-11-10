@@ -234,6 +234,8 @@ function ExplorationPage() {
 }
 
 function ItemSelector({ item, isSelected, onToggle }) {
+  const [showTooltip, setShowTooltip] = React.useState(false);
+  
   // Rarity visual effects - Earth tone color scheme with clear distinction
   const rarityStyles = {
     common: {
@@ -263,7 +265,8 @@ function ItemSelector({ item, isSelected, onToggle }) {
     <div 
       className="card" 
       onClick={onToggle}
-      title={`${item.itemName}\nWeight: ${item.explorationWeight}\nRarity: ${rarity.toUpperCase()}`}
+      onMouseEnter={() => setShowTooltip(true)}
+      onMouseLeave={() => setShowTooltip(false)}
       style={{ 
         padding: '15px',
         cursor: 'pointer',
@@ -340,6 +343,45 @@ function ItemSelector({ item, isSelected, onToggle }) {
           onError={(e) => e.target.src = '/assets/images/items/placeholder.svg'}
         />
       </div>
+
+      {/* Custom Tooltip */}
+      {showTooltip && item.itemDescription && (
+        <div style={{
+          position: 'absolute',
+          bottom: '100%',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          marginBottom: '10px',
+          padding: '12px 16px',
+          backgroundColor: 'rgba(62, 39, 35, 0.95)',
+          color: '#f5f5dc',
+          borderRadius: '8px',
+          fontSize: '0.85rem',
+          lineHeight: '1.4',
+          maxWidth: '280px',
+          width: 'max-content',
+          whiteSpace: 'normal',
+          wordWrap: 'break-word',
+          zIndex: 1000,
+          boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)',
+          pointerEvents: 'none',
+          textAlign: 'center'
+        }}>
+          {item.itemDescription}
+          {/* Tooltip Arrow */}
+          <div style={{
+            position: 'absolute',
+            top: '100%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            width: 0,
+            height: 0,
+            borderLeft: '6px solid transparent',
+            borderRight: '6px solid transparent',
+            borderTop: '6px solid rgba(62, 39, 35, 0.95)'
+          }} />
+        </div>
+      )}
     </div>
   )
 }
