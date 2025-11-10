@@ -34,10 +34,25 @@ if (fs.existsSync(staticPath)) {
   console.log('📄 Index.html exists:', fs.existsSync(indexPath))
   console.log('📜 Index.html content sample:', fs.readFileSync(indexPath, 'utf8').substring(0, 100))
 }
-app.use(express.static(staticPath))
+// Enable proper URL decoding for static files
+app.use(express.static(staticPath, {
+  index: false,  // Don't serve index.html for directory requests
+  setHeaders: (res, filePath) => {
+    // Set correct content type for images
+    if (filePath.endsWith('.png')) {
+      res.setHeader('Content-Type', 'image/png')
+    } else if (filePath.endsWith('.jpg') || filePath.endsWith('.jpeg')) {
+      res.setHeader('Content-Type', 'image/jpeg')
+    } else if (filePath.endsWith('.svg')) {
+      res.setHeader('Content-Type', 'image/svg+xml')
+    }
+  }
+}))
 
 // Database setup
-const dbPath = path.join(__dirname, 'database.sqlite')
+// Use /app/data for volume-mounted persistent storage
+const dbPath = process.env.DB_PATH || path.join(__dirname, '../data/database.sqlite')
+console.log('🗄️  Database path:', dbPath)
 const db = new sqlite3.Database(dbPath)
 
 // Initialize database tables
@@ -754,14 +769,15 @@ app.get('/api/admin/stats', (req, res) => {
 
 app.get('*', (req, res) => {
   console.log('🔄 Catch-all route hit for:', req.path)
-  // Only serve React app for non-API routes
-  if (!req.path.startsWith('/api/')) {
+  // Only serve React app for non-API and non-asset routes
+  if (!req.path.startsWith('/api/') && !req.path.startsWith('/assets/')) {
     console.log('🚀 Serving index.html for:', req.path)
     res.sendFile(path.join(__dirname, '../dist/index.html'))
-  } else {
+  } else if (req.path.startsWith('/api/')) {
     console.log('⚠️  API endpoint not found:', req.path)
     res.status(404).json({ error: 'API endpoint not found' })
   }
+  // For /assets/ paths, let the static middleware handle it (already processed above)
 })
 
 // Start server

@@ -315,24 +315,23 @@ function ItemSelector({ item, isSelected, onToggle }) {
 
       {/* Large circular icon with rarity glow */}
       <div style={{ 
-        width: '160px', 
-        height: '160px',
+        width: '200px', 
+        height: '200px',
         borderRadius: '50%',
         overflow: 'hidden',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         margin: '0 auto',
-        background: 'transparent',  // Force transparent background
-        boxShadow: `0 0 15px ${style.glowColor}`
+        background: 'transparent'
       }}>
         <img 
           src={item.itemIcon || '/assets/images/items/placeholder.svg'} 
           alt={item.itemName}
           style={{ 
-            width: '100%', 
-            height: '100%',
-            objectFit: 'cover',
+            width: '90%', 
+            height: '90%',
+            objectFit: 'contain',
             background: 'transparent',
             filter: isSelected 
               ? `drop-shadow(0 0 10px ${style.glowColor}) sepia(0.15)` 

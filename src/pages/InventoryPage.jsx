@@ -123,24 +123,23 @@ function ItemCard({ item, isOwned }) {
       <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '15px' }}>
         {/* Large circular icon - enlarged */}
         <div style={{ 
-          width: '180px', 
-          height: '180px', 
+          width: '220px', 
+          height: '220px', 
           borderRadius: '50%',
           overflow: 'hidden',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
-          background: 'transparent',
-          boxShadow: isOwned ? `0 0 20px ${style.glowColor}` : 'none'
+          background: 'transparent'
         }}>
           <img 
             src={item.itemIcon || '/assets/images/items/placeholder.svg'} 
             alt={item.itemName}
             style={{ 
-              width: '100%', 
-              height: '100%',
-              objectFit: 'cover',
+              width: '90%', 
+              height: '90%',
+              objectFit: 'contain',
               background: 'transparent',
               filter: 'sepia(0.1)'
             }}
