@@ -80,6 +80,7 @@ echo -e "\n${YELLOW}🚀 Step 5: Starting new container...${NC}"
 docker run -d \
   --name ${CONTAINER_NAME} \
   -p 127.0.0.1:${PORT}:${PORT} \
+  -e TZ=America/New_York \
   -v ${VOLUME_NAME}:/app/data \
   -v "$(pwd)/.env:/app/.env:ro" \
   --restart unless-stopped \
