@@ -98,7 +98,7 @@
       "ruinId": "ruins_china_forbidden_city",
       "siteId": "site_china",
       "ruinName": "Forbidden City",
-      "ruinImage": "/assets/images/ruins/forbidden_city.jpg",
+      "ruinImage": "/assets/images/ruins/forbidden_city_fix.jpg",
       "ruinDescription": "Located in Beijing, the Forbidden City served as the imperial palace for over 500 years. This exclusive complex was accessible only to emperors and royal families, with common people strictly forbidden from entering. It represents the pinnacle of traditional Chinese palatial architecture and imperial power.",
       "location": "Beijing, China",
       "isHidden": false,
