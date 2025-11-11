@@ -131,68 +131,84 @@ function ItemCard({ item, isOwned }) {
           alignItems: 'center',
           justifyContent: 'center',
           flexShrink: 0,
-          background: 'transparent'
+          background: isOwned ? 'transparent' : 'rgba(0, 0, 0, 0.3)'
         }}>
-          <img 
-            src={item.itemIcon || '/assets/images/items/placeholder.svg'} 
-            alt={item.itemName}
-            style={{ 
-              width: '90%', 
-              height: '90%',
-              objectFit: 'contain',
-              background: 'transparent',
-              filter: 'sepia(0.1)'
-            }}
-            onError={(e) => {
-              e.target.src = '/assets/images/items/placeholder.svg'
-            }}
-          />
+          {isOwned ? (
+            <img 
+              src={item.itemIcon || '/assets/images/items/placeholder.svg'} 
+              alt={item.itemName}
+              style={{ 
+                width: '90%', 
+                height: '90%',
+                objectFit: 'contain',
+                background: 'transparent',
+                filter: 'sepia(0.1)'
+              }}
+              onError={(e) => {
+                e.target.src = '/assets/images/items/placeholder.svg'
+              }}
+            />
+          ) : (
+            <div style={{
+              fontSize: '5rem',
+              color: 'rgba(255, 255, 255, 0.3)'
+            }}>
+              🔒
+            </div>
+          )}
         </div>
         
         {/* Text information - description only */}
         <div style={{ width: '100%', textAlign: 'center' }}>
-          <p style={{ margin: '0 0 15px 0', fontSize: '0.95rem', opacity: 1, lineHeight: '1.4', color: '#2c1810' }}>
-            {item.itemDescription}
-          </p>
-          
-          {/* Citation link */}
-          {item.citation && (
-            <a 
-              href={item.citation} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              style={{ 
-                display: 'inline-block',
-                marginTop: '10px',
-                padding: '8px 16px',
-                backgroundColor: 'rgba(139, 111, 71, 0.15)',
-                color: '#3e2723',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontSize: '0.85rem',
-                fontWeight: '500',
-                border: '1px solid rgba(139, 111, 71, 0.3)',
-                transition: 'all 0.2s'
-              }}
-              onMouseEnter={(e) => {
-                e.target.style.backgroundColor = 'rgba(139, 111, 71, 0.25)'
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = 'rgba(139, 111, 71, 0.15)'
-              }}
-            >
-              🔗 Learn More
-            </a>
-          )}
-
-          {!isOwned && (
-            <p style={{ 
-              margin: '12px 0 0 0', 
-              fontSize: '0.85rem', 
-              color: '#fbbf24'  // Antique gold for locked items
-            }}>
-              🔒 Not yet discovered
-            </p>
+          {isOwned ? (
+            <>
+              <p style={{ margin: '0 0 15px 0', fontSize: '0.95rem', opacity: 1, lineHeight: '1.4', color: '#2c1810' }}>
+                {item.itemDescription}
+              </p>
+              
+              {/* Citation link */}
+              {item.citation && (
+                <a 
+                  href={item.citation} 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  style={{ 
+                    display: 'inline-block',
+                    marginTop: '10px',
+                    padding: '8px 16px',
+                    backgroundColor: 'rgba(139, 111, 71, 0.15)',
+                    color: '#3e2723',
+                    borderRadius: '8px',
+                    textDecoration: 'none',
+                    fontSize: '0.85rem',
+                    fontWeight: '500',
+                    border: '1px solid rgba(139, 111, 71, 0.3)',
+                    transition: 'all 0.2s'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.target.style.backgroundColor = 'rgba(139, 111, 71, 0.25)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.target.style.backgroundColor = 'rgba(139, 111, 71, 0.15)'
+                  }}
+                >
+                  🔗 Learn More
+                </a>
+              )}
+            </>
+          ) : (
+            <>
+              <h3 style={{ margin: '0 0 10px 0', fontSize: '1.1rem', color: '#f5f5dc' }}>
+                ???
+              </h3>
+              <p style={{ 
+                margin: '12px 0 0 0', 
+                fontSize: '0.9rem', 
+                color: 'rgba(245, 245, 220, 0.7)'
+              }}>
+                🔒 Not yet discovered
+              </p>
+            </>
           )}
         </div>
       </div>

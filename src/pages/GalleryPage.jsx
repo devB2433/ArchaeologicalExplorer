@@ -1,8 +1,24 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useGame } from '../contexts/GameContext'
+import { useLocation } from 'react-router-dom'
 
 function GalleryPage() {
   const { state, actions } = useGame()
+  const location = useLocation()
+  const sectionRefs = useRef({})
+  
+  // Scroll to specific site when hash is present
+  useEffect(() => {
+    if (location.hash) {
+      const siteId = location.hash.replace('#', '')
+      const element = sectionRefs.current[siteId]
+      if (element) {
+        setTimeout(() => {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 100)
+      }
+    }
+  }, [location.hash])
   
   // Debug logging
   console.log('🖼️ Gallery Debug:', {
@@ -72,7 +88,12 @@ function GalleryPage() {
         const siteCollected = ruins.filter(r => actions.isDiscoveryCollected(r.ruinId))
         
         return (
-          <div key={siteId} className="card">
+          <div 
+            key={siteId} 
+            id={siteId}
+            ref={el => sectionRefs.current[siteId] = el}
+            className="card"
+          >
             <h2>{site.siteName}</h2>
             <p style={{ opacity: 0.8, marginBottom: '20px' }}>{site.siteDescription}</p>
             <p style={{ marginBottom: '20px' }}>
