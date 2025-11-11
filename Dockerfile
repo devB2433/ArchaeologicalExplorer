@@ -19,8 +19,8 @@ RUN npm run build
 # Stage 2: Production image
 FROM node:18-alpine
 
-# Install dumb-init for proper signal handling
-RUN apk add --no-cache dumb-init
+# Install dumb-init and tzdata for proper signal handling and timezone support
+RUN apk add --no-cache dumb-init tzdata
 
 # Create app user for security
 RUN addgroup -g 1001 -S nodejs && \
