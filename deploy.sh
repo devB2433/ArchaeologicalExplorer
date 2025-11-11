@@ -60,7 +60,7 @@ echo -e "${GREEN}✓ Configuration file found${NC}"
 
 # Step 3: Build Docker image
 echo -e "\n${YELLOW}🔨 Step 3: Building Docker image...${NC}"
-docker build -t ${IMAGE_NAME}:latest .
+docker build --no-cache -t ${IMAGE_NAME}:latest .
 echo -e "${GREEN}✓ Image built successfully${NC}"
 
 # Step 4: Stop and remove old container
