@@ -85,7 +85,7 @@
       "ruinId": "ruins_china_great_wall",
       "siteId": "site_china",
       "ruinName": "Great Wall of China",
-      "ruinImage": "/assets/images/ruins/GreatWall.jpg",
+      "ruinImage": "/assets/images/ruins/greatwall.jpg",
       "ruinDescription": "The Great Wall of China stretches approximately 21,000 kilometers from the Bohai Sea to the western frontiers. Completed in 221 BCE by China's first emperor, this monumental defensive structure represents one of humanity's greatest engineering achievements, built over centuries to protect Chinese states from invasions.",
       "location": "From Bohai to Bohai Sea, China",
       "isHidden": false,
