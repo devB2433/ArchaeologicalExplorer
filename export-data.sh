@@ -83,7 +83,7 @@ docker exec ${CONTAINER_NAME} node -e "
 const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('/app/data/database.sqlite');
 
-db.all('SELECT user_id, ruin_id, experience_gained, discovered_at FROM user_discoveries ORDER BY user_id, discovered_at', (err, rows) => {
+db.all('SELECT user_id, discovery_id, experience_gained, obtained_at FROM user_discoveries ORDER BY user_id, obtained_at', (err, rows) => {
   if (err) {
     console.error('Error:', err.message);
     process.exit(1);
@@ -91,9 +91,9 @@ db.all('SELECT user_id, ruin_id, experience_gained, discovered_at FROM user_disc
   
   const discoveries = rows.map(r => ({
     userId: r.user_id,
-    ruinId: r.ruin_id,
+    discoveryId: r.discovery_id,
     experienceGained: r.experience_gained,
-    discoveredAt: r.discovered_at
+    obtainedAt: r.obtained_at
   }));
   
   console.log(JSON.stringify(discoveries, null, 2));
