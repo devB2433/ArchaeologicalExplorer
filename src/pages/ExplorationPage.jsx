@@ -146,75 +146,97 @@ function ExplorationPage() {
 
       {!explorationResult && (
         <>
-          {/* Equipment Preview - Character with items */}
-          {selectedItems.length > 0 && (
-            <div className="card" style={{ marginBottom: '20px', padding: '30px' }}>
-              <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Your Explorer</h2>
-              <ExplorerCharacter 
-                selectedItems={selectedItems}
-                ownedItems={ownedItems}
-                maxSlots={maxItemSlots}
-              />
-            </div>
-          )}
-
-          <div className="card">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
-              <h2>Select Items</h2>
-              <div style={{ 
-                fontSize: '1.1rem', 
-                fontWeight: 'bold',
-                color: selectedItems.length >= maxItemSlots ? '#ef4444' : '#10b981'
+          {/* Left-Right Layout: Explorer (1/3) + Item Selection (2/3) */}
+          {/* Break out of container constraints using negative margin */}
+          <div style={{ 
+            marginLeft: 'calc(-50vw + 50%)',
+            marginRight: 'calc(-50vw + 50%)',
+            paddingLeft: 'max(20px, calc((100vw - 1200px) / 2))',
+            paddingRight: 'max(20px, calc((100vw - 1200px) / 2))'
+          }}>
+            <div style={{ 
+              display: 'flex', 
+              gap: '2%', 
+              alignItems: 'flex-start',
+              flexWrap: 'wrap',
+              width: '100%'
+            }}>
+              {/* Left: Explorer Character & Equipment - exactly 1/3 width */}
+              <div className="card" style={{ 
+                flex: '0 0 31.33%',
+                minWidth: 'min(300px, 100%)',
+                padding: '1.5%'
               }}>
-                {selectedItems.length} / {maxItemSlots} Slots
-              </div>
-            </div>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))', gap: '10px', marginTop: '20px' }}>
-              {ownedItems.map(item => (
-                <ItemSelector
-                  key={item.itemId}
-                  item={item}
-                  isSelected={selectedItems.includes(item.itemId)}
-                  onToggle={() => handleItemToggle(item.itemId)}
+                <ExplorerCharacter 
+                  selectedItems={selectedItems}
+                  ownedItems={ownedItems}
+                  maxSlots={maxItemSlots}
                 />
-              ))}
-            </div>
-            
-            {/* Start Exploration Button - always visible */}
-            <div style={{ marginTop: '30px', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '20px' }}>
-              <button
-                className="button"
-                onClick={handleStartExploration}
-                disabled={selectedItems.length === 0 || !preview?.canExplore || isExploring}
-                style={{ width: '100%', padding: '15px', fontSize: '1.1rem' }}
-              >
-                {isExploring ? (
-                  <>
-                    <span className="spinner" style={{ width: '20px', height: '20px', marginRight: '10px' }}></span>
-                    Exploring...
-                  </>
-                ) : (
-                  'Start Exploration'
+              </div>
+
+              {/* Right: Item Selection - exactly 2/3 width */}
+              <div className="card" style={{ 
+                flex: '0 0 64.67%',
+                padding: '1.5%'
+              }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1em' }}>
+                <h2 style={{ fontSize: '1.1rem' }}>Select Items</h2>
+                <div style={{ 
+                  fontSize: '1rem', 
+                  fontWeight: 'bold',
+                  color: selectedItems.length >= maxItemSlots ? '#ef4444' : '#10b981'
+                }}>
+                  {selectedItems.length} / {maxItemSlots} Slots
+                </div>
+              </div>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(clamp(120px, 15%, 180px), 1fr))', gap: '1%', marginTop: '1em' }}>
+                {ownedItems.map(item => (
+                  <ItemSelector
+                    key={item.itemId}
+                    item={item}
+                    isSelected={selectedItems.includes(item.itemId)}
+                    onToggle={() => handleItemToggle(item.itemId)}
+                  />
+                ))}
+              </div>
+              
+              {/* Start Exploration Button */}
+              <div style={{ marginTop: '1.5em', borderTop: '1px solid rgba(255, 255, 255, 0.1)', paddingTop: '1em' }}>
+                <button
+                  className="button"
+                  onClick={handleStartExploration}
+                  disabled={selectedItems.length === 0 || !preview?.canExplore || isExploring}
+                  style={{ width: '100%', padding: '0.8em', fontSize: '1rem' }}
+                >
+                  {isExploring ? (
+                    <>
+                      <span className="spinner" style={{ width: '1.2em', height: '1.2em', marginRight: '0.5em' }}></span>
+                      Exploring...
+                    </>
+                  ) : (
+                    'Start Exploration'
+                  )}
+                </button>
+                
+                {selectedItems.length === 0 && (
+                  <p style={{ textAlign: 'center', marginTop: '0.5em', color: '#f59e0b', fontSize: '0.9rem' }}>
+                    Please select at least one item to begin exploration
+                  </p>
                 )}
-              </button>
-              
-              {selectedItems.length === 0 && (
-                <p style={{ textAlign: 'center', marginTop: '10px', color: '#f59e0b' }}>
-                  Please select at least one item to begin exploration
-                </p>
-              )}
-              
-              {selectedItems.length >= maxItemSlots && (
-                <p style={{ textAlign: 'center', marginTop: '10px', color: '#ef4444' }}>
-                  ℹ️ You have reached the maximum item slots for Level {userLevel} ({maxItemSlots} items)
-                </p>
-              )}
-              
-              {selectedItems.length > 0 && !preview?.canExplore && (
-                <p style={{ textAlign: 'center', marginTop: '10px', color: '#ef4444' }}>
-                  No suitable exploration route found with current equipment
-                </p>
-              )}
+                
+                {selectedItems.length >= maxItemSlots && (
+                  <p style={{ textAlign: 'center', marginTop: '0.5em', color: '#ef4444', fontSize: '0.9rem' }}>
+                    ℹ️ You have reached the maximum item slots for Level {userLevel} ({maxItemSlots} items)
+                  </p>
+                )}
+                
+                {selectedItems.length > 0 && !preview?.canExplore && (
+                  <p style={{ textAlign: 'center', marginTop: '0.5em', color: '#ef4444', fontSize: '0.9rem' }}>
+                    No suitable exploration route found with current equipment
+                  </p>
+                )}
+              </div>
+              </div>
             </div>
           </div>
         </>
@@ -330,8 +352,9 @@ function ItemSelector({ item, isSelected, onToggle }) {
 
       {/* Large circular icon with rarity glow */}
       <div style={{ 
-        width: '200px', 
-        height: '200px',
+        width: '100%', 
+        aspectRatio: '1',
+        maxWidth: '200px',
         borderRadius: '50%',
         overflow: 'hidden',
         display: 'flex',
@@ -632,113 +655,44 @@ function LevelUpModal({ levelInfo, onClose }) {
   )
 }
 
-// Explorer Character Component - shows selected items on a character figure
+// Explorer Character Component - compact version with icon-only slots
 function ExplorerCharacter({ selectedItems, ownedItems, maxSlots }) {
   const getItemById = (itemId) => ownedItems.find(item => item.itemId === itemId)
   
   return (
     <div style={{ 
       display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      gap: '40px',
-      flexWrap: 'wrap'
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '1em'
     }}>
-      {/* Character Figure */}
-      <div style={{ position: 'relative', width: '180px', height: '320px' }}>
-        {/* Head */}
-        <div style={{
-          position: 'absolute',
-          top: '0',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '60px',
-          height: '60px',
-          borderRadius: '50%',
-          backgroundColor: '#d4a373',
-          border: '3px solid #8b6f47',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '1.5rem'
-        }}>
-          🧑‍🔬
-        </div>
-        
-        {/* Body */}
-        <div style={{
-          position: 'absolute',
-          top: '55px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          width: '80px',
-          height: '120px',
-          backgroundColor: '#a89174',
-          border: '3px solid #8b6f47',
-          borderRadius: '10px'
-        }} />
-        
-        {/* Arms */}
-        <div style={{
-          position: 'absolute',
-          top: '70px',
-          left: '15px',
-          width: '30px',
-          height: '80px',
-          backgroundColor: '#a89174',
-          border: '3px solid #8b6f47',
-          borderRadius: '15px'
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '70px',
-          right: '15px',
-          width: '30px',
-          height: '80px',
-          backgroundColor: '#a89174',
-          border: '3px solid #8b6f47',
-          borderRadius: '15px'
-        }} />
-        
-        {/* Legs */}
-        <div style={{
-          position: 'absolute',
-          top: '170px',
-          left: '55px',
-          width: '30px',
-          height: '100px',
-          backgroundColor: '#8b6f47',
-          border: '3px solid #5d4e37',
-          borderRadius: '8px'
-        }} />
-        <div style={{
-          position: 'absolute',
-          top: '170px',
-          right: '55px',
-          width: '30px',
-          height: '100px',
-          backgroundColor: '#8b6f47',
-          border: '3px solid #5d4e37',
-          borderRadius: '8px'
-        }} />
-        
-        {/* Backpack indicator */}
-        <div style={{
-          position: 'absolute',
-          top: '85px',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          fontSize: '2.5rem',
-          opacity: 0.6
-        }}>
-          🎒
-        </div>
+      {/* Character Figure - Responsive size */}
+      <div style={{ 
+        width: '100%', 
+        maxWidth: '300px', 
+        margin: '0 auto',
+        display: 'flex',
+        justifyContent: 'center'
+      }}>
+        <img 
+          src="/character.png" 
+          alt="Explorer Character"
+          style={{
+            width: '100%',
+            height: 'auto',
+            objectFit: 'contain'
+          }}
+        />
       </div>
       
-      {/* Equipment Slots */}
-      <div style={{ flex: 1, minWidth: '250px' }}>
-        <h3 style={{ marginBottom: '15px', textAlign: 'center' }}>Equipment Loadout</h3>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+      {/* Equipment Slots - Icon Only */}
+      <div style={{ width: '100%' }}>
+        <h3 style={{ marginBottom: '0.7em', textAlign: 'center', fontSize: '0.9rem' }}>Equipment</h3>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(3, 1fr)', 
+          gap: '0.4em' 
+        }}>
           {Array.from({ length: maxSlots }).map((_, index) => {
             const itemId = selectedItems[index]
             const item = itemId ? getItemById(itemId) : null
@@ -749,18 +703,22 @@ function ExplorerCharacter({ selectedItems, ownedItems, maxSlots }) {
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '15px',
-                  padding: '12px',
+                  justifyContent: 'center',
+                  padding: '0.3em',
                   backgroundColor: item ? 'rgba(139, 111, 71, 0.2)' : 'rgba(0, 0, 0, 0.2)',
                   border: item ? '2px solid #8b6f47' : '2px dashed rgba(255, 255, 255, 0.3)',
                   borderRadius: '8px',
-                  minHeight: '70px'
+                  aspectRatio: '1',
+                  position: 'relative'
                 }}
               >
-                {/* Slot Number */}
+                {/* Slot Number - responsive */}
                 <div style={{
-                  width: '30px',
-                  height: '30px',
+                  position: 'absolute',
+                  top: '0.2em',
+                  left: '0.2em',
+                  width: '1.1em',
+                  height: '1.1em',
                   borderRadius: '50%',
                   backgroundColor: item ? '#8b6f47' : 'rgba(255, 255, 255, 0.1)',
                   color: 'white',
@@ -768,83 +726,45 @@ function ExplorerCharacter({ selectedItems, ownedItems, maxSlots }) {
                   alignItems: 'center',
                   justifyContent: 'center',
                   fontWeight: 'bold',
-                  flexShrink: 0
+                  fontSize: '0.65rem'
                 }}>
                   {index + 1}
                 </div>
                 
                 {item ? (
-                  <>
-                    {/* Item Icon */}
-                    <div style={{
-                      width: '45px',
-                      height: '45px',
-                      borderRadius: '50%',
-                      overflow: 'hidden',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      flexShrink: 0
-                    }}>
-                      <img
-                        src={item.itemIcon || '/assets/images/items/placeholder.svg'}
-                        alt={item.itemName}
-                        style={{
-                          width: '85%',
-                          height: '85%',
-                          objectFit: 'contain'
-                        }}
-                      />
-                    </div>
-                    
-                    {/* Item Info */}
-                    <div style={{ flex: 1, overflow: 'hidden' }}>
-                      <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
-                        {item.itemName}
-                      </div>
-                      <div style={{ 
-                        fontSize: '0.75rem', 
-                        opacity: 0.7,
-                        marginTop: '2px'
-                      }}>
-                        Weight: {item.weight}kg
-                      </div>
-                    </div>
-                  </>
+                  /* Item Icon Only */
+                  <div style={{
+                    width: '70%',
+                    height: '70%',
+                    borderRadius: '50%',
+                    overflow: 'hidden',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    backgroundColor: 'rgba(255, 255, 255, 0.1)'
+                  }}>
+                    <img
+                      src={item.itemIcon || '/assets/images/items/placeholder.svg'}
+                      alt={item.itemName}
+                      title={item.itemName}
+                      style={{
+                        width: '85%',
+                        height: '85%',
+                        objectFit: 'contain'
+                      }}
+                    />
+                  </div>
                 ) : (
                   <div style={{ 
-                    flex: 1, 
-                    textAlign: 'center', 
-                    opacity: 0.5,
-                    fontSize: '0.9rem'
+                    opacity: 0.3,
+                    fontSize: '0.65rem'
                   }}>
-                    Empty Slot
+                    Empty
                   </div>
                 )}
               </div>
             )
           })}
-        </div>
-        
-        {/* Total Weight Display */}
-        <div style={{
-          marginTop: '15px',
-          padding: '12px',
-          backgroundColor: 'rgba(16, 185, 129, 0.15)',
-          border: '1px solid rgba(16, 185, 129, 0.3)',
-          borderRadius: '8px',
-          textAlign: 'center'
-        }}>
-          <div style={{ fontSize: '0.85rem', opacity: 0.8, marginBottom: '4px' }}>
-            Total Weight
-          </div>
-          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#10b981' }}>
-            {selectedItems.reduce((total, itemId) => {
-              const item = getItemById(itemId)
-              return total + (item?.weight || 0)
-            }, 0).toFixed(1)} kg
-          </div>
         </div>
       </div>
     </div>
