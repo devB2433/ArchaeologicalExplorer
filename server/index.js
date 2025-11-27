@@ -91,6 +91,39 @@ db.serialize(() => {
     used INTEGER DEFAULT 0,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
   )`)
+
+  // Site statistics table - tracks demo visits and explorations
+  db.run(`CREATE TABLE IF NOT EXISTS site_statistics (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    demo_visits INTEGER DEFAULT 0,
+    total_explorations INTEGER DEFAULT 0,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
+  )`, (err) => {
+    if (err) {
+      console.error('❌ Error creating site_statistics table:', err)
+    } else {
+      // Initialize the statistics row if it doesn't exist
+      db.run(`INSERT OR IGNORE INTO site_statistics (id, demo_visits, total_explorations) VALUES (1, 0, 0)`, (initErr) => {
+        if (initErr) {
+          console.error('❌ Error initializing site_statistics:', initErr)
+        } else {
+          console.log('✅ Site statistics table initialized')
+          // Migrate existing data: sum all user_discoveries as total_explorations
+          db.get(`SELECT COUNT(*) as count FROM user_discoveries`, [], (countErr, result) => {
+            if (!countErr && result && result.count > 0) {
+              db.run(`UPDATE site_statistics SET total_explorations = ? WHERE id = 1`, [result.count], (updateErr) => {
+                if (updateErr) {
+                  console.error('❌ Error migrating exploration data:', updateErr)
+                } else {
+                  console.log(`✅ Migrated ${result.count} existing explorations to site_statistics`)
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+  })
 })
 
 // Email configuration
@@ -460,6 +493,19 @@ app.post('/api/user/add-discovery', authenticateToken, (req, res) => {
               return res.status(500).json({ error: 'Failed to update experience' })
             }
 
+            // Track exploration in site statistics
+            db.run(`
+              UPDATE site_statistics 
+              SET total_explorations = total_explorations + 1, 
+                  updated_at = CURRENT_TIMESTAMP 
+              WHERE id = 1
+            `, (trackErr) => {
+              if (trackErr) {
+                console.error('⚠️  Failed to track exploration in statistics:', trackErr)
+                // Don't fail the request, just log the error
+              }
+            })
+
             const response = {
               message: isNewDiscovery ? 'Discovery added successfully' : 'Exploration completed (already discovered)',
               newExperience,
@@ -714,31 +760,63 @@ app.get('/api/admin/users', (req, res) => {
 
 // Public statistics endpoint (no authentication required)
 app.get('/api/stats/public', (req, res) => {
-  db.get(`
-    SELECT COUNT(*) as total_users FROM users
-  `, [], (err, userStats) => {
+  db.get(`SELECT COUNT(*) as total_users FROM users`, [], (err, userStats) => {
     if (err) {
       console.error('❌ Error fetching user stats:', err)
       return res.status(500).json({ error: 'Database error', success: false })
     }
     
-    // Count total discoveries instead of explorations (since explorations table is not used)
-    db.get(`
-      SELECT COUNT(*) as total_discoveries FROM user_discoveries
-    `, [], (err2, discoveryStats) => {
+    // Get site statistics (demo visits and total explorations)
+    db.get(`SELECT demo_visits, total_explorations FROM site_statistics WHERE id = 1`, [], (err2, siteStats) => {
       if (err2) {
-        console.error('❌ Error fetching discovery stats:', err2)
+        console.error('❌ Error fetching site stats:', err2)
         return res.status(500).json({ error: 'Database error', success: false })
       }
       
-      console.log('📊 Stats fetched - Users:', userStats.total_users, 'Discoveries:', discoveryStats.total_discoveries)
-      
-      res.json({
+      const stats = {
         success: true,
         totalUsers: userStats.total_users || 0,
-        totalExplorations: discoveryStats.total_discoveries || 0  // Using discoveries count
-      })
+        demoVisits: siteStats?.demo_visits || 0,
+        totalExplorations: siteStats?.total_explorations || 0
+      }
+      
+      console.log('📊 Stats fetched -', stats)
+      res.json(stats)
     })
+  })
+})
+
+// Track demo mode visit
+app.post('/api/stats/track-demo', (req, res) => {
+  db.run(`
+    UPDATE site_statistics 
+    SET demo_visits = demo_visits + 1, 
+        updated_at = CURRENT_TIMESTAMP 
+    WHERE id = 1
+  `, [], function(err) {
+    if (err) {
+      console.error('❌ Error tracking demo visit:', err)
+      return res.status(500).json({ error: 'Database error', success: false })
+    }
+    console.log('🎮 Demo visit tracked')
+    res.json({ success: true })
+  })
+})
+
+// Track exploration (called when user discovers something)
+app.post('/api/stats/track-exploration', (req, res) => {
+  db.run(`
+    UPDATE site_statistics 
+    SET total_explorations = total_explorations + 1, 
+        updated_at = CURRENT_TIMESTAMP 
+    WHERE id = 1
+  `, [], function(err) {
+    if (err) {
+      console.error('❌ Error tracking exploration:', err)
+      return res.status(500).json({ error: 'Database error', success: false })
+    }
+    console.log('🔍 Exploration tracked')
+    res.json({ success: true })
   })
 })
 

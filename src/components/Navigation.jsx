@@ -37,6 +37,20 @@ function Navigation() {
 
         {authState.isAuthenticated && authState.user && (
           <div className="user-info">
+            {authState.user.isDemo && (
+              <div style={{
+                marginRight: '15px',
+                padding: '6px 12px',
+                backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                border: '1px solid rgba(245, 158, 11, 0.5)',
+                borderRadius: '6px',
+                fontSize: '0.85rem',
+                color: '#f59e0b',
+                fontWeight: 'bold'
+              }}>
+                🎮 DEMO MODE
+              </div>
+            )}
             <div className="user-level">
               <span className="level-badge">Lv.{authState.user.level}</span>
               <span className="username">{authState.user.username}</span>

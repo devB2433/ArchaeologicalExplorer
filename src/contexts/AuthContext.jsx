@@ -33,7 +33,8 @@ const AUTH_ACTIONS = {
   LOGIN_SUCCESS: 'LOGIN_SUCCESS',
   LOGOUT: 'LOGOUT',
   SET_REGISTRATION_STEP: 'SET_REGISTRATION_STEP',
-  UPDATE_USER: 'UPDATE_USER'
+  UPDATE_USER: 'UPDATE_USER',
+  ENTER_DEMO_MODE: 'ENTER_DEMO_MODE'
 }
 
 // Auth reducer
@@ -71,6 +72,23 @@ function authReducer(state, action) {
         user: { ...state.user, ...action.payload }
       }
     
+    case AUTH_ACTIONS.ENTER_DEMO_MODE:
+      return {
+        ...state,
+        user: {
+          id: 'demo',
+          email: 'demo@example.com',
+          username: 'Demo Explorer',
+          level: 1,
+          experience: 0,
+          isDemo: true
+        },
+        token: 'demo_token',
+        isAuthenticated: true,
+        isLoading: false,
+        error: null
+      }
+    
     default:
       return state
   }
@@ -96,6 +114,12 @@ export function AuthProvider({ children }) {
       const token = localStorage.getItem('auth_token')
       if (!token) {
         dispatch({ type: AUTH_ACTIONS.SET_LOADING, payload: false })
+        return
+      }
+
+      // Check if it's demo mode
+      if (token === 'demo_token') {
+        dispatch({ type: AUTH_ACTIONS.ENTER_DEMO_MODE })
         return
       }
 
@@ -189,6 +213,37 @@ export function AuthProvider({ children }) {
 
     // Add discovery and experience
     addDiscovery: async (discoveryId, experienceGained) => {
+      // Demo mode: simulate success without backend call
+      if (state.user?.isDemo) {
+        // Track exploration in site statistics
+        try {
+          await axios.post('/stats/track-exploration')
+        } catch (error) {
+          console.error('Failed to track exploration:', error)
+        }
+        
+        const newExperience = (state.user.experience || 0) + experienceGained
+        const newLevel = Math.floor(newExperience / 100) + 1 // Simple level calculation
+        
+        dispatch({
+          type: AUTH_ACTIONS.UPDATE_USER,
+          payload: {
+            experience: newExperience,
+            level: newLevel
+          }
+        })
+        
+        return {
+          success: true,
+          isNewDiscovery: true,
+          experienceGained,
+          newExperience,
+          newLevel,
+          levelUp: newLevel > (state.user.level || 1)
+        }
+      }
+
+      // Normal mode: call backend
       try {
         const response = await axios.post('/user/add-discovery', {
           discoveryId,
@@ -216,6 +271,11 @@ export function AuthProvider({ children }) {
 
     // Get user discoveries
     getUserDiscoveries: async () => {
+      // Demo mode: return empty discoveries
+      if (state.user?.isDemo) {
+        return { success: true, discoveries: [] }
+      }
+
       try {
         const response = await axios.get('/user/discoveries')
         return { success: true, discoveries: response.data.discoveries }
@@ -227,6 +287,18 @@ export function AuthProvider({ children }) {
 
     // Get user statistics
     getUserStats: async () => {
+      // Demo mode: return demo stats
+      if (state.user?.isDemo) {
+        return { 
+          success: true, 
+          stats: {
+            discoveries: [],
+            totalDiscoveries: 0,
+            totalExplorations: 0
+          }
+        }
+      }
+
       try {
         const response = await axios.get('/user/stats')
         return { success: true, stats: response.data }
@@ -245,6 +317,12 @@ export function AuthProvider({ children }) {
     resetRegistration: () => {
       dispatch({ type: AUTH_ACTIONS.SET_REGISTRATION_STEP, payload: 'register' })
       dispatch({ type: AUTH_ACTIONS.SET_ERROR, payload: null })
+    },
+
+    // Enter demo mode
+    enterDemoMode: () => {
+      localStorage.setItem('auth_token', 'demo_token')
+      dispatch({ type: AUTH_ACTIONS.ENTER_DEMO_MODE })
     }
   }
 

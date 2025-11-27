@@ -146,6 +146,18 @@ function ExplorationPage() {
 
       {!explorationResult && (
         <>
+          {/* Equipment Preview - Character with items */}
+          {selectedItems.length > 0 && (
+            <div className="card" style={{ marginBottom: '20px', padding: '30px' }}>
+              <h2 style={{ textAlign: 'center', marginBottom: '20px' }}>Your Explorer</h2>
+              <ExplorerCharacter 
+                selectedItems={selectedItems}
+                ownedItems={ownedItems}
+                maxSlots={maxItemSlots}
+              />
+            </div>
+          )}
+
           <div className="card">
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '15px' }}>
               <h2>Select Items</h2>
@@ -614,6 +626,225 @@ function LevelUpModal({ levelInfo, onClose }) {
           <button className="button button-primary" onClick={handleClose}>
             Continue Exploring!
           </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// Explorer Character Component - shows selected items on a character figure
+function ExplorerCharacter({ selectedItems, ownedItems, maxSlots }) {
+  const getItemById = (itemId) => ownedItems.find(item => item.itemId === itemId)
+  
+  return (
+    <div style={{ 
+      display: 'flex', 
+      alignItems: 'center', 
+      justifyContent: 'center',
+      gap: '40px',
+      flexWrap: 'wrap'
+    }}>
+      {/* Character Figure */}
+      <div style={{ position: 'relative', width: '180px', height: '320px' }}>
+        {/* Head */}
+        <div style={{
+          position: 'absolute',
+          top: '0',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '60px',
+          height: '60px',
+          borderRadius: '50%',
+          backgroundColor: '#d4a373',
+          border: '3px solid #8b6f47',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '1.5rem'
+        }}>
+          🧑‍🔬
+        </div>
+        
+        {/* Body */}
+        <div style={{
+          position: 'absolute',
+          top: '55px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          width: '80px',
+          height: '120px',
+          backgroundColor: '#a89174',
+          border: '3px solid #8b6f47',
+          borderRadius: '10px'
+        }} />
+        
+        {/* Arms */}
+        <div style={{
+          position: 'absolute',
+          top: '70px',
+          left: '15px',
+          width: '30px',
+          height: '80px',
+          backgroundColor: '#a89174',
+          border: '3px solid #8b6f47',
+          borderRadius: '15px'
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '70px',
+          right: '15px',
+          width: '30px',
+          height: '80px',
+          backgroundColor: '#a89174',
+          border: '3px solid #8b6f47',
+          borderRadius: '15px'
+        }} />
+        
+        {/* Legs */}
+        <div style={{
+          position: 'absolute',
+          top: '170px',
+          left: '55px',
+          width: '30px',
+          height: '100px',
+          backgroundColor: '#8b6f47',
+          border: '3px solid #5d4e37',
+          borderRadius: '8px'
+        }} />
+        <div style={{
+          position: 'absolute',
+          top: '170px',
+          right: '55px',
+          width: '30px',
+          height: '100px',
+          backgroundColor: '#8b6f47',
+          border: '3px solid #5d4e37',
+          borderRadius: '8px'
+        }} />
+        
+        {/* Backpack indicator */}
+        <div style={{
+          position: 'absolute',
+          top: '85px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          fontSize: '2.5rem',
+          opacity: 0.6
+        }}>
+          🎒
+        </div>
+      </div>
+      
+      {/* Equipment Slots */}
+      <div style={{ flex: 1, minWidth: '250px' }}>
+        <h3 style={{ marginBottom: '15px', textAlign: 'center' }}>Equipment Loadout</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+          {Array.from({ length: maxSlots }).map((_, index) => {
+            const itemId = selectedItems[index]
+            const item = itemId ? getItemById(itemId) : null
+            
+            return (
+              <div
+                key={index}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '15px',
+                  padding: '12px',
+                  backgroundColor: item ? 'rgba(139, 111, 71, 0.2)' : 'rgba(0, 0, 0, 0.2)',
+                  border: item ? '2px solid #8b6f47' : '2px dashed rgba(255, 255, 255, 0.3)',
+                  borderRadius: '8px',
+                  minHeight: '70px'
+                }}
+              >
+                {/* Slot Number */}
+                <div style={{
+                  width: '30px',
+                  height: '30px',
+                  borderRadius: '50%',
+                  backgroundColor: item ? '#8b6f47' : 'rgba(255, 255, 255, 0.1)',
+                  color: 'white',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontWeight: 'bold',
+                  flexShrink: 0
+                }}>
+                  {index + 1}
+                </div>
+                
+                {item ? (
+                  <>
+                    {/* Item Icon */}
+                    <div style={{
+                      width: '45px',
+                      height: '45px',
+                      borderRadius: '50%',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      flexShrink: 0
+                    }}>
+                      <img
+                        src={item.itemIcon || '/assets/images/items/placeholder.svg'}
+                        alt={item.itemName}
+                        style={{
+                          width: '85%',
+                          height: '85%',
+                          objectFit: 'contain'
+                        }}
+                      />
+                    </div>
+                    
+                    {/* Item Info */}
+                    <div style={{ flex: 1, overflow: 'hidden' }}>
+                      <div style={{ fontWeight: 'bold', fontSize: '0.95rem' }}>
+                        {item.itemName}
+                      </div>
+                      <div style={{ 
+                        fontSize: '0.75rem', 
+                        opacity: 0.7,
+                        marginTop: '2px'
+                      }}>
+                        Weight: {item.weight}kg
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div style={{ 
+                    flex: 1, 
+                    textAlign: 'center', 
+                    opacity: 0.5,
+                    fontSize: '0.9rem'
+                  }}>
+                    Empty Slot
+                  </div>
+                )}
+              </div>
+            )
+          })}
+        </div>
+        
+        {/* Total Weight Display */}
+        <div style={{
+          marginTop: '15px',
+          padding: '12px',
+          backgroundColor: 'rgba(16, 185, 129, 0.15)',
+          border: '1px solid rgba(16, 185, 129, 0.3)',
+          borderRadius: '8px',
+          textAlign: 'center'
+        }}>
+          <div style={{ fontSize: '0.85rem', opacity: 0.8, marginBottom: '4px' }}>
+            Total Weight
+          </div>
+          <div style={{ fontSize: '1.3rem', fontWeight: 'bold', color: '#10b981' }}>
+            {selectedItems.reduce((total, itemId) => {
+              const item = getItemById(itemId)
+              return total + (item?.weight || 0)
+            }, 0).toFixed(1)} kg
+          </div>
         </div>
       </div>
     </div>
