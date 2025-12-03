@@ -59,7 +59,7 @@
       "ruinId": "ruins_china_terracotta",
       "siteId": "site_china",
       "ruinName": "Terracotta Warriors",
-      "ruinImage": "/assets/images/ruins/terracotta_warriors.png",
+      "ruinImage": "/assets/images/ruins/terracotta_warriors.jpg",
       "ruinDescription": "The Terracotta Warriors were discovered in March 1974 by farmers digging a well in Shaanxi Xi'an Province. The site contains an estimated 8,000 soldiers across 3 pits, including infantry, archers, and chariots. Built over 2,200 years ago by around 700,000 workers over 30-40 years to protect Emperor Qin Shi Huang's tomb, the warriors were originally painted in vibrant colors and equipped with bronze weapons.",
       "location": "Shaanxi Xi'an Province, China",
       "isHidden": false,
